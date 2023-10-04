@@ -1,0 +1,27 @@
+{% extends "layouts/base.html" %}
+
+{% block header %}
+Register
+{% endblock %}
+
+{% block content %}
+Register for this particular give away!!
+<form method="POST" action="{{url_for('sweepstakes.register', sweepstakes_id=sweepstakes_id)}}">
+    {{ form.csrf_token }}
+    {{ form.sweepstakes_id(hidden=True) }}
+    <div class="field">
+        <label class="label">{{ form.user_name.label }}</label>
+        <div class="control">
+          {{ form.user_name(class="input") }}
+        </div>
+    </div>
+    <div class="field">
+        <label class="label">{{ form.email.label }}</label>
+        <div class="control">
+          {{ form.email(class="input") }}
+        </div>
+    </div>
+    <span>{{ form.email.value }}</span>
+    <button type="submit" class="button">Register</button>
+</form>
+{% endblock %}

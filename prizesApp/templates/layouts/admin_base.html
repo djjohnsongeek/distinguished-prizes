@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  <title>{% block title %}{% endblock %} Distinguished Prizes</title>
+  <!-- <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='./imgs/favicon.ico') }}"> -->
+  <script src="https://kit.fontawesome.com/702ae185c3.js" crossorigin="anonymous"></script>
+</head>
+<body>
+  <header>
+    <nav class="navbar" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand">
+        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+      <div id="" class="navbar-menu">
+        <div class="navbar-start">
+          <a class="navbar-item" href="{{ url_for('admin.index') }}">
+            Dashboard
+          </a>
+          <div class="navbar-item has-dropdown is-hoverable">
+            <a class="navbar-link">
+              Sweepstakes
+            </a>
+            <div class="navbar-dropdown">
+              <a class="navbar-item" href="{{ url_for('admin.sweepstakes') }}">
+                All Sweeptakes
+              </a>
+              <a class="navbar-item" href="{{ url_for('admin.create_sweepstakes')}}">
+                Create
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="navbar-end">
+            <div class="navbar-item">
+                <div class="buttons">
+                    <a class="button is-primary" href-"{{ url_for('auth.logout') }}">
+                        Logout
+                    </a>
+                </div>
+            </div>
+        </div>
+      </div>
+    </nav>
+  </header>
+  <main>
+    <section class="section">
+      <div class="container">
+        <h1 class="title">{% block header %}{% endblock %}</h1>
+      </div>
+    </section>
+    {% include 'includes/_messages.html' %}
+    <section class="section">
+      <div class="container">
+        {% block content %}{% endblock %}
+      </div>
+    </section>
+  </main>
+  <script src="static/js/base.js"></script>
+</body>
+</html>

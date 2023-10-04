@@ -1,0 +1,6 @@
+{% for category, message in get_flashed_messages(true) %}
+<div class="notification is-{{category}}">
+  <button class="delete"></button>
+  {{ message }}
+</div>
+{% endfor %}

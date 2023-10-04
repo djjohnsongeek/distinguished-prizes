@@ -1,0 +1,15 @@
+{% extends "layouts/admin_base.html" %}
+
+{% block header %}
+Edit Sweekstakes
+{% endblock %}
+
+{% block content %}
+<div class="columns">
+  <div class="column is-half is-offset-one-quarter">
+    <form method="POST" action="{{ url_for('admin.edit_sweepstakes', id=form.id.data)}}" enctype="multipart/form-data">
+      {% include "includes/_sweepstakes_fields.html" %}
+    </form>
+  </div>
+</div>
+{% endblock %}

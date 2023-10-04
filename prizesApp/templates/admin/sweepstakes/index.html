@@ -1,0 +1,41 @@
+{% extends "layouts/admin_base.html" %}
+
+{% block header %}
+    Sweekstakes
+{% endblock %}
+
+{% block content %}
+    <a href="{{url_for('admin.create_sweepstakes')}}" class="button is-primary">
+        Create
+    </a>
+    <table class="table is-fullwidth">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Max Participants</th>
+                <th>Count</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for sweepstake in sweepstakes %}
+            <tr>
+                <td>{{sweepstake.name}}</td>
+                <td>{{sweepstake.description}}</td>
+                <td>{{sweepstake.start_date}}</td>
+                <td>{{sweepstake.end_date}}</td>
+                <td>{{sweepstake.max_participants}}</td>
+                <td>{{sweepstake.participant_count}}</td>
+                <td>
+                    <a class="button is-primary" href="{{url_for('admin.edit_sweepstakes', id=sweepstake.id)}}">
+                        Edit
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

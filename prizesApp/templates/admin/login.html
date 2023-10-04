@@ -1,0 +1,29 @@
+{% extends "layouts/base.html" %}
+
+{% block header %}
+Login
+{% endblock %}
+
+{% block content %}
+<div class="columns">
+    <div class="column is-half is-offset-one-quarter">
+        <form method="POST" action="{{ url_for('auth.login')}}">
+            {{ form.csrf_token }}
+            <div class="field">
+                <label class="label">{{ form.email.label }}</label>
+                <div class="control">
+                  {{ form.email(class="input") }}
+                </div>
+            </div>
+            <div class="field">
+                <label class="label">{{ form.password.label }}</label>
+                <div class="control">
+                  {{ form.password(class="input", type="password") }}
+                </div>
+            </div>
+            <button type="submit" class="button">Login</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
