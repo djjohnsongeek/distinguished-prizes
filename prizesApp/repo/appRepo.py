@@ -20,20 +20,22 @@ def create_sweepstake(sweepstake_form: SweepstakesForm, safe_image_name: str) ->
     ).execute()
 
 def update_sweepstake(form: SweepstakesEditForm, model: Sweepstake):
+    result = True
+
     model.name = form.name.data
     model.description = form.description.data
     model.start_date = form.start_date.data
     model.end_date = form.end_date.data
     model.max_participants = form.max_participants.data
-    model.image = form.image.data.filename
-    # TODO figure out file uploads
+    if form.image.data:
+        model.image = form.image.data.filename
 
     try:
         model.save()
     except:
-        return False
+        result = False
 
-    return True
+    return result
 
 def retrieve_sweepstake(id: int) -> Sweepstake:
     try:

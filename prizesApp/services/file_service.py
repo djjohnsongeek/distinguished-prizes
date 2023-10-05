@@ -2,8 +2,9 @@ import os, uuid
 from flask import current_app
 from werkzeug.utils import secure_filename
 
-def save_file(file) -> []:
-    errors = []
+def save_file(file) -> bool:
+    # TODO change this to bool
+    result = True
     original_filename = file.filename
     overwrite_filename(file)
     path = os.path.join(current_app.config["PHOTOS_DIR"], file.filename)
@@ -11,8 +12,8 @@ def save_file(file) -> []:
         file.save(path)
     except:
         file.filename = original_filename
-        errors.add("Failed to save file.")
-    return errors
+        result = False
+    return result
 
 def overwrite_filename(file):
     extension = get_file_extension(file.filename)

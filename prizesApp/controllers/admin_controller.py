@@ -22,9 +22,9 @@ def sweepstakes():
 def create_sweepstakes():
     sweepstakes_form = SweepstakesForm()
 
+    # Valid POST request
     if sweepstakes_form.validate_on_submit():
-        errors = admin_service.create_sweepstakes(sweepstakes_form)
-        if len(errors) == 0:
+        if admin_service.create_sweepstakes(sweepstakes_form):
             flash("Sweepstakes created!", "success")
             return redirect(url_for("admin.sweepstakes"))
         else:
@@ -37,13 +37,7 @@ def create_sweepstakes():
 def edit_sweepstakes(id: int):
     edit_form = SweepstakesEditForm()
     sweepstake = appRepo.retrieve_sweepstake(id)
-
-    if edit_form.validate_on_submit():
-        if admin_service.update_sweepstakes(edit_form, sweepstake):
-            flash("Sweepstakes updated!", "success")
-            return redirect(url_for("admin.sweepstakes"))
-        else:
-            flash("Failed to update sweepstakes.", "danger")
+    redirect_url = None
 
     if request.method == "GET":
         if sweepstake:
@@ -54,10 +48,21 @@ def edit_sweepstakes(id: int):
                 start_date = sweepstake.start_date,
                 end_date = sweepstake.end_date,
                 max_participants = sweepstake.max_participants,
-                image = "Replace Image?"
+                image = "Select to replace"
             )
         else:
             flash("Sweepstakes not found", "danger")
-            return redirect(url_for("admin.sweepstakes"))
+            redirect_url = url_for("admin.sweepstakes")
+
+    # POST request with valid data
+    elif request.method == "POST" and edit_form.validate():
+        if admin_service.update_sweepstakes(edit_form, sweepstake):
+            flash("Sweepstakes updated!", "success")
+            redirect_url = url_for("admin.sweepstakes")
+        else:
+            flash("Failed to update sweepstakes.", "danger")
+
+    if redirect_url:
+        return redirect(redirect_url)
 
     return render_template("admin/sweepstakes/edit.html", form=edit_form, image_name=sweepstake.image)

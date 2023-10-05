@@ -3,23 +3,17 @@ from prizesApp.forms import SweepstakesEditForm, SweepstakesForm
 from prizesApp.repo import appRepo
 from prizesApp.services import file_service
 
-def create_sweepstakes(form: SweepstakesForm) -> []:
+def create_sweepstakes(form: SweepstakesForm) -> bool:
     f = form.image.data
-    errors = file_service.save_file(f)
+    result = file_service.save_file(f)
 
-    if len(errors) == 0:
+    if result:
         result = appRepo.create_sweepstake(form, f.filename)
-        if not result:
-            errors.append("Failed to create sweepstakes.")
 
-    return errors
+    return result
 
 def update_sweepstakes(form: SweepstakesEditForm, sweepstake: Sweepstake) -> bool:
-    errors = []
     if form.image.data:
-        errors = file_service.save_file(form.image.data)
-
-    if len(errors) == 0:
-        appRepo.update_sweepstake(form, sweepstake)
+        file_service.save_file(form.image.data)
 
     return appRepo.update_sweepstake(form, sweepstake)
