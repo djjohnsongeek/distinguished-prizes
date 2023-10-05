@@ -5,6 +5,8 @@ Admin Dashboard
 {% endblock %}
 
 {% block content %}
-<span>Welcom to the admin dashboard</span>
+<span>Welcome to the admin dashboard</span><br/>
+<a href="{{url_for('admin.sweepstakes')}}">All sweepstakes</a><br/>
+<a href="{{url_for('admin.create_sweepstakes')}}">Create sweepstakes</a>
 
 {% endblock %}

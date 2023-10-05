@@ -1,8 +1,6 @@
-1. get file uploads working for create DONE!
-2. get file uploads working for edit
 3. display current prize(s) on the front page (support multiple at a time)
 4. allow sign ups (add recaptia)
 5. implement lockout feature for failed logins
-6. store past prizes (with the winners)
+6. show past prizes (with the winners)
 6. store an email list for new giveaways?
 7. design and content (faq, ect ...)

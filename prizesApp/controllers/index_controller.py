@@ -1,9 +1,11 @@
 from flask import Blueprint, render_template, request, flash, send_from_directory, current_app
+from prizesApp.repo import appRepo
 index_blueprint = Blueprint("index", __name__)
 
 @index_blueprint.route("/", methods=["GET"])
 def home():
-    return render_template("home.html")
+    sweepstakes = appRepo.retrieve_sweepstakes()
+    return render_template("home.html", sweepstakes=sweepstakes)
 
 @index_blueprint.route("/About", methods=["GET"])
 def about():
