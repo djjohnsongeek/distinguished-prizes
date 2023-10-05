@@ -5,7 +5,7 @@ from prizesApp.services import file_service
 
 def create_sweepstakes(form: SweepstakesForm) -> bool:
     f = form.image.data
-    result = file_service.save_file(f)
+    result = file_service.save_file(f, True)
 
     if result:
         result = appRepo.create_sweepstake(form, f.filename)
