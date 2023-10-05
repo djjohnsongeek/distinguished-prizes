@@ -4,7 +4,7 @@ index_blueprint = Blueprint("index", __name__)
 
 @index_blueprint.route("/", methods=["GET"])
 def home():
-    sweepstakes = appRepo.retrieve_sweepstakes()
+    sweepstakes = appRepo.retrieve_active_sweeptakes()
     return render_template("home.html", sweepstakes=sweepstakes)
 
 @index_blueprint.route("/About", methods=["GET"])

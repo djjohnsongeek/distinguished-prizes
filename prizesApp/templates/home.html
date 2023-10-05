@@ -5,26 +5,78 @@ Distinguished Prizes
 {% endblock %}
 
 {% block content %}
+<div class="tabs is-centered is-large">
+    <ul>
+        <li>
+            <a>
+                <span class="icon is-small"><i class="fa-solid fa-clock-rotate-left"></i></span>
+                Past Prizes
+            </a>
+        </li>
+        <li class="is-active">
+            <a>
+                <span class="icon is-small"><i class="fa-solid fa-gift"></i></span>
+                Current Prizes
+            </a>
+        </li>
+        <li>
+            <a>
+                <span class="icon is-small"><i class="fa-solid fa-calendar-days"></i></span>
+                Future Prizes
+            </a>
+        </li>
+    </ul>
+  </div>
 {% for sweepstake in sweepstakes %}
     <div class="card mb-6">
-        <header class="card-header">
-          <p class="card-header-title">
-            {{sweepstake.name}}
-          </p>
-        </header>
         <div class="card-content">
             <div class="card-image">
-                <figure class="image is-4by3">
-                  <img src="{{url_for('index.download_image', filename=sweepstake.image)}}" alt="Placeholder image">
-                </figure>
-              </div>
-          <div class="content">
-            {{sweepstake.description}}
-          </div>
+                <a href="{{url_for('sweepstakes.info', sweepstakes_id=sweepstake.id)}}" target="_blank">
+                    <figure class="image is-4by3">
+                        <img src="{{url_for('index.download_image', filename=sweepstake.image)}}" alt="Placeholder image">
+                    </figure>
+                </a>
+            </div>
+            <div class="title is-centered">
+                {{sweepstake.name}}
+            </div>
         </div>
         <footer class="card-footer">
-          <a href="#" class="card-footer-item">More Info</a>
+            <a href="{{url_for('sweepstakes.info', sweepstakes_id=sweepstake.id)}}" target="_blank"
+                class="card-footer-item">More Info</a>
         </footer>
-      </div>
+    </div>
 {% endfor %}
+<script>
+    for (let element of document.getElementsByClassName("image")) {
+        element.addEventListener("mouseover", (event) => {
+            let contentDiv = event.target.parentElement.parentElement.parentElement.parentElement;
+            console.log(contentDiv);
+            // Sanity Check
+            if (!contentDiv.classList.contains("card-content")) {
+                alert("Invalid content element selected");
+                console.log(contentDiv);
+                return;
+            }
+
+            contentDiv.classList.add("has-background-primary");
+        });
+    }
+
+        for (let element of document.getElementsByClassName("image")) {
+            element.addEventListener("mouseout", (event) => {
+                let contentDiv = event.target.parentElement.parentElement.parentElement.parentElement;
+
+                // Sanity Check
+                if (!contentDiv.classList.contains("card-content")) {
+                    alert("Invalid content element selected");
+                    console.log(contentDiv);
+                    return;
+                }
+
+                contentDiv.classList.remove("has-background-primary");
+            });
+        }
+</script>
 {% endblock %}
+
