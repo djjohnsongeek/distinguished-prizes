@@ -15,9 +15,11 @@ def create_sweepstakes(form: SweepstakesForm) -> []:
     return errors
 
 def update_sweepstakes(form: SweepstakesEditForm, sweepstake: Sweepstake) -> bool:
+    errors = []
+    if form.image.data:
+        errors = file_service.save_file(form.image.data)
 
-    # TODO Save file
-
-
+    if len(errors) == 0:
+        appRepo.update_sweepstake(form, sweepstake)
 
     return appRepo.update_sweepstake(form, sweepstake)

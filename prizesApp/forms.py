@@ -19,7 +19,7 @@ class SweepstakesForm(FlaskForm):
     start_date = DateTimeLocalField("Start Time", validators=[DataRequired()], format="%Y-%m-%dT%H:%M")
     end_date = DateTimeLocalField("End Time", validators=[DataRequired()], format="%Y-%m-%dT%H:%M")
     max_participants = IntegerField("Max Participants")
-    image = FileField("Upload Image", validators=[FileRequired(), FileAllowed(["jpg", "png"], "Images Only")])
+    image = FileField("Upload Image", validators=[FileAllowed(["jpg", "png"], "Images Only")])
 
 class SweepstakesEditForm(SweepstakesForm):
     id = IntegerField(None, validators=[DataRequired()])

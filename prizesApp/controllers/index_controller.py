@@ -15,5 +15,4 @@ def news():
 
 @index_blueprint.route("/Image/<filename>", methods=["GET"])
 def download_image(filename):
-    print(filename)
     return send_from_directory(current_app.config["PHOTOS_DIR"], filename)

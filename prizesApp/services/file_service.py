@@ -4,11 +4,13 @@ from werkzeug.utils import secure_filename
 
 def save_file(file) -> []:
     errors = []
+    original_filename = file.filename
     overwrite_filename(file)
     path = os.path.join(current_app.config["PHOTOS_DIR"], file.filename)
     try:
         file.save(path)
     except:
+        file.filename = original_filename
         errors.add("Failed to save file.")
     return errors
 
