@@ -37,13 +37,10 @@ Distinguished Prizes
                     </figure>
                 </a>
             </div>
-            <div class="title is-centered">
-                {{sweepstake.name}}
-            </div>
         </div>
         <footer class="card-footer">
             <a href="{{url_for('sweepstakes.info', sweepstakes_id=sweepstake.id)}}" target="_blank"
-                class="card-footer-item">More Info</a>
+                class="card-footer-item">{{sweepstake.name}}</a>
         </footer>
     </div>
 {% endfor %}
@@ -51,7 +48,6 @@ Distinguished Prizes
     for (let element of document.getElementsByClassName("image")) {
         element.addEventListener("mouseover", (event) => {
             let contentDiv = event.target.parentElement.parentElement.parentElement.parentElement;
-            console.log(contentDiv);
             // Sanity Check
             if (!contentDiv.classList.contains("card-content")) {
                 alert("Invalid content element selected");
@@ -66,7 +62,6 @@ Distinguished Prizes
         for (let element of document.getElementsByClassName("image")) {
             element.addEventListener("mouseout", (event) => {
                 let contentDiv = event.target.parentElement.parentElement.parentElement.parentElement;
-
                 // Sanity Check
                 if (!contentDiv.classList.contains("card-content")) {
                     alert("Invalid content element selected");
