@@ -1,14 +1,30 @@
 from prizesApp.repo import appRepo
 from prizesApp.forms import RegisterForm
+from prizesApp.models.database import Sweepstake
+from datetime import datetime
 
-def add_participant(form: RegisterForm) -> bool:
+def add_participant(form: RegisterForm, sweepstake: Sweepstake) -> []:
+    errors = []
     if not form.validate():
-        return False
+        errors.append("Invalid data.")
+    
+    if sweepstake is None:
+        errors.append("Sweepstakes not found.")
+        return errors
+    
+    if datetime.now() > sweepstake.end_date:
+        errors.append("Sweepstakes is over.")
+    
+    if datetime.now() < sweepstake.start_date:
+        errors.ppend("Sweepstakes has not started.")
+    
+    participant = appRepo.retrieve_participant_by_email(form.email.data, sweepstake)
+    if participant is not None:
+        errors.append("This email has already been used to sign up for this sweepstakes.")
+    
+    if len(errors) == 0:
+        result = appRepo.add_participant(form, sweepstake)
+        if not result:
+            errors.append("Failed to register for sweepstakes.")
 
-    sweepstakes = appRepo.retrieve_sweepstake(form.sweepstakes_id.data)
-    if sweepstakes is None:
-        return False
-
-    result = appRepo.add_participant(form, sweepstakes)
-
-    return result
+    return errors

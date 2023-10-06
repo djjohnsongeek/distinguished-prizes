@@ -55,14 +55,11 @@ def retrieve_inactive_sweepstakes() -> []:
     now = datetime.now()
     return Sweepstake.select().where(now > Sweepstake.end_date)
 
-def retrieve_participants(sweepstakes: Sweepstake):
-    return Participant.select().where(Participant.sweepstake == sweepstakes)
+def retrieve_participants(sweepstake: Sweepstake):
+    return Participant.select().where(Participant.sweepstake == sweepstake)
 
-def retrieve_participant_by_username(username: str):
-    pass
-
-def retrieve_participant_by_email(email: str):
-    pass
+def retrieve_participant_by_email(email: str, sweepstake: Sweepstake):
+    return Participant.select().join(Sweepstake).where((Participant.email == email) & (Sweepstake.id == sweepstake.id)).get_or_none()
 
 def add_participant(register_form: RegisterForm, sweepstake: Sweepstake) -> bool:
     return Participant.insert(

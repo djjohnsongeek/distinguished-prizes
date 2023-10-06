@@ -3,6 +3,7 @@ sweepstakes_blueprint = Blueprint("sweepstakes", __name__)
 from prizesApp.forms import RegisterForm
 from prizesApp.repo import appRepo
 from prizesApp.services import sweepstakes_service
+from prizesApp.util import flash_collection
 
 @sweepstakes_blueprint.route("/sweepstakes/<int:sweepstakes_id>", methods=["GET"])
 def info(sweepstakes_id: int):
@@ -33,14 +34,16 @@ def register_get(sweepstakes_id: int):
 @sweepstakes_blueprint.route("/sweepstakes/register", methods=["POST"])
 def register_post():
     register_form = RegisterForm()
-
-    if sweepstakes_service.add_participant(register_form):
+    sweepstake = appRepo.retrieve_sweepstake(register_form.sweepstakes_id.data)
+    errors = sweepstakes_service.add_participant(register_form, sweepstake)
+    if len(errors) == 0:
         flash("You have been successfully registered!", "success")
         return redirect(url_for("index.home"))
-    else:
-        return render_template(
-            "sweepstakes/register.html",
-            form=register_form,
-            sweepstakes_id=register_form.sweepstakes_id.data,
-            sweepstakes_name="my made up name"
-        ) 
+    
+    flash_collection(errors, "danger")
+    return render_template(
+        "sweepstakes/register.html",
+        form=register_form,
+        sweepstakes_id=register_form.sweepstakes_id.data,
+        sweepstakes_name=sweepstake.name
+    ) 
