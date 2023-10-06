@@ -1,12 +1,11 @@
 {% extends "layouts/base.html" %}
 
 {% block header %}
-Register
+Register for {{sweepstakes_name}}
 {% endblock %}
 
 {% block content %}
-Register for this particular give away!!
-<form method="POST" action="{{url_for('sweepstakes.register', sweepstakes_id=sweepstakes_id)}}">
+<form method="POST" action="{{url_for('sweepstakes.register_post')}}">
     {{ form.csrf_token }}
     {{ form.sweepstakes_id(hidden=True) }}
     <div class="field">
@@ -22,6 +21,6 @@ Register for this particular give away!!
         </div>
     </div>
     <span>{{ form.email.value }}</span>
-    <button type="submit" class="button">Register</button>
+    <button type="submit" class="button is-primary">Register</button>
 </form>
 {% endblock %}
