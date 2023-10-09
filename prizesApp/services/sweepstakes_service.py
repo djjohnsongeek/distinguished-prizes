@@ -28,3 +28,23 @@ def add_participant(form: RegisterForm, sweepstake: Sweepstake) -> []:
             errors.append("Failed to register for sweepstakes.")
 
     return errors
+
+def get_sweepstakes() -> {}:
+    now = datetime.now()
+    recent_sweepstakes = appRepo.retrieve_recent_sweepstakes()
+
+    sorted_sweepstakes = {
+        "past": [],
+        "current": [],
+        "future": []
+    }
+
+    for sweepstake in recent_sweepstakes:
+        if sweepstake.start_date > now:
+            sorted_sweepstakes["future"].append(sweepstake)
+        elif sweepstake.end_date < now:
+            sorted_sweepstakes["past"].append(sweepstake)
+        else:
+            sorted_sweepstakes["current"].append(sweepstake)
+
+    return sorted_sweepstakes

@@ -1,7 +1,7 @@
 from prizesApp.models.database import *
 from prizesApp.forms import SweepstakesForm, SweepstakesEditForm, RegisterForm
 from peewee import DoesNotExist
-from datetime import datetime
+from datetime import datetime, timedelta
 
 
 def retrieve_user(email: str) -> User:
@@ -47,13 +47,12 @@ def retrieve_sweepstake(id: int) -> Sweepstake:
 def retrieve_sweepstakes() -> []:
     return Sweepstake.select().execute()
 
-def retrieve_active_sweeptakes() -> []:
+def retrieve_recent_sweepstakes() -> []:
     now = datetime.now()
-    return Sweepstake.select().where(now < Sweepstake.end_date and now > Sweepstake.start_date)
-
-def retrieve_inactive_sweepstakes() -> []:
-    now = datetime.now()
-    return Sweepstake.select().where(now > Sweepstake.end_date)
+    time_range = timedelta(weeks=10)
+    end = now + time_range
+    start = now - time_range
+    return Sweepstake.select().where((Sweepstake.start_date > start) & (Sweepstake.start_date < end))
 
 def retrieve_participants(sweepstake: Sweepstake):
     return Participant.select().where(Participant.sweepstake == sweepstake)

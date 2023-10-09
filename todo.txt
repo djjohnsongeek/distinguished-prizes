@@ -1,6 +1,6 @@
-4. display past prizes and future
 4. allow sign ups (add recaptia)
     - ipquality score to verify email addresses
+5. fix logout
 5. implement lockout feature for failed logins
 6. show past prizes (with the winners)
 6. store an email list for new giveaways?

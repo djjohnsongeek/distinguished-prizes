@@ -7,33 +7,36 @@ Distinguished Prizes
 {% block content %}
 <div class="tabs is-centered is-large">
     <ul>
-        <li>
+        <li class="toggle" data-target="sweepstakes-past-container">
             <a>
                 <span class="icon is-small"><i class="fa-solid fa-clock-rotate-left"></i></span>
                 Past Prizes
             </a>
         </li>
-        <li class="is-active">
+        <li class="toggle is-active" data-target="sweepstakes-current-container">
             <a>
                 <span class="icon is-small"><i class="fa-solid fa-gift"></i></span>
                 Current Prizes
             </a>
         </li>
-        <li>
+        <li class="toggle" data-target="sweepstakes-future-container">
             <a>
                 <span class="icon is-small"><i class="fa-solid fa-calendar-days"></i></span>
                 Future Prizes
             </a>
         </li>
     </ul>
-  </div>
-{% for sweepstake in sweepstakes %}
+</div>
+<!-- Current -->
+<div id="sweepstakes-current-container" class="shown toggle-container">
+    {% for sweepstake in sweepstakes["current"] %}
     <div class="card mb-6">
         <div class="card-content">
             <div class="card-image">
                 <a href="{{url_for('sweepstakes.info', sweepstakes_id=sweepstake.id)}}" target="_blank">
                     <figure class="image is-4by3">
-                        <img src="{{url_for('index.download_image', filename=sweepstake.image)}}" alt="Placeholder image">
+                        <img src="{{url_for('index.download_image', filename=sweepstake.image)}}"
+                            alt="Placeholder image">
                     </figure>
                 </a>
             </div>
@@ -43,10 +46,68 @@ Distinguished Prizes
                 class="card-footer-item">{{sweepstake.name}}</a>
         </footer>
     </div>
-{% endfor %}
+    {% endfor %}
+</div>
+<!-- Past -->
+<div id="sweepstakes-past-container" class="hidden toggle-container">
+    {% for sweepstake in sweepstakes["past"] %}
+    <div class="card mb-6">
+        <div class="card-content">
+            <div class="card-image">
+                <a href="{{url_for('sweepstakes.info', sweepstakes_id=sweepstake.id)}}" target="_blank">
+                    <figure class="image is-4by3">
+                        <img src="{{url_for('index.download_image', filename=sweepstake.image)}}"
+                            alt="Placeholder image">
+                    </figure>
+                </a>
+            </div>
+        </div>
+        <footer class="card-footer">
+            <a href="{{url_for('sweepstakes.info', sweepstakes_id=sweepstake.id)}}" target="_blank"
+                class="card-footer-item">{{sweepstake.name}}</a>
+        </footer>
+    </div>
+    {% endfor %}
+</div>
+<!-- Future -->
+<div id="sweepstakes-future-container" class="hidden  toggle-container">
+    {% for sweepstake in sweepstakes["future"] %}
+    <div class="card mb-6">
+        <div class="card-content">
+            <div class="card-image">
+                <a href="{{url_for('sweepstakes.info', sweepstakes_id=sweepstake.id)}}" target="_blank">
+                    <figure class="image is-4by3">
+                        <img src="{{url_for('index.download_image', filename=sweepstake.image)}}"
+                            alt="Placeholder image">
+                    </figure>
+                </a>
+            </div>
+        </div>
+        <footer class="card-footer">
+            <a href="{{url_for('sweepstakes.info', sweepstakes_id=sweepstake.id)}}" target="_blank"
+                class="card-footer-item">{{sweepstake.name}}</a>
+        </footer>
+    </div>
+    {% endfor %}
+</div>
 <script>
+    // HOVER for sweepstake cards
     for (let element of document.getElementsByClassName("image")) {
-        element.addEventListener("mouseover", (event) => {
+    element.addEventListener("mouseover", (event) => {
+        let contentDiv = event.target.parentElement.parentElement.parentElement.parentElement;
+        // Sanity Check
+        if (!contentDiv.classList.contains("card-content")) {
+            alert("Invalid content element selected");
+            console.log(contentDiv);
+            return;
+        }
+
+        contentDiv.classList.add("has-background-primary");
+    });
+    }
+
+    for (let element of document.getElementsByClassName("image")) {
+        element.addEventListener("mouseout", (event) => {
             let contentDiv = event.target.parentElement.parentElement.parentElement.parentElement;
             // Sanity Check
             if (!contentDiv.classList.contains("card-content")) {
@@ -55,23 +116,37 @@ Distinguished Prizes
                 return;
             }
 
-            contentDiv.classList.add("has-background-primary");
+            contentDiv.classList.remove("has-background-primary");
         });
     }
 
-        for (let element of document.getElementsByClassName("image")) {
-            element.addEventListener("mouseout", (event) => {
-                let contentDiv = event.target.parentElement.parentElement.parentElement.parentElement;
-                // Sanity Check
-                if (!contentDiv.classList.contains("card-content")) {
-                    alert("Invalid content element selected");
-                    console.log(contentDiv);
-                    return;
-                }
+    // toggles
+    for (let element of document.getElementsByClassName("toggle")) {
+        element.addEventListener("click", (event) => {
+            let clickedElement = event.currentTarget;
+            let targetContainer = document.getElementById(clickedElement.dataset.target);
 
-                contentDiv.classList.remove("has-background-primary");
-            });
-        }
+            // Hide all containers
+            for (let container of document.getElementsByClassName("toggle-container"))
+            {
+                container.classList.remove("shown");
+                container.classList.add("hidden");
+            }
+
+            // Mark all 'buttons' as inactive
+            for (let element of document.getElementsByClassName("toggle"))
+            {
+                element.classList.remove("is-active");
+            }
+
+            // Reveal correct container
+            targetContainer.classList.remove("hidden");
+            targetContainer.classList.add("shown");
+
+            // Update button
+            clickedElement.classList.add("is-active");
+        });
+    }
 </script>
 {% endblock %}
 
