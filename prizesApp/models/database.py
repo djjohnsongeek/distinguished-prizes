@@ -26,8 +26,13 @@ class Sweepstake(BaseModel):
     start_date = DateTimeField()
     end_date = DateTimeField()
     max_participants = IntegerField(null=True)
-    participant_count = IntegerField()
     image = CharField(max_length=512)
+
+    def has_ended(self) -> bool:
+        return datetime.now() > self.end_date
+
+    def has_started(self) -> bool:
+        return datetime.now() > self.start_date
 
 class Participant(BaseModel):
     name = CharField(max_length=512)

@@ -4,15 +4,42 @@
     {{ sweepstakes.name }}
 {% endblock %}
 
+{% block subheader %}
+    {{ participant_count }} people have registered.
+{% endblock %}
+
 {% block content %}
-    <div class="block">
-        <div class="content">
+<div class="block">
+    <div class="content">
+        <div class="block">
             {{ sweepstakes.description }}
         </div>
-    </div>
+        <div class="block">
+            <ul>
+                <li>Detail 1</li>
+                <li>Detail 2</li>
+                <li>Detail 3</li>
+            </ul>
+        </div>
+        <div class="block">
+            {% if sweepstakes.has_ended() %}
+                <p class="has-text-weight-bold">This giveaway has ended.</p>
+            {% endif %}
 
-    <a class="button is-primary" href="{{url_for('sweepstakes.register_get', sweepstakes_id=sweepstakes.id)}}">
-        <span class="mr-1"><i class="fa-solid fa-arrow-right-to-bracket"></i></span>
-        <span>Register</span>
-    </a>
+            {% if not sweepstakes.has_started() %}
+                <p class="has-text-weight-bold">This giveaway has not yet begun.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% if sweepstakes.has_started() and not sweepstakes.has_ended() %}
+    <div clas="block">
+        <a class="button is-primary" href="{{url_for('sweepstakes.register_get', sweepstakes_id=sweepstakes.id)}}">
+            <span class="mr-1"><i class="fa-solid fa-arrow-right-to-bracket"></i></span>
+            <span>Register</span>
+        </a>
+    </div>
+{% endif %}
+
 {% endblock %}

@@ -1,7 +1,10 @@
 4. allow sign ups (add recaptia)
+    - store cookie to indicate user has signed up
+    - check email to indicate user has signed up
     - ipquality score to verify email addresses
-5. fix logout
+        - ENV config to only check this in production env
 5. implement lockout feature for failed logins
 6. show past prizes (with the winners)
+7. update number of current participants
 6. store an email list for new giveaways?
 7. design and content (faq, ect ...)

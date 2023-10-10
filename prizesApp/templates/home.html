@@ -29,81 +29,45 @@ Distinguished Prizes
 </div>
 <!-- Current -->
 <div id="sweepstakes-current-container" class="shown toggle-container">
+    {% if not sweepstakes["current"] %}
+        {% include 'includes/_no_prizes.html' %}
+    {% endif %}
     {% for sweepstake in sweepstakes["current"] %}
-    <div class="card mb-6">
-        <div class="card-content">
-            <div class="card-image">
-                <a href="{{url_for('sweepstakes.info', sweepstakes_id=sweepstake.id)}}" target="_blank">
-                    <figure class="image is-4by3">
-                        <img src="{{url_for('index.download_image', filename=sweepstake.image)}}"
-                            alt="Placeholder image">
-                    </figure>
-                </a>
-            </div>
-        </div>
-        <footer class="card-footer">
-            <a href="{{url_for('sweepstakes.info', sweepstakes_id=sweepstake.id)}}" target="_blank"
-                class="card-footer-item">{{sweepstake.name}}</a>
-        </footer>
-    </div>
+        {% include 'includes/_sweepstakes_card.html' %}
     {% endfor %}
 </div>
 <!-- Past -->
 <div id="sweepstakes-past-container" class="hidden toggle-container">
+    {% if not sweepstakes["past"] %}
+        {% include 'includes/_no_prizes.html' %}
+    {% endif %}
     {% for sweepstake in sweepstakes["past"] %}
-    <div class="card mb-6">
-        <div class="card-content">
-            <div class="card-image">
-                <a href="{{url_for('sweepstakes.info', sweepstakes_id=sweepstake.id)}}" target="_blank">
-                    <figure class="image is-4by3">
-                        <img src="{{url_for('index.download_image', filename=sweepstake.image)}}"
-                            alt="Placeholder image">
-                    </figure>
-                </a>
-            </div>
-        </div>
-        <footer class="card-footer">
-            <a href="{{url_for('sweepstakes.info', sweepstakes_id=sweepstake.id)}}" target="_blank"
-                class="card-footer-item">{{sweepstake.name}}</a>
-        </footer>
-    </div>
+        {% include 'includes/_sweepstakes_card.html' %}
     {% endfor %}
 </div>
 <!-- Future -->
 <div id="sweepstakes-future-container" class="hidden  toggle-container">
+    {% if not sweepstakes["future"] %}
+        {% include 'includes/_no_prizes.html' %}
+    {% endif %}
     {% for sweepstake in sweepstakes["future"] %}
-    <div class="card mb-6">
-        <div class="card-content">
-            <div class="card-image">
-                <a href="{{url_for('sweepstakes.info', sweepstakes_id=sweepstake.id)}}" target="_blank">
-                    <figure class="image is-4by3">
-                        <img src="{{url_for('index.download_image', filename=sweepstake.image)}}"
-                            alt="Placeholder image">
-                    </figure>
-                </a>
-            </div>
-        </div>
-        <footer class="card-footer">
-            <a href="{{url_for('sweepstakes.info', sweepstakes_id=sweepstake.id)}}" target="_blank"
-                class="card-footer-item">{{sweepstake.name}}</a>
-        </footer>
-    </div>
+        {% include 'includes/_sweepstakes_card.html' %}
     {% endfor %}
 </div>
 <script>
     // HOVER for sweepstake cards
     for (let element of document.getElementsByClassName("image")) {
-    element.addEventListener("mouseover", (event) => {
-        let contentDiv = event.target.parentElement.parentElement.parentElement.parentElement;
-        // Sanity Check
-        if (!contentDiv.classList.contains("card-content")) {
-            alert("Invalid content element selected");
-            console.log(contentDiv);
-            return;
-        }
+        element.addEventListener("mouseover", (event) => {
+            let contentDiv = event.target.parentElement.parentElement.parentElement.parentElement;
+            // Sanity Check
+            if (!contentDiv.classList.contains("card-content")) {
+                alert("Invalid content element selected");
+                console.log(contentDiv);
+                return;
+            }
 
-        contentDiv.classList.add("has-background-primary");
-    });
+            contentDiv.classList.add("has-background-primary");
+        });
     }
 
     for (let element of document.getElementsByClassName("image")) {
@@ -127,15 +91,13 @@ Distinguished Prizes
             let targetContainer = document.getElementById(clickedElement.dataset.target);
 
             // Hide all containers
-            for (let container of document.getElementsByClassName("toggle-container"))
-            {
+            for (let container of document.getElementsByClassName("toggle-container")) {
                 container.classList.remove("shown");
                 container.classList.add("hidden");
             }
 
             // Mark all 'buttons' as inactive
-            for (let element of document.getElementsByClassName("toggle"))
-            {
+            for (let element of document.getElementsByClassName("toggle")) {
                 element.classList.remove("is-active");
             }
 
@@ -149,4 +111,3 @@ Distinguished Prizes
     }
 </script>
 {% endblock %}
-
