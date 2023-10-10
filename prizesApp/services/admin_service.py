@@ -17,3 +17,19 @@ def update_sweepstakes(form: SweepstakesEditForm, sweepstake: Sweepstake) -> boo
         file_service.save_file(form.image.data)
 
     return appRepo.update_sweepstake(form, sweepstake)
+
+
+def select_winner(sweepstake_id: int) -> []:
+    errors = []
+    sweepstake = appRepo.retrieve_sweepstake(sweepstake_id)
+    if sweepstake is None:
+        errors.append("Sweepstake not found.")
+
+    winner = appRepo.retrieve_random_participant(sweepstake)
+
+    # TODO
+    # Update sweepstake's winner field
+    # send email to customer
+    print(winner)
+    
+    return errors

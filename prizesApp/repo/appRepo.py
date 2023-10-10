@@ -18,6 +18,7 @@ def create_sweepstake(sweepstake_form: SweepstakesForm, safe_image_name: str) ->
         end_date = sweepstake_form.end_date.data,
         max_participants = sweepstake_form.max_participants.data,
         image = safe_image_name,
+        winner = None
     ).execute()
 
 def update_sweepstake(form: SweepstakesEditForm, model: Sweepstake):
@@ -62,6 +63,9 @@ def retrieve_participant_count(sweepstake: Sweepstake) -> int:
 
 def retrieve_participant_by_email(email: str, sweepstake: Sweepstake):
     return Participant.select().join(Sweepstake).where((Participant.email == email) & (Sweepstake.id == sweepstake.id)).get_or_none()
+
+def retrieve_random_participant(sweepstake: Sweepstake) -> Participant:
+    return Participant.select().join(Sweepstake).where(Sweepstake.id == sweepstake.id).order_by(fn.Rand()).limit(1).get()
 
 def add_participant(register_form: RegisterForm, sweepstake: Sweepstake) -> bool:
     return Participant.insert(

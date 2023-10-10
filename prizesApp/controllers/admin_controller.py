@@ -66,3 +66,12 @@ def edit_sweepstakes(id: int):
         return redirect(redirect_url)
 
     return render_template("admin/sweepstakes/edit.html", form=edit_form, image_name=sweepstake.image)
+
+@admin_blueprint.route("/admin/sweepstakes/select-winner/<int:id>", methods=["GET"])
+@login_required
+def select_winner(id: int):
+    flash("Winner Determined!", "success")
+
+    errors = admin_service.select_winner(id)
+
+    return redirect(url_for("admin.sweepstakes"))

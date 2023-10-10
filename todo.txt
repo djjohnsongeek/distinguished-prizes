@@ -1,10 +1,21 @@
 4. allow sign ups (add recaptia)
-    - store cookie to indicate user has signed up
-    - check email to indicate user has signed up
     - ipquality score to verify email addresses
         - ENV config to only check this in production env
+5. finish winner selection logic
 5. implement lockout feature for failed logins
 6. show past prizes (with the winners)
 7. update number of current participants
 6. store an email list for new giveaways?
 7. design and content (faq, ect ...)
+
+
+## Prize Ideas
+Steam Deck
+ASUS ROG Ally
+GPU
+CPU
+Monitor
+Game Bungles
+PS5
+XBOX Series S, X
+Switch
