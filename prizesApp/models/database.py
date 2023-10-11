@@ -27,6 +27,7 @@ class Sweepstake(BaseModel):
     end_date = DateTimeField()
     max_participants = IntegerField(null=True)
     image = CharField(max_length=512)
+    details = CharField(max_length=512)
     winner = CharField(max_length=512, null=True)
     winner_confirmed = BooleanField(null=False, default=False)
 

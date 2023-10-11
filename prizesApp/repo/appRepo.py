@@ -18,6 +18,7 @@ def create_sweepstake(sweepstake_form: SweepstakesForm, safe_image_name: str) ->
         end_date = sweepstake_form.end_date.data,
         max_participants = sweepstake_form.max_participants.data,
         image = safe_image_name,
+        details = sweepstake_form.details.data,
         winner = None
     ).execute()
 
@@ -26,9 +27,11 @@ def update_sweepstake(form: SweepstakesEditForm, model: Sweepstake):
 
     model.name = form.name.data
     model.description = form.description.data
+    model.details = form.details.data
     model.start_date = form.start_date.data
     model.end_date = form.end_date.data
     model.max_participants = form.max_participants.data
+
     if form.image.data:
         model.image = form.image.data.filename
 

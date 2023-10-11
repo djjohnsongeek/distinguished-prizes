@@ -1,26 +1,53 @@
 {% extends "layouts/base.html" %}
 
 {% block header %}
-Register for {{sweepstakes_name}}
+Register for {{sweepstakes_name}} Giveaway
+{% endblock %}
+{% block subheader %}
+All fields are required
 {% endblock %}
 
 {% block content %}
 <form method="POST" action="{{url_for('sweepstakes.register_post')}}">
-    {{ form.csrf_token }}
-    {{ form.sweepstakes_id(hidden=True) }}
-    <div class="field">
-        <label class="label">{{ form.user_name.label }}</label>
-        <div class="control">
-          {{ form.user_name(class="input") }}
-        </div>
+  {{ form.csrf_token }}
+  {{ form.sweepstakes_id(hidden=True) }}
+  <div class="field">
+    <label class="label">{{ form.user_name.label }}</label>
+    <div class="control">
+      {{ form.user_name(class="input") }}
     </div>
-    <div class="field">
-        <label class="label">{{ form.email.label }}</label>
-        <div class="control">
-          {{ form.email(class="input") }}
-        </div>
+  </div>
+  <div class="field">
+    <label class="label">{{ form.email.label }}</label>
+    <div class="control">
+      {{ form.email(class="input") }}
     </div>
-    <span>{{ form.email.value }}</span>
-    <button type="submit" class="button is-primary">Register</button>
+  </div>
+  <div class="field">
+    <div class="control">
+      <label class="checkbox">
+        {{ form.age_confirm(class="checkbox") }}
+        {{ form.age_confirm.label }}
+      </label>
+    </div>
+  </div>
+  <div class="field">
+    <div class="control">
+      <label class="checkbox">
+        {{ form.location_confirm(class="checkbox") }}
+        {{ form.location_confirm.label }}
+      </label>
+    </div>
+  </div>
+  <div class="field">
+    <div class="control">
+      <label class="checkbox">
+        {{ form.location_confirm(class="checkbox") }}
+        I agree to the <a href="#">terms and conditions</a>
+      </label>
+    </div>
+  </div>
+  <span>{{ form.email.value }}</span>
+  <button type="submit" class="button is-primary">Register</button>
 </form>
 {% endblock %}

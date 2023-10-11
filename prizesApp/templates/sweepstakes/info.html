@@ -16,9 +16,9 @@
         </div>
         <div class="block">
             <ul>
-                <li>Detail 1</li>
-                <li>Detail 2</li>
-                <li>Detail 3</li>
+                {% for item in sweepstakes.details.split() %}
+                <li>{{item}}</li>
+                {% endfor %}
             </ul>
         </div>
         <div class="block">

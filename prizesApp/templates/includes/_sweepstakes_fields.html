@@ -24,6 +24,17 @@
 </div>
 
 <div class="field">
+  <label class="label">{{ form.details.label }}</label>
+  <div class="control">
+    {{ form.details(class="input") }}
+  </div>
+  <p class="help">Seperate detail items with spaces</p>
+  {% for error in form.details.errors %}
+    <p class="help is-danger">{{ error }}</li>
+  {% endfor %}
+</div>
+
+<div class="field">
   <label class="label">{{ form.start_date.label }}</label>
   <div class="control">
     {{ form.start_date(class="input") }}

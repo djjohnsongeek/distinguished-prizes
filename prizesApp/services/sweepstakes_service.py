@@ -23,8 +23,8 @@ def add_participant(form: RegisterForm, sweepstake: Sweepstake) -> []:
     if participant is not None:
         errors.append("You have already signed up for this sweepstakes.")
 
-    if is_client_registered(sweepstake):
-        errors.append("You have already signed up for this sweepstakes.")
+    # if is_client_registered(sweepstake):
+    #     errors.append("You have already signed up for this sweepstakes.")
     
     if len(errors) == 0:
         result = appRepo.add_participant(form, sweepstake)

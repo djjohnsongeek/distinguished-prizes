@@ -1,7 +1,17 @@
+THOUGHT:
+should the admin app be completely seperate from the public page?
+
 4. allow sign ups (add recaptia)
     - ipquality score to verify email addresses
         - ENV config to only check this in production env
 5. finish winner selection logic
+    - email winner with id and guid
+    - link opens form to fill in address information
+    - email site owner with address information
+    - setup "queue" on site
+
+6. update file name when selecting files (for edit and create)
+7. auto form errors on register forms (same as sweepstakes create/edit form)
 5. implement lockout feature for failed logins
 6. show past prizes (with the winners)
 7. update number of current participants
@@ -15,7 +25,7 @@ ASUS ROG Ally
 GPU
 CPU
 Monitor
-Game Bungles
+Game Bundles
 PS5
 XBOX Series S, X
 Switch

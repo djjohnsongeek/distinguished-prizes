@@ -30,6 +30,7 @@ def select_winner(sweepstake_id: int) -> []:
     # TODO
     # Update sweepstake's winner field
     # send email to customer
+    # customer needs to fill out secret form
     print(winner)
     
     return errors

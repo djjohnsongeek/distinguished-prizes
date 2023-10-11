@@ -45,6 +45,7 @@ def edit_sweepstakes(id: int):
                 id = sweepstake.id,
                 name = sweepstake.name,
                 description = sweepstake.description,
+                details = sweepstake.details,
                 start_date = sweepstake.start_date,
                 end_date = sweepstake.end_date,
                 max_participants = sweepstake.max_participants,
@@ -70,7 +71,7 @@ def edit_sweepstakes(id: int):
 @admin_blueprint.route("/admin/sweepstakes/select-winner/<int:id>", methods=["GET"])
 @login_required
 def select_winner(id: int):
-    flash("Winner Determined!", "success")
+    flash("Winner Selected!", "success")
 
     errors = admin_service.select_winner(id)
 
