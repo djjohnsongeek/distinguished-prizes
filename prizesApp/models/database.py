@@ -28,8 +28,6 @@ class Sweepstake(BaseModel):
     max_participants = IntegerField(null=True)
     image = CharField(max_length=512)
     details = CharField(max_length=512)
-    winner = CharField(max_length=512, null=True)
-    winner_confirmed = BooleanField(null=False, default=False)
 
     def has_ended(self) -> bool:
         return datetime.now() > self.end_date
@@ -42,3 +40,18 @@ class Participant(BaseModel):
     email = CharField(max_length=512)
     sweepstake = ForeignKeyField(Sweepstake, backref="participants")
     entry_time = DateTimeField()
+
+class WinnerConfirmation(BaseModel):
+    participant = ForeignKeyField(Participant)
+    sweepstake = ForeignKeyField(Sweepstake, backref="winner_confirmations")
+    selection_date = DateTimeField(null=False)
+    confirmation_guid = CharField(max_length=64)
+    confirmation_date = DateTimeField(null=True)
+    confirmed = BooleanField(null=True)
+    firstname = CharField(max_length=64)
+    lastname = CharField(max_length=64)
+    address1 = CharField(max_length=64)
+    address2 = CharField(max_length=64)
+    city = CharField(max_length=64)
+    state = CharField(max_length=16)
+    zipcode = CharField(max_length=5)

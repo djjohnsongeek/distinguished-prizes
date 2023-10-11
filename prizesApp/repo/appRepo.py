@@ -22,6 +22,22 @@ def create_sweepstake(sweepstake_form: SweepstakesForm, safe_image_name: str) ->
         winner = None
     ).execute()
 
+def create_winner_confirmation(sweepstake: Sweepstake, participant: Participant, guid: str) -> bool:
+    return WinnerConfirmation.insert(
+        participant = participant,
+        sweepstake = sweepstake,
+        selection_date = datetime.now(),
+        confirmation_guid = guid,
+        confirmation_date = None,
+        firstname = None,
+        lastname = None,
+        address1 = None,
+        address2 = None,
+        city = None,
+        state = None,
+        zipcode = None,
+    ).execute()
+
 def update_sweepstake(form: SweepstakesEditForm, model: Sweepstake):
     result = True
 
@@ -45,6 +61,12 @@ def update_sweepstake(form: SweepstakesEditForm, model: Sweepstake):
 def retrieve_sweepstake(id: int) -> Sweepstake:
     try:
         return Sweepstake.get(Sweepstake.id == id)
+    except DoesNotExist:
+        return None
+    
+def retrieve_sweepstake_with_winners(id: int) -> Sweepstake:
+    try:
+        return Sweepstake.select().join(WinnerConfirmation).where(Sweepstake.id == id).get()
     except DoesNotExist:
         return None
 
