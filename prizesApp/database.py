@@ -1,4 +1,7 @@
 import click
+import os
+import shutil
+from datetime import datetime, timedelta
 from flask import current_app, g
 from werkzeug.security import generate_password_hash
 from peewee import MySQLDatabase
@@ -35,6 +38,27 @@ def init_db():
     db.drop_tables(db_models)
     db.create_tables(db_models)
 
+    # clear out photos directory
+    for filename in os.listdir(current_app.config["PHOTOS_DIR"]):
+        path = os.path.join(current_app.config["PHOTOS_DIR"], filename)
+        if os.path.isfile(path):
+            try:
+                os.remove(path)
+            except Exception as e:
+                print(f"Failed to remove {path}. Reason: {e}")
+
+
+    # update the photos directory
+    for filename in os.listdir(current_app.config["TEST_PHOTOS_DIR"]):
+        src_path = os.path.join(current_app.config["TEST_PHOTOS_DIR"], filename)
+        dest_path = os.path.join(current_app.config["PHOTOS_DIR"], filename)
+        if os.path.isfile(src_path):
+            try:
+                shutil.copyfile(src_path, dest_path)
+            except Exception as e:
+                print(f"Failed to move {src_path}. Reason: {e}")
+                
+    # Super/Admin user
     User.insert(
         first_name = "Daniel",
         last_name = "Johnson",
@@ -42,128 +66,46 @@ def init_db():
         password_hash = generate_password_hash("password"),
     ).execute()
 
-    # Sweepstake.insert_many([
-    #     {
-    #         "name": "Test Current",
-    #         "description": " Test Current Description",
-    #         "image": "ccf84ed0-0658-4a4d-9b16-d2339d5ec152.jpg"
-    #     },
-    # ]).execute()
+    range = timedelta(days=30)
 
-    # admin_role = Role.create(
-    #     name = "Admin"
-    # )
-    
-    # AppUser.insert(
-    #     first_name = "Daniel",
-    #     last_name = "Johnson",
-    #     email = "danieleejohnson@gmail.com",
-    #     role = admin_role,
-    #     last_login = None,
-    #     password_hash = generate_password_hash("password"),
-    #     lockout_end = None,
-    # ).execute()
+    start = datetime.now().replace(day=1)
+    end = start.replace(day=28)
 
-    # Carousel.insert_many([
-    #     {
-    #         "name": "Connect",
-    #         "sub_heading": "We want to get to know you.",
-    #         "description": "Your perspective and preference flow out of who you are as a person. Your age and stage, previous experiences and even future objectives matter as we have a conversation about your painting needs. We prefer to meet in person but are happy to call, text and email to connect with you.",
-    #         "animation_type": "fade",
-    #         "interval_length": 3000
-    #     },
-    #     {
-    #         "name": "Reimagine",
-    #         "sub_heading": "We want to hear your ideas and speak into them.",
-    #         "description": "Color and sheen selection can be a daunting task. Warm and welcoming or minimal and modern? Form and function or classic and collected? From a conversation about your big idea to a color filled picture of your space, we want to help you reimagine a new place to live!",
-    #         "animation_type": "fade",
-    #         "interval_length": 3000
-    #     },
-    #     {
-    #         "name": "Redeem",
-    #         "sub_heading": "We want to bring life back into your space",
-    #         "description": "You can relax and watch the transformation! Our team will take great care to protect your floors and furniture, to fill in the holes and cracks, repair damaged walls and trim, prime the stains, sand out the bumps, and bring your space to life with a fresh coat of quality paint! Our satisfaction is fulfilled as your home is redeemed!",
-    #         "animation_type": "fade",
-    #         "interval_length": 3000
-    #     }]).execute()
+    start_past = start - range
+    end_past = end - range
 
-    # AppConfig.insert_many([
-    #     {
-    #         "name": "Site Email",
-    #         "system_name": "ContactEmail",
-    #         "value": "danieleejohnson@gmail.com",
-    #         "desc": "Contact email displayed to customers. Also the target of all contact form submissions.",
-    #     },
-    #     {
-    #         "name": "Site Phone Number",
-    #         "system_name": "ContactPhone",
-    #         "value": "3366550315",
-    #         "desc": "Contact phone number displayed to customers.",
-    #     },
-    #     {
-    #         "name": "Mail Jet API Key",
-    #         "system_name": "MailJetApiKey",
-    #         "value": "0f96ec8ef99595a3a23a539db62c7152",
-    #         "desc": "Mail Jet Service uses this api key to send emails.",
-    #     },
-    #     {
-    #         "name": "Mail Jet Secret Key",
-    #         "system_name": "MailJetSecretKey",
-    #         "value": "9b127ab90896781f0f39bccf4cf6cac7",
-    #         "desc": "Mail Jet Services uses this secrety key to send emails.",
-    #     },
-    #     {
-    #         "name": "Mail Jet Sender Email",
-    #         "system_name": "MailJetSenderEmail",
-    #         "value": "admin@fortheking.dev",
-    #         "desc": "All Mail Jet Emails will be sent from this email address.",
-    #     }
-    # ]).execute()
+    start_future = start + range
+    end_future = end + range
 
-    # AppStyle.insert_many([
-    #     {
-    #         "name": "Nav Link Font",
-    #         "description": "Font style for the navigation bar.",
-    #         "class_name": ".nav-links-font",
-    #         "font_id": 1
-    #     },
-    #     {
-    #         "name": "Headings Font",
-    #         "description": "Font style for major headings",
-    #         "class_name": ".headings-font",
-    #         "font_id": 0
-    #     },
-    #     {
-    #         "name": "Sub Headings Font",
-    #         "description": "Font style for sub headings.",
-    #         "class_name": ".sub-headings-font",
-    #         "font_id": 0
-    #     },
-    #     {
-    #         "name": "Main Copy Font",
-    #         "description": "Font style for general text content.",
-    #         "class_name": ".copy-font",
-    #         "font_id": 0
-    #     },
-    #     {
-    #         "name": "Video Overly Font",
-    #         "description": "Font style for text overly on the video.",
-    #         "class_name": ".video-overlay-font",
-    #         "font_id": 0
-    #     },
-    #     {
-    #         "name": "Footer Font",
-    #         "description": "Font style for footer text.",
-    #         "class_name": ".footer-font",
-    #         "font_id": 0
-    #     },
-    #     {
-    #         "name": "Banner Font",
-    #         "description": "Font style for the call to action banner",
-    #         "class_name": ".banner-font",
-    #         "font_id": 0
-    #     }
-    # ]).execute()
+    Sweepstake.insert_many([
+        {
+            "name": "Test Current",
+            "description": " Test Current Description",
+            "start_date": start,
+            "end_date": end,
+            "max_participants": 32,
+            "details": "item1 item2 item3",
+            "image": "ccf84ed0-0658-4a4d-9b16-d2339d5ec152.jpg",
+        },
+        {
+            "name": "Test Past",
+            "description": " Test Past Description",
+            "start_date": start_past,
+            "end_date": end_past,
+            "max_participants": 32,
+            "details": "item1 item2 item3",
+            "image": "d05b21b8-72c2-4e6a-b131-36443813ade7.png",
+        },
+        {
+            "name": "Test Future",
+            "description": " Test Future Description",
+            "start_date": start_future,
+            "end_date": end_future,
+            "max_participants": 32,
+            "details": "item1 item2 item3",
+            "image": "ed5d99ea-3e81-4b6d-b581-63867632dea6.jpg",
+        }
+    ]).execute()
     
     db.close()
 
