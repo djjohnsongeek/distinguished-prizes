@@ -35,10 +35,11 @@ def init_db():
     db = get_db()
     db.connect()
 
+    # Prepare db schema
     db.drop_tables(db_models)
     db.create_tables(db_models)
 
-    # clear out photos directory
+    # Clear out photos directory
     for filename in os.listdir(current_app.config["PHOTOS_DIR"]):
         path = os.path.join(current_app.config["PHOTOS_DIR"], filename)
         if os.path.isfile(path):
@@ -48,7 +49,7 @@ def init_db():
                 print(f"Failed to remove {path}. Reason: {e}")
 
 
-    # update the photos directory
+    # Update the photos directory
     for filename in os.listdir(current_app.config["TEST_PHOTOS_DIR"]):
         src_path = os.path.join(current_app.config["TEST_PHOTOS_DIR"], filename)
         dest_path = os.path.join(current_app.config["PHOTOS_DIR"], filename)
@@ -58,7 +59,7 @@ def init_db():
             except Exception as e:
                 print(f"Failed to move {src_path}. Reason: {e}")
                 
-    # Super/Admin user
+    # Add Super/Admin user
     User.insert(
         first_name = "Daniel",
         last_name = "Johnson",
@@ -77,6 +78,7 @@ def init_db():
     start_future = start + range
     end_future = end + range
 
+    # Add test sweepstakes
     Sweepstake.insert_many([
         {
             "name": "Test Current",
