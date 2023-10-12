@@ -3,6 +3,7 @@ from prizesApp.auth import login_required
 from prizesApp.forms import SweepstakesForm, SweepstakesEditForm
 from prizesApp.services import admin_service
 from prizesApp.repo import appRepo
+from prizesApp.util import flash_collection
 
 admin_blueprint = Blueprint("admin", __name__)
 
@@ -71,8 +72,10 @@ def edit_sweepstakes(id: int):
 @admin_blueprint.route("/admin/sweepstakes/select-winner/<int:id>", methods=["GET"])
 @login_required
 def select_winner(id: int):
-    flash("Winner Selected!", "success")
-
     errors = admin_service.select_winner(id)
+
+    flash_collection(errors, "danger")
+    if len(errors) == 0:
+        flash("Winner Selected!", "success")
 
     return redirect(url_for("admin.sweepstakes"))

@@ -33,7 +33,7 @@
                     <a class="button is-primary" href="{{url_for('admin.edit_sweepstakes', id=sweepstake.id)}}">
                         Edit
                     </a>
-                    {% if sweepstake.has_ended() and sweepstake.winner == None %}
+                    {% if sweepstake.has_ended() %}
                     <a class="button is-success is-outlined" href="{{url_for('admin.select_winner', id=sweepstake.id)}}">
                         Select Winner
                     </a>

@@ -41,6 +41,9 @@ class Participant(BaseModel):
     sweepstake = ForeignKeyField(Sweepstake, backref="participants")
     entry_time = DateTimeField()
 
+    def __str__(self):
+        return f"name: {self.name}, email: {self.email}"
+
 class WinnerConfirmation(BaseModel):
     participant = ForeignKeyField(Participant)
     sweepstake = ForeignKeyField(Sweepstake, backref="winner_confirmations")
@@ -48,10 +51,10 @@ class WinnerConfirmation(BaseModel):
     confirmation_guid = CharField(max_length=64)
     confirmation_date = DateTimeField(null=True)
     confirmed = BooleanField(null=True)
-    firstname = CharField(max_length=64)
-    lastname = CharField(max_length=64)
-    address1 = CharField(max_length=64)
-    address2 = CharField(max_length=64)
-    city = CharField(max_length=64)
-    state = CharField(max_length=16)
-    zipcode = CharField(max_length=5)
+    firstname = CharField(max_length=64, null=True)
+    lastname = CharField(max_length=64, null=True)
+    address1 = CharField(max_length=64, null=True)
+    address2 = CharField(max_length=64, null=True)
+    city = CharField(max_length=64, null=True)
+    state = CharField(max_length=16, null=True)
+    zipcode = CharField(max_length=5, null=True)

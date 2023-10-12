@@ -19,7 +19,6 @@ def create_sweepstake(sweepstake_form: SweepstakesForm, safe_image_name: str) ->
         max_participants = sweepstake_form.max_participants.data,
         image = safe_image_name,
         details = sweepstake_form.details.data,
-        winner = None
     ).execute()
 
 def create_winner_confirmation(sweepstake: Sweepstake, participant: Participant, guid: str) -> bool:
@@ -69,6 +68,9 @@ def retrieve_sweepstake_with_winners(id: int) -> Sweepstake:
         return Sweepstake.select().join(WinnerConfirmation).where(Sweepstake.id == id).get()
     except DoesNotExist:
         return None
+
+def retrieve_winner_confirmations(sweepstake_id: int) -> []:
+    return WinnerConfirmation.select().join(Sweepstake).where(Sweepstake.id == sweepstake_id)
 
 def retrieve_sweepstakes() -> []:
     return Sweepstake.select().execute()

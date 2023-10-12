@@ -4,7 +4,7 @@ from werkzeug.security import generate_password_hash
 from peewee import MySQLDatabase
 from prizesApp.models.database import *
 
-db_models = [User, Sweepstake, Participant]
+db_models = [User, Sweepstake, Participant, WinnerConfirmation]
 
 def get_db() -> MySQLDatabase:
     if 'db' not in g:
@@ -41,6 +41,14 @@ def init_db():
         email = "danieleejohnson@gmail.com",
         password_hash = generate_password_hash("password"),
     ).execute()
+
+    # Sweepstake.insert_many([
+    #     {
+    #         "name": "Test Current",
+    #         "description": " Test Current Description",
+    #         "image": "ccf84ed0-0658-4a4d-9b16-d2339d5ec152.jpg"
+    #     },
+    # ]).execute()
 
     # admin_role = Role.create(
     #     name = "Admin"

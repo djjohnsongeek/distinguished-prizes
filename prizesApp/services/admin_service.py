@@ -1,4 +1,5 @@
 import uuid
+from datetime import datetime
 from prizesApp.models.database import Sweepstake, Participant
 from prizesApp.forms import SweepstakesEditForm, SweepstakesForm
 from prizesApp.repo import appRepo
@@ -22,32 +23,42 @@ def update_sweepstakes(form: SweepstakesEditForm, sweepstake: Sweepstake) -> boo
 
 def select_winner(sweepstake_id: int) -> []:
     errors = []
-    sweepstake = appRepo.retrieve_sweepstake_with_winners(sweepstake_id)
+    sweepstake = appRepo.retrieve_sweepstake(sweepstake_id)
+
     if sweepstake is None:
         errors.append("Sweepstake not found.")
+        return errors
+
+    winner_confirmations = appRepo.retrieve_winner_confirmations(sweepstake.id)
+
+    if datetime.now() <= sweepstake.end_date:
+        errors.append("Sweepstakes has not yet ended.")
+
+    print(winner_confirmations)
+    print(sweepstake.__dict__)
 
     # check for previously selected winners
-    if len(sweepstake.winner_confirmations) > 0:
-        for confirmation in sweepstake.winner_confirmations:
-            if confirmation.confirmed == True:
-                errors.append("Winner has been already been confirmed.")
-            if confirmation.confirmed == None:
-                errors.append("There are still unconfirmed winners")
-        
+    for confirmation in winner_confirmations:
+        if confirmation.confirmed == True:
+            errors.append("Winner has been already been confirmed.")
+            break
 
+        if confirmation.confirmed == None:
+            errors.append("There are still unconfirmed winners")
+            break
 
-    # check if confirm exists
+    if len(errors) == 0:
+        winner = appRepo.retrieve_random_participant(sweepstake)
+        confirm_guid = str(uuid.uuid4())
+        success = appRepo.create_winner_confirmation(sweepstake, winner, confirm_guid)
 
-    winner = appRepo.retrieve_random_participant(sweepstake)
-    confirm_guid = str(uuid.uuid4())
-
-    success = appRepo.create_winner_confirmation(sweepstake, winner, confirm_guid)
-    print(confirm_guid)
+        print(winner)
+        print(confirm_guid)
 
 
     # TODO
     # send email to customer
     # customer needs to fill out secret form
-    print(winner)
+
     
     return errors
