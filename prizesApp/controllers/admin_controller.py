@@ -79,3 +79,10 @@ def select_winner(id: int):
         flash("Winner Selected!", "success")
 
     return redirect(url_for("admin.sweepstakes"))
+
+
+@admin_blueprint.route("/admin/winners", methods=["GET"])
+@login_required
+def winners():
+    winners = appRepo.retrieve_winner_confirmations(sweepstake_id=None)
+    return render_template("admin/winners/index.html", winners=winners)

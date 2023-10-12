@@ -1,0 +1,31 @@
+{% extends "layouts/admin_base.html" %}
+
+{% block header %}
+    Winners
+{% endblock %}
+
+{% block content %}
+    <table class="table is-fullwidth">
+        <thead>
+            <tr>
+                <th>Winner Username</th>
+                <th>Winner Email</th>
+                <th>Sweepstake Name</th>
+                <th>Selection Date</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for winner in winners %}
+            {% set status = winner.confirmed == True ? "Confirmed" : winner.confirmed == False ? "Expired" : "Unconfirmed" %}
+            <tr>
+                <td>{{winner.participant.name}}</td>
+                <td>{{winner.participant.email}}</td>
+                <td>{{winner.sweepstake.name}}</td>
+                <td>{{winner.selection_date}}</td>
+                <td>{{status}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

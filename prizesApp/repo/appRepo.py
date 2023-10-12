@@ -70,8 +70,11 @@ def retrieve_sweepstake_with_winners(id: int) -> Sweepstake:
         return None
 
 def retrieve_winner_confirmations(sweepstake_id: int) -> []:
-    return WinnerConfirmation.select().join(Sweepstake).where(Sweepstake.id == sweepstake_id)
-
+    if sweepstake_id is None:
+        return WinnerConfirmation.select().join(Sweepstake).join(Participant)
+    else:
+        return WinnerConfirmation.select().join(Sweepstake).where(Sweepstake.id == sweepstake_id)
+    
 def retrieve_sweepstakes() -> []:
     return Sweepstake.select().execute()
 

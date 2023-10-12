@@ -40,11 +40,11 @@ def select_winner(sweepstake_id: int) -> []:
     # check for previously selected winners
     for confirmation in winner_confirmations:
         if confirmation.confirmed == True:
-            errors.append("Winner has been already been confirmed.")
+            errors.append("A winner has already been chosen. (Confirmed)")
             break
 
         if confirmation.confirmed == None:
-            errors.append("There are still unconfirmed winners")
+            errors.append("A winner has already been chosen. (Unconfirmed)")
             break
 
     if len(errors) == 0:
@@ -54,7 +54,6 @@ def select_winner(sweepstake_id: int) -> []:
 
         print(winner)
         print(confirm_guid)
-
 
     # TODO
     # send email to customer
