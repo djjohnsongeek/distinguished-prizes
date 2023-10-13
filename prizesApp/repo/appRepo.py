@@ -28,6 +28,8 @@ def create_winner_confirmation(sweepstake: Sweepstake, participant: Participant,
         selection_date = datetime.now(),
         confirmation_guid = guid,
         confirmation_date = None,
+        fullfilled = False,
+        fullfilled_date = None,
         firstname = None,
         lastname = None,
         address1 = None,
@@ -71,7 +73,7 @@ def retrieve_sweepstake_with_winners(id: int) -> Sweepstake:
 
 def retrieve_winner_confirmations(sweepstake_id: int) -> []:
     if sweepstake_id is None:
-        return WinnerConfirmation.select().join(Sweepstake).join(Participant)
+        return WinnerConfirmation.select().join(Sweepstake).join(Participant).group_by(WinnerConfirmation.id)
     else:
         return WinnerConfirmation.select().join(Sweepstake).where(Sweepstake.id == sweepstake_id)
     

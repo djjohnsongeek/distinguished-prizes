@@ -9,7 +9,8 @@ should the admin app be completely seperate from the public page?
     - link opens form to fill in address information
     - email site owner with address information
     - setup "queue" on site
-
+4. use card rows instead of table
+5. tracking info, auto email update?
 6. update file name when selecting files (for edit and create)
 7. auto form errors on register forms (same as sweepstakes create/edit form)
 5. implement lockout feature for failed logins

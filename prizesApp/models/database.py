@@ -51,6 +51,8 @@ class WinnerConfirmation(BaseModel):
     confirmation_guid = CharField(max_length=64)
     confirmation_date = DateTimeField(null=True)
     confirmed = BooleanField(null=True)
+    fullfilled = BooleanField(null=False, default=False)
+    fullfilled_date = DateTimeField(null=True)
     firstname = CharField(max_length=64, null=True)
     lastname = CharField(max_length=64, null=True)
     address1 = CharField(max_length=64, null=True)
@@ -58,3 +60,23 @@ class WinnerConfirmation(BaseModel):
     city = CharField(max_length=64, null=True)
     state = CharField(max_length=16, null=True)
     zipcode = CharField(max_length=5, null=True)
+
+    def confirmed_status(self) -> str:
+        status_str = ""
+        if self.confirmed is None:
+            status_str = "Unconfirmed"
+
+        if self.confirmed == True:
+            status_str = f"Confirmed: {self.confirmation_date}"
+
+        if self.confirmed == False:
+            status_str = f"Expired"
+
+        return status_str
+    
+    def fullfilled_status(self) -> str:
+        status_str = ""
+        if self.fullfilled:
+            status_str = f"Fullfilled: {self.fullfilled_date}"
+        else:
+            status_str = "No"
