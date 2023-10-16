@@ -29,35 +29,31 @@ def select_winner(sweepstake_id: int) -> []:
         errors.append("Sweepstake not found.")
         return errors
 
-    winner_confirmations = appRepo.retrieve_winner_confirmations(sweepstake.id)
+    winners = appRepo.retrieve_winners(sweepstake.id)
 
     if datetime.now() <= sweepstake.end_date:
         errors.append("Sweepstakes has not yet ended.")
 
-    print(winner_confirmations)
+    print(winners)
     print(sweepstake.__dict__)
 
     # check for previously selected winners
-    for confirmation in winner_confirmations:
-        if confirmation.confirmed == True:
+    for winner in winners:
+        if winner.confirmed == True:
             errors.append("A winner has already been chosen. (Confirmed)")
             break
 
-        if confirmation.confirmed == None:
+        if winner.confirmed == None:
             errors.append("A winner has already been chosen. (Unconfirmed)")
             break
 
     if len(errors) == 0:
         winner = appRepo.retrieve_random_participant(sweepstake)
         confirm_guid = str(uuid.uuid4())
-        success = appRepo.create_winner_confirmation(sweepstake, winner, confirm_guid)
-
-        print(winner)
-        print(confirm_guid)
+        success = appRepo.create_winner(sweepstake, winner, confirm_guid)
+        print(f"localhost:5000/sweepstakes/confirmation/{sweepstake.id}/{winner.id}/{confirm_guid}")
 
     # TODO
-    # send email to customer
-    # customer needs to fill out secret form
-
-    
+    # send email to customer with confirmation link
+   
     return errors

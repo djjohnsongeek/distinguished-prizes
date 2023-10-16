@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 sweepstakes_blueprint = Blueprint("sweepstakes", __name__)
-from prizesApp.forms import RegisterForm
+from prizesApp.forms import RegisterForm, ConfirmationForm
 from prizesApp.repo import appRepo
 from prizesApp.services import sweepstakes_service
 from prizesApp.util import flash_collection
@@ -47,3 +47,18 @@ def register_post():
         sweepstakes_id=register_form.sweepstakes_id.data,
         sweepstakes_name=sweepstake.name
     ) 
+
+@sweepstakes_blueprint.route("/sweepstakes/confirmation/<int:sweepstakes_id>/<int:participant_id>/<confirmation_guid>", methods=["GET", "POST"])
+def confirm_winner(sweepstakes_id: int, participant_id: int, confirmation_guid: str):
+    errors = sweepstakes_service.validate_confirmation(sweepstakes_id, participant_id, confirmation_guid)
+    if len(errors) > 0:
+        return render_template("error.html", error_message=errors[0])
+
+    confirm_data = {
+        "sweepstakes_id": sweepstakes_id,
+        "participant_id": participant_id,
+        "confirm_guid": confirmation_guid
+    }
+
+    confirm_form = ConfirmationForm(sweepstakes_id=sweepstakes_id, participant_id=participant_id, confirmation_guid=confirmation_guid)
+    return render_template("sweepstakes/confirm.html", form=confirm_form)

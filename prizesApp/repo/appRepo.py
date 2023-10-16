@@ -21,8 +21,8 @@ def create_sweepstake(sweepstake_form: SweepstakesForm, safe_image_name: str) ->
         details = sweepstake_form.details.data,
     ).execute()
 
-def create_winner_confirmation(sweepstake: Sweepstake, participant: Participant, guid: str) -> bool:
-    return WinnerConfirmation.insert(
+def create_winner(sweepstake: Sweepstake, participant: Participant, guid: str) -> bool:
+    return Winner.insert(
         participant = participant,
         sweepstake = sweepstake,
         selection_date = datetime.now(),
@@ -60,22 +60,22 @@ def update_sweepstake(form: SweepstakesEditForm, model: Sweepstake):
     return result
 
 def retrieve_sweepstake(id: int) -> Sweepstake:
-    try:
-        return Sweepstake.get(Sweepstake.id == id)
-    except DoesNotExist:
-        return None
-    
+    return Sweepstake.get_or_none(Sweepstake.id == id)
+
 def retrieve_sweepstake_with_winners(id: int) -> Sweepstake:
     try:
-        return Sweepstake.select().join(WinnerConfirmation).where(Sweepstake.id == id).get()
+        return Sweepstake.select().join(Winner).where(Sweepstake.id == id).get()
     except DoesNotExist:
         return None
 
-def retrieve_winner_confirmations(sweepstake_id: int) -> []:
-    if sweepstake_id is None:
-        return WinnerConfirmation.select().join(Sweepstake).join(Participant).group_by(WinnerConfirmation.id)
-    else:
-        return WinnerConfirmation.select().join(Sweepstake).where(Sweepstake.id == sweepstake_id)
+def retrieve_all_winners() -> []:
+    return Winner.select().join(Sweepstake).join(Participant).group_by(Winner.id)
+        
+def retrieve_winners(sweepstake_id: int) -> Winner:
+    return Winner.select().join(Sweepstake).where(Sweepstake.id == sweepstake_id)
+
+def retrieve_winner(confirm_guid: str) -> Winner:
+    return Winner.get_or_none(Winner.confirmation_guid == confirm_guid)
     
 def retrieve_sweepstakes() -> []:
     return Sweepstake.select().execute()
@@ -89,6 +89,9 @@ def retrieve_recent_sweepstakes() -> []:
 
 def retrieve_participants(sweepstake: Sweepstake):
     return Participant.select().where(Participant.sweepstake == sweepstake)
+
+def retrieve_participant(participant_id: int) -> Participant:
+    return Participant.get_or_none(Participant.id == participant_id)
 
 def retrieve_participant_count(sweepstake: Sweepstake) -> int:
     return Participant.select().join(Sweepstake).where(Sweepstake.id == sweepstake.id).count()

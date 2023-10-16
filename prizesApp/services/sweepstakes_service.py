@@ -60,3 +60,19 @@ def get_sweepstakes() -> {}:
             sorted_sweepstakes["current"].append(sweepstake)
 
     return sorted_sweepstakes
+
+def validate_confirmation(participant_id: int, sweepstakes_id: int, confirm_guid: str) -> []:
+    errors = []
+    participant = appRepo.retrieve_participant(participant_id)
+    sweepstake = appRepo.retrieve_sweepstake(sweepstakes_id)
+    winner = appRepo.retrieve_winner(confirm_guid)
+    found = True
+
+    if participant is None or sweepstake is None or winner is None:
+        found = False
+
+    if found:
+        if winner.participant.id != participant.id or winner.sweepstake.id != sweepstake.id:
+            errors.append("Invalid data.")
+            
+    return errors

@@ -27,3 +27,15 @@ class SweepstakesForm(FlaskForm):
 
 class SweepstakesEditForm(SweepstakesForm):
     id = IntegerField(None, validators=[DataRequired()])
+
+class ConfirmationForm(FlaskForm):
+    sweepstakes_id = HiddenField(validators=[DataRequired()])
+    participant_id = HiddenField(validators=[DataRequired()])
+    confirmation_guid = HiddenField(validators=[DataRequired()])
+    first_name = StringField("First Name", validators=[DataRequired()])
+    last_name = StringField("Last Name", validators=[DataRequired()])
+    address1 = StringField("Address", validators=[DataRequired()])
+    address2 = StringField("Address Line 2", validators=[DataRequired()])
+    city = StringField("City", validators=[DataRequired()])
+    state = StringField("State", validators=[DataRequired()])
+    zipcode = StringField("Zipcode", validators=[DataRequired()])

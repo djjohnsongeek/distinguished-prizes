@@ -84,5 +84,5 @@ def select_winner(id: int):
 @admin_blueprint.route("/admin/winners", methods=["GET"])
 @login_required
 def winners():
-    winners = appRepo.retrieve_winner_confirmations(sweepstake_id=None)
+    winners = appRepo.retrieve_all_winners()
     return render_template("admin/winners/index.html", winners=winners)
