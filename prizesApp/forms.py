@@ -29,9 +29,9 @@ class SweepstakesEditForm(SweepstakesForm):
     id = IntegerField(None, validators=[DataRequired()])
 
 class ConfirmationForm(FlaskForm):
-    sweepstakes_id = HiddenField(validators=[DataRequired()])
-    participant_id = HiddenField(validators=[DataRequired()])
-    confirmation_guid = HiddenField(validators=[DataRequired()])
+    sweepstakes_id = IntegerField(validators=[DataRequired()])
+    participant_id = IntegerField(validators=[DataRequired()])
+    confirmation_guid = StringField(validators=[DataRequired()])
     first_name = StringField("First Name", validators=[DataRequired()])
     last_name = StringField("Last Name", validators=[DataRequired()])
     address1 = StringField("Address", validators=[DataRequired()])

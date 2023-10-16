@@ -34,9 +34,6 @@ def select_winner(sweepstake_id: int) -> []:
     if datetime.now() <= sweepstake.end_date:
         errors.append("Sweepstakes has not yet ended.")
 
-    print(winners)
-    print(sweepstake.__dict__)
-
     # check for previously selected winners
     for winner in winners:
         if winner.confirmed == True:
@@ -51,6 +48,10 @@ def select_winner(sweepstake_id: int) -> []:
         winner = appRepo.retrieve_random_participant(sweepstake)
         confirm_guid = str(uuid.uuid4())
         success = appRepo.create_winner(sweepstake, winner, confirm_guid)
+
+        print(sweepstake.__dict__)
+        print(winner.__dict__)
+
         print(f"localhost:5000/sweepstakes/confirmation/{sweepstake.id}/{winner.id}/{confirm_guid}")
 
     # TODO

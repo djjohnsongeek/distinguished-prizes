@@ -1,0 +1,60 @@
+{% extends "layouts/base.html" %}
+
+{% block header %}
+Congradulations!
+{% endblock %}
+{% block subheader %}
+All fields are required
+{% endblock %}
+
+{% block content %}
+<form method="POST" action="{{url_for('sweepstakes.register_post')}}">
+  {{ form.csrf_token }}
+  {{ form.sweepstakes_id(hidden=True) }}
+  {{ form.participant_id(hidden=True) }}
+  {{ form.confirmation_guid(hidden=True) }}
+  <div class="field">
+    <label class="label">{{ form.first_name.label }}</label>
+    <div class="control">
+      {{ form.first_name(class="input") }}
+    </div>
+  </div>
+  <div class="field">
+    <label class="label">{{ form.last_name.label }}</label>
+    <div class="control">
+      {{ form.last_name(class="input") }}
+    </div>
+  </div>
+  <div class="field">
+    <label class="label">{{ form.address1.label }}</label>
+    <div class="control">
+      {{ form.address1(class="input") }}
+    </div>
+  </div>
+  <div class="field">
+    <label class="label">{{ form.address2.label }}</label>
+    <div class="control">
+      {{ form.address2(class="input") }}
+    </div>
+  </div>
+  <div class="field">
+    <label class="label">{{ form.city.label }}</label>
+    <div class="control">
+      {{ form.city(class="input") }}
+    </div>
+  </div>
+  <div class="field">
+    <label class="label">{{ form.state.label }}</label>
+    <div class="control">
+      {{ form.state(class="input") }}
+    </div>
+  </div>
+  <div class="field">
+    <label class="label">{{ form.zipcode.label }}</label>
+    <div class="control">
+      {{ form.zipcode(class="input") }}
+    </div>
+  </div>
+  <button type="submit" class="button is-primary">Confirm</button>
+</form>
+{% endblock %}

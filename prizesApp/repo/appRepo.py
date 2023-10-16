@@ -75,7 +75,7 @@ def retrieve_winners(sweepstake_id: int) -> Winner:
     return Winner.select().join(Sweepstake).where(Sweepstake.id == sweepstake_id)
 
 def retrieve_winner(confirm_guid: str) -> Winner:
-    return Winner.get_or_none(Winner.confirmation_guid == confirm_guid)
+    return Winner.select().join(Participant).join(Sweepstake).where(Winner.confirmation_guid == confirm_guid).first()
     
 def retrieve_sweepstakes() -> []:
     return Sweepstake.select().execute()
@@ -91,7 +91,7 @@ def retrieve_participants(sweepstake: Sweepstake):
     return Participant.select().where(Participant.sweepstake == sweepstake)
 
 def retrieve_participant(participant_id: int) -> Participant:
-    return Participant.get_or_none(Participant.id == participant_id)
+    return Participant.select().join(Sweepstake).where(Participant.id == participant_id).first()
 
 def retrieve_participant_count(sweepstake: Sweepstake) -> int:
     return Participant.select().join(Sweepstake).where(Sweepstake.id == sweepstake.id).count()

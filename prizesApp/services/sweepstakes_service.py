@@ -70,9 +70,9 @@ def validate_confirmation(participant_id: int, sweepstakes_id: int, confirm_guid
 
     if participant is None or sweepstake is None or winner is None:
         found = False
+        errors.append("Not Found.")
 
-    if found:
-        if winner.participant.id != participant.id or winner.sweepstake.id != sweepstake.id:
-            errors.append("Invalid data.")
+    if found == True and (winner.participant.id != participant.id or winner.sweepstake.id != sweepstake.id):
+        errors.append("Invalid data.")
             
     return errors
