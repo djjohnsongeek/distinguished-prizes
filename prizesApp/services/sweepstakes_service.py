@@ -1,6 +1,6 @@
 from flask import session
 from prizesApp.repo import appRepo
-from prizesApp.forms import RegisterForm
+from prizesApp.forms import RegisterForm, ConfirmationForm
 from prizesApp.models.database import Sweepstake
 from datetime import datetime
 
@@ -74,5 +74,21 @@ def validate_confirmation(participant_id: int, sweepstakes_id: int, confirm_guid
 
     if found == True and (winner.participant.id != participant.id or winner.sweepstake.id != sweepstake.id):
         errors.append("Invalid data.")
+
+    if winner.confirmed:
+        errors.append("This prize has already been claimed.")
             
+    return errors
+
+def complete_confirmation(form: ConfirmationForm) -> []:
+    if form.validate():
+        errors = validate_confirmation(form.sweepstakes_id.data, form.participant_id.data, form.confirmation_guid.data)
+    else:
+        errors.append("Form filled out incorrectly.")
+
+    if len(errors) == 0:
+        winner = appRepo.retrieve_winner(form.confirmation_guid.data)
+        if not appRepo.update_winner(form, winner):
+            errors.append("An unexpected error occured. Please try again.")
+
     return errors

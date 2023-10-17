@@ -1,22 +1,18 @@
-THOUGHT:
-should the admin app be completely seperate from the public page?
-
-4. allow sign ups (add recaptia)
+4. Signups (add recaptia)
     - ipquality score to verify email addresses
         - ENV config to only check this in production env
 5. finish winner selection logic
-    - email winner with id and guid
-    - link opens form to fill in address information
-    - email site owner with address information
-    - setup "queue" on site
-4. use card rows instead of table
-5. tracking info, auto email update?
-6. update file name when selecting files (for edit and create)
-7. auto form errors on register forms (same as sweepstakes create/edit form)
+    - email winner with url to confirmation form
+    - email the site owner with address information
+    - setup qinner "queue" on site
+    - use card rows for winner queue
+        - when upading fullfillment, email winner with tracking info
+
+6. update file name on frontend when selecting files (for edit and create)
+7. auto form errors on register forms and confirm forms (same as sweepstakes create/edit form)
 5. implement lockout feature for failed logins
-6. show past prizes (with the winners)
-7. update number of current participants
-6. store an email list for new giveaways?
+6. show winners of past prizes
+6. store an email list to notify users of new giveaways?
 7. design and content (faq, ect ...)
 
 

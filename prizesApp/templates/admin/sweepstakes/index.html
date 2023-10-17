@@ -28,7 +28,7 @@
                 <td>{{sweepstake.start_date}}</td>
                 <td>{{sweepstake.end_date}}</td>
                 <td>{{sweepstake.max_participants}}</td>
-                <td>{{sweepstake.participant_count}}</td>
+                <td>{{sweepstake.participants|length}}</td>
                 <td>
                     <a class="button is-primary" href="{{url_for('admin.edit_sweepstakes', id=sweepstake.id)}}">
                         Edit

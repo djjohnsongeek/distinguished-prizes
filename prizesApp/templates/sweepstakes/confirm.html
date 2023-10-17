@@ -8,7 +8,7 @@ All fields are required
 {% endblock %}
 
 {% block content %}
-<form method="POST" action="{{url_for('sweepstakes.register_post')}}">
+<form method="POST" action="{{url_for('sweepstakes.confirm_post')}}">
   {{ form.csrf_token }}
   {{ form.sweepstakes_id(hidden=True) }}
   {{ form.participant_id(hidden=True) }}
@@ -55,6 +55,9 @@ All fields are required
       {{ form.zipcode(class="input") }}
     </div>
   </div>
-  <button type="submit" class="button is-primary">Confirm</button>
+  <button type="submit" class="button is-primary">
+    <i class="fa-solid fa-gift"></i>
+    <span class="ml-1">Claim Prize</span>
+  </button>
 </form>
 {% endblock %}
