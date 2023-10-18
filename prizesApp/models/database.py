@@ -61,6 +61,9 @@ class Winner(BaseModel):
     state = CharField(max_length=16, null=True)
     zipcode = CharField(max_length=5, null=True)
 
+    def selection_status(self) -> str:
+        return f"Selected on {self.selection_date}"
+
     def confirmed_status(self) -> str:
         status_str = ""
         if self.confirmed is None:

@@ -81,8 +81,8 @@ def init_db():
     # Add test sweepstakes
     Sweepstake.insert_many([
         {
-            "name": "Test Current",
-            "description": " Test Current Description",
+            "name": "Nintendo Switch",
+            "description": "Switch to the incredible experience of gaming on the go!",
             "start_date": start,
             "end_date": end,
             "max_participants": 32,
@@ -90,8 +90,8 @@ def init_db():
             "image": "ccf84ed0-0658-4a4d-9b16-d2339d5ec152.jpg",
         },
         {
-            "name": "Test Past",
-            "description": " Test Past Description",
+            "name": "Xbox Series X",
+            "description": "Xbox has Xtreem perfomance!",
             "start_date": start_past,
             "end_date": end_past,
             "max_participants": 32,
@@ -99,8 +99,8 @@ def init_db():
             "image": "d05b21b8-72c2-4e6a-b131-36443813ade7.png",
         },
         {
-            "name": "Test Future",
-            "description": " Test Future Description",
+            "name": "Playstation 5",
+            "description": "Play all day on this incredible gaming station!",
             "start_date": start_future,
             "end_date": end_future,
             "max_participants": 32,
@@ -112,31 +112,31 @@ def init_db():
     # Add participans
     Participant.insert_many([
         {
-            "name": "daniel",
+            "name": "thedjgeek",
             "email": "daniel@gmail.com",
             "sweepstake": Sweepstake.get_by_id(2),
             "entry_time": datetime.now()
         },
         {
-            "name": "jack",
+            "name": "jacktheripper",
             "email": "jack@gmail.com",
             "sweepstake": Sweepstake.get_by_id(2),
             "entry_time": datetime.now()
         },
         {
-            "name": "jill",
+            "name": "jillnotonthehill",
             "email": "jill@gmail.com",
             "sweepstake": Sweepstake.get_by_id(2),
             "entry_time": datetime.now()
         },
         {
-            "name": "jane",
+            "name": "janeisnotadoe",
             "email": "jane@gmail.com",
             "sweepstake": Sweepstake.get_by_id(2),
             "entry_time": datetime.now()
         },
         {
-            "name": "john",
+            "name": "johnsmithevername",
             "email": "john@gmail.com",
             "sweepstake": Sweepstake.get_by_id(2),
             "entry_time": datetime.now()

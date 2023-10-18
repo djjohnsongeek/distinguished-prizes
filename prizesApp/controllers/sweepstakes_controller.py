@@ -63,4 +63,4 @@ def confirm_post():
     errors = sweepstakes_service.complete_confirmation(form)
 
     flash_collection(errors, "danger")
-    return redirect("index.home")
+    return redirect(url_for("index.home"))

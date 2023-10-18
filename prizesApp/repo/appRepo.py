@@ -114,7 +114,7 @@ def update_sweepstake(form: SweepstakesEditForm, model: Sweepstake):
 
 def update_winner(form: ConfirmationForm, winner: Winner):
     result = True
-
+    
     winner.firstname = form.first_name.data
     winner.lastname = form.last_name.data
     winner.address1 = form.address1.data

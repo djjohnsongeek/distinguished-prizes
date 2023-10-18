@@ -1,4 +1,4 @@
-{% extends "layouts/base.html" %}
+{% extends "layouts/admin_base.html" %}
 
 {% block header %}
 Winners
@@ -20,8 +20,19 @@ Winners
             <span class="panel-icon">
                 <i class="fa-solid fa-calendar-days"></i>
             </span>
-            <span class="has-text-weight-bold mr-1">Selection Date:</span>
-            <span>{{winner.selection_date}}</span>
+            <span>{{winner.selection_status()}}</span>
+        </div>
+        <div class="panel-block">
+            <span class="panel-icon">
+                <i class="fa-solid fa-user"></i>
+            </span>
+            {{winner.participant.name}}
+        </div>
+        <div class="panel-block">
+            <span class="panel-icon">
+                <i class="fa-solid fa-envelope"></i>
+            </span>
+            {{winner.participant.email}}
         </div>
         <div class="panel-block">
             <span class="panel-icon">
@@ -68,11 +79,11 @@ Winners
         {% endif %}
     </div>
     <div id="winner-address-container" class="hidden toggle-container">
-        <div class="panel-block is-active">
+        <div class="panel-block">
             <span class="panel-icon">
-                <i class="fa-solid fa-user"></i>
+                <i class="fa-solid fa-address-card"></i>
             </span>
-            {{winner.first_name}} {{winner.last_name}}
+            {{winner.firstname}} {{winner.lastname}}
         </div>
         <div class="panel-block">
             <span class="panel-icon">
@@ -88,12 +99,16 @@ Winners
         </div>
         <div class="panel-block">
             <span class="panel-icon">
-                <i class="fa-solid fa-city"></i>
+                <i class="fa-solid fa-location-dot"></i>
             </span>
             {{winner.city}}, {{winner.state}} {{winner.zipcode}}
         </div>
     </div>
 </nav>
 {% endfor %}
+
+{% if winners|length == 0 %}
+    <p>No Winners Found</p>
+{% endif %}
 
 {% endblock %}
