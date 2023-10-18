@@ -4,7 +4,7 @@
 5. finish winner selection logic
     - email winner with url to confirmation form
     - email the site owner with address information
-    - setup qinner "queue" on site
+    - setup winner "queue" on site
     - use card rows for winner queue
         - when upading fullfillment, email winner with tracking info
 
