@@ -35,7 +35,7 @@ class ConfirmationForm(FlaskForm):
     first_name = StringField("First Name", validators=[DataRequired()])
     last_name = StringField("Last Name", validators=[DataRequired()])
     address1 = StringField("Address", validators=[DataRequired()])
-    address2 = StringField("Appartment or Suite #", validators=[DataRequired()])
+    address2 = StringField("Appartment or Suite #")
     city = StringField("City", validators=[DataRequired()])
     state = StringField("State", validators=[DataRequired()])
     zipcode = StringField("Zipcode", validators=[DataRequired()])

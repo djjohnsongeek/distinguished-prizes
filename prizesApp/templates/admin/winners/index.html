@@ -5,110 +5,153 @@ Winners
 {% endblock %}
 
 {% block content %}
+<div class="block">
+    <form method="GET">
+        <div class="field has-addons">
+            <div class="control">
+                <a class="button is-static">
+                  Confirmed
+                </a>
+            </div>
+            <div class="control">
+                <div class="select">
+                    <select name="confirmed">
+                        <option value="">Any</option>
+                        <option value="true">Yes</option>
+                        <option value="false">No</option>
+                    </select>
+                </div>
+            </div>
+            <div class="control">
+                <a class="button is-static">
+                  Fullfilled
+                </a>
+            </div>
+            <div class="control">
+                <div class="select">
+                    <select name="fullfilled">
+                        <option value="">Any</option>
+                        <option value="true">Yes</option>
+                        <option value="false">No</option>
+                    </select>
+                </div>
+            </div>
+            <div class="control">
+                <button class="button is-link" type="submit">Apply</button>
+            </div>
+        </div>
+    </form>
+</div>
 
 {% for winner in winners %}
-<nav class="panel">
-    <p class="panel-heading">
-        Winner for {{winner.sweepstake.name}}: {{winner.participant.name}}
-    </p>
-    <p class="panel-tabs">
-        <a class="toggle" data-target="winner-status-container">Status</a>
-        <a class="toggle" data-target="winner-address-container">Address Info</a>
-    </p>
-    <div id="winner-status-container" class="shown toggle-container">
-        <div class="panel-block">
-            <span class="panel-icon">
-                <i class="fa-solid fa-calendar-days"></i>
-            </span>
-            <span>{{winner.selection_status()}}</span>
-        </div>
-        <div class="panel-block">
-            <span class="panel-icon">
-                <i class="fa-solid fa-user"></i>
-            </span>
-            {{winner.participant.name}}
-        </div>
-        <div class="panel-block">
-            <span class="panel-icon">
-                <i class="fa-solid fa-envelope"></i>
-            </span>
-            {{winner.participant.email}}
-        </div>
-        <div class="panel-block">
-            <span class="panel-icon">
-                <i class="fa-solid fa-flag"></i>
-            </span>
-            <span>{{winner.confirmed_status()}}</span>
-        </div>
-        <div class="panel-block">
-            <span class="panel-icon">
-                <i class="fa-solid fa-flag"></i>
-            </span>
-            <span>{{winner.fullfilled_status()}}</span>
-        </div>
-        {% if winner.confirmed %}
-        <div class="panel-block">
-            <div class="control has-icons-left">
-                <input class="input" type="text" placeholder="Tracking Number">
-                <span class="icon is-left">
-                    <i class="fa-solid fa-box"></i>
+<div class="block">
+    <nav class="panel">
+        <p class="panel-heading">
+            Winner for {{winner.sweepstake.name}}: {{winner.participant.name}}
+        </p>
+        <p class="panel-tabs">
+            <a class="toggle" data-target="winner-status-container">Status</a>
+            <a class="toggle" data-target="winner-address-container">Address Info</a>
+        </p>
+        <div id="winner-status-container" class="shown toggle-container">
+            <div class="panel-block">
+                <span class="panel-icon">
+                    <i class="fa-solid fa-calendar-days"></i>
                 </span>
+                <span>{{winner.selection_status()}}</span>
+            </div>
+            <div class="panel-block">
+                <span class="panel-icon">
+                    <i class="fa-solid fa-user"></i>
+                </span>
+                {{winner.participant.name}}
+            </div>
+            <div class="panel-block">
+                <span class="panel-icon">
+                    <i class="fa-solid fa-envelope"></i>
+                </span>
+                {{winner.participant.email}}
+            </div>
+            <div class="panel-block">
+                <span class="panel-icon">
+                    <i class="fa-solid fa-flag"></i>
+                </span>
+                <span>{{winner.confirmed_status()}}</span>
+            </div>
+            <div class="panel-block">
+                <span class="panel-icon">
+                    <i class="fa-solid fa-flag"></i>
+                </span>
+                <span>{{winner.fullfilled_status()}}</span>
+            </div>
+            {% if winner.confirmed %}
+            <div class="panel-block">
+                <div class="control has-icons-left">
+                    <input class="input" type="text" placeholder="Tracking Number">
+                    <span class="icon is-left">
+                        <i class="fa-solid fa-box"></i>
+                    </span>
+                </div>
+            </div>
+            <div class="panel-block">
+                <div class="control">
+                    <label class="radio">
+                        <input type="radio" name="carrier" value="USPS">
+                        <i class="fa-brands fa-usps fa-xl"></i>
+                    </label>
+                    <label class="radio">
+                        <input type="radio" name="carrier" value="UPS">
+                        <i class="fa-brands fa-ups fa-xl"></i>
+                    </label>
+                    <label class="radio">
+                        <input type="radio" name="carrier" value="FEDEX">
+                        <i class="fa-brands fa-fedex fa-xl"></i>
+                    </label>
+                </div>
+            </div>
+            <div class="panel-block">
+                <button class="button is-link is-outlined is-fullwidth">
+                    Mark Fullfilled
+                </button>
+            </div>
+            {% endif %}
+        </div>
+        <div id="winner-address-container" class="hidden toggle-container">
+            <div class="panel-block">
+                <span class="panel-icon">
+                    <i class="fa-solid fa-address-card"></i>
+                </span>
+                {{winner.firstname}} {{winner.lastname}}
+            </div>
+            <div class="panel-block">
+                <span class="panel-icon">
+                    <i class="fa-solid fa-road"></i>
+                </span>
+                {{winner.address1}}
+            </div>
+            <div class="panel-block">
+                <span class="panel-icon">
+                    <i class="fa-solid fa-building"></i>
+                </span>
+                {{winner.address2}}
+            </div>
+            <div class="panel-block">
+                <span class="panel-icon">
+                    <i class="fa-solid fa-location-dot"></i>
+                </span>
+                {{winner.city}}, {{winner.state}} {{winner.zipcode}}
             </div>
         </div>
-        <div class="panel-block">
-            <div class="control">
-                <label class="radio">
-                    <input type="radio" name="carrier" value="USPS">
-                    <i class="fa-brands fa-usps fa-xl"></i>
-                </label>
-                <label class="radio">
-                    <input type="radio" name="carrier" value="UPS">
-                    <i class="fa-brands fa-ups fa-xl"></i>
-                </label>
-                <label class="radio">
-                    <input type="radio" name="carrier" value="FEDEX">
-                    <i class="fa-brands fa-fedex fa-xl"></i>
-                </label>
-            </div>
-        </div>
-        <div class="panel-block">
-            <button class="button is-link is-outlined is-fullwidth">
-                Mark Fullfilled
-            </button>
-        </div>
-        {% endif %}
-    </div>
-    <div id="winner-address-container" class="hidden toggle-container">
-        <div class="panel-block">
-            <span class="panel-icon">
-                <i class="fa-solid fa-address-card"></i>
-            </span>
-            {{winner.firstname}} {{winner.lastname}}
-        </div>
-        <div class="panel-block">
-            <span class="panel-icon">
-                <i class="fa-solid fa-road"></i>
-            </span>
-            {{winner.address1}}
-        </div>
-        <div class="panel-block">
-            <span class="panel-icon">
-                <i class="fa-solid fa-building"></i>
-            </span>
-            {{winner.address2}}
-        </div>
-        <div class="panel-block">
-            <span class="panel-icon">
-                <i class="fa-solid fa-location-dot"></i>
-            </span>
-            {{winner.city}}, {{winner.state}} {{winner.zipcode}}
-        </div>
-    </div>
-</nav>
+    </nav>
+</div>
+
 {% endfor %}
 
 {% if winners|length == 0 %}
+<div class="block">
     <p>No Winners Found</p>
+</div>
+
 {% endif %}
 
 {% endblock %}

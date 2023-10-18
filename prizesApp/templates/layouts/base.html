@@ -4,8 +4,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
-  <link rel="stylesheet" href="/static/css/styles.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css" type="text/css">
+  <link rel="stylesheet" href="/static/css/styles.css" type="text/css">
   <title>{% block title %}{% endblock %} Distinguished Prizes</title>
   <!-- <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='./imgs/favicon.ico') }}"> -->
   <script src="https://kit.fontawesome.com/702ae185c3.js" crossorigin="anonymous"></script>
@@ -20,7 +20,7 @@
           <span aria-hidden="true"></span>
         </a>
       </div>
-      <div id="navbarBasicExample" class="navbar-menu">
+      <div class="navbar-menu is-centered">
         <div class="navbar-start">
           <a class="navbar-item" href="{{ url_for('index.home') }}">
             Home
@@ -50,7 +50,7 @@
     </section>
   </main>
   <!-- FIX THIS! TODO -->
-  <script src="/static/js/base.js"></script>
-  <script src="/static/js/toggles.js"></script>
+  <script src="/static/js/base.js" type="text/js"></script>
+  <script src="/static/js/toggles.js" type="text/js"></script>
 </body>
 </html>

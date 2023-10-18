@@ -48,7 +48,7 @@ def register_post():
         sweepstakes_name=sweepstake.name
     ) 
 
-@sweepstakes_blueprint.route("/sweepstakes/confirmation/<int:participant_id>/<int:sweepstakes_id>/<confirmation_guid>", methods=["GET", "POST"])
+@sweepstakes_blueprint.route("/sweepstakes/confirmation/<int:participant_id>/<int:sweepstakes_id>/<uuid:confirmation_guid>", methods=["GET", "POST"])
 def confirm_get(sweepstakes_id: int, participant_id: int, confirmation_guid: str):
     errors = sweepstakes_service.validate_confirmation(sweepstakes_id, participant_id, confirmation_guid)
     if len(errors) > 0:
@@ -63,4 +63,7 @@ def confirm_post():
     errors = sweepstakes_service.complete_confirmation(form)
 
     flash_collection(errors, "danger")
+    if len(errors) == 0:
+        flash("Your claim has been confirmed!", "success")
+
     return redirect(url_for("index.home"))

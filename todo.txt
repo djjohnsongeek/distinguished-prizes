@@ -4,13 +4,13 @@
 5. finish winner selection logic
     - email winner with url to confirmation form
     - email the site owner with address information
-    - setup winner "queue" on site
     - use card rows for winner queue
         - when upading fullfillment, email winner with tracking info
 
-5. no message when user confirms their info
+
 6. update file name on frontend when selecting files (for edit and create)
 7. auto form errors on register forms and confirm forms (same as sweepstakes create/edit form)
+secondary address should not be required
 5. implement lockout feature for failed logins
 6. show winners of past prizes
 6. store an email list to notify users of new giveaways?

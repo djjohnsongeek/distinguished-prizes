@@ -19,8 +19,20 @@ def retrieve_sweepstake_with_winners(id: int) -> Sweepstake:
     except DoesNotExist:
         return None
 
-def retrieve_all_winners() -> []:
-    return Winner.select().join(Sweepstake).join(Participant).group_by(Winner.id)
+def retrieve_all_winners(fullfilled: bool=None, confirmed: bool=None) -> []:
+    query = Winner.select().join(Sweepstake).join(Participant)
+    print(f"fullfilled: {fullfilled}")
+    print(f"confirmed: {confirmed}")
+    if fullfilled is not None and confirmed is not None:
+        query = query.where((Winner.fullfilled == fullfilled) & (Winner.confirmed == confirmed))
+
+    elif fullfilled is not None:
+        query = query.where(Winner.fullfilled == fullfilled)
+
+    elif confirmed is not None:
+        query = query.where(Winner.confirmed == confirmed)
+
+    return query.group_by(Winner.id)    
         
 def retrieve_winners(sweepstake_id: int) -> Winner:
     return Winner.select().join(Sweepstake).where(Sweepstake.id == sweepstake_id)

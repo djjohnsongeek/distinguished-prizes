@@ -67,7 +67,7 @@ class Winner(BaseModel):
     def confirmed_status(self) -> str:
         status_str = ""
         if self.confirmed is None:
-            status_str = "Pending"
+            status_str = "Confirmation Pending"
 
         if self.confirmed == True:
             status_str = f"Confirmed on {self.confirmation_date}"

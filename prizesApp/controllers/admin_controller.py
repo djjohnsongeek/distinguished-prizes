@@ -3,7 +3,7 @@ from prizesApp.auth import login_required
 from prizesApp.forms import SweepstakesForm, SweepstakesEditForm
 from prizesApp.services import admin_service
 from prizesApp.repo import appRepo
-from prizesApp.util import flash_collection
+from prizesApp.util import flash_collection, parse_boolean_arg
 
 admin_blueprint = Blueprint("admin", __name__)
 
@@ -84,5 +84,7 @@ def select_winner(id: int):
 @admin_blueprint.route("/admin/winners", methods=["GET"])
 @login_required
 def winners():
-    winners = appRepo.retrieve_all_winners()
+    fullfilled = parse_boolean_arg(request, "fullfilled")
+    confirmed = parse_boolean_arg(request, "confirmed")
+    winners = appRepo.retrieve_all_winners(fullfilled, confirmed)
     return render_template("admin/winners/index.html", winners=winners)

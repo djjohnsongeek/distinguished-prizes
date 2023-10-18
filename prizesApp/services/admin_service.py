@@ -47,10 +47,11 @@ def select_winner(sweepstake_id: int) -> []:
     if len(errors) == 0:
         winner = appRepo.retrieve_random_participant(sweepstake)
         confirm_guid = str(uuid.uuid4())
+
         success = appRepo.create_winner(sweepstake, winner, confirm_guid)
 
-        print(sweepstake.__dict__)
-        print(winner.__dict__)
+        if not success:
+            errors.append("Failed to select winner.")
 
         print(f"localhost:5000/sweepstakes/confirmation/{sweepstake.id}/{winner.id}/{confirm_guid}")
 
