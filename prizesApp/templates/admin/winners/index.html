@@ -1,30 +1,68 @@
-{% extends "layouts/admin_base.html" %}
+{% extends "layouts/base.html" %}
 
 {% block header %}
-    Winners
+Winners
 {% endblock %}
 
 {% block content %}
-    <table class="table is-fullwidth">
-        <thead>
-            <tr>
-                <th>Winner Username</th>
-                <th>Winner Email</th>
-                <th>Sweepstake Name</th>
-                <th>Selection Date</th>
-                <th>Status</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for winner in winners %}
-            <tr>
-                <td>{{winner.participant.name}}</td>
-                <td>{{winner.participant.email}}</td>
-                <td>{{winner.sweepstake.name}}</td>
-                <td>{{winner.selection_date}}</td>
-                <td>{{winner.confirmed_status()}}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+
+{% for winner in winners %}
+<nav class="panel">
+    <p class="panel-heading">
+        Winner for {{winner.sweepstake.name}}: {{winner.participant.name}}
+    </p>
+    <p class="panel-tabs">
+        <a class="toggle" data-target="winner-status-container">Status</a>
+        <a class="toggle" data-target="winner-address-container">Address Info</a>
+    </p>
+    <div id="winner-status-container" class="hidden toggle-container">
+        <div class="panel-block">
+            <span class="panel-icon">
+                <i class="fa-solid fa-calendar-days"></i>
+            </span>
+            Selection Date: {{winner.selection_date}}
+        </div>
+        <div class="panel-block">
+            <span class="panel-block">
+                <i class="fa-solid fa-flag"></i>
+            </span>
+            {{winner.confirmed_status()}}
+        </div>
+        {% if winner.confirmed %}
+        <div class="panel-block">
+            <button class="button is-link is-outlined is-fullwidth">
+                Mark Fullfilled
+            </button>
+        </div>
+        {% endif %}
+    </div>
+    <div id="winner-address-container" class="shown toggle-container">
+        <div class="panel-block is-active">
+            <span class="panel-icon">
+                <i class="fa-solid fa-user"></i>
+            </span>
+            {{winner.first_name}} {{winner.last_name}}
+        </div>
+        <div class="panel-block">
+            <span class="panel-icon">
+                <i class="fa-solid fa-road"></i>
+            </span>
+            {{winner.address1}}
+        </div>
+        <div class="panel-block">
+            <span class="panel-icon">
+                <i class="fa-solid fa-building"></i>
+            </span>
+            {{winner.address2}}
+        </div>
+        <div class="panel-block">
+            <span class="panel-icon">
+                <i class="fa-solid fa-city"></i>
+            </span>
+            {{winner.city}}, {{winner.state}} {{winner.zipcode}}
+        </div>
+    </div>
+</nav>
+{% endfor %}
+
 {% endblock %}
