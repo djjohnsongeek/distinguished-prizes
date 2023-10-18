@@ -15,20 +15,51 @@ Winners
         <a class="toggle" data-target="winner-status-container">Status</a>
         <a class="toggle" data-target="winner-address-container">Address Info</a>
     </p>
-    <div id="winner-status-container" class="hidden toggle-container">
+    <div id="winner-status-container" class="shown toggle-container">
         <div class="panel-block">
             <span class="panel-icon">
                 <i class="fa-solid fa-calendar-days"></i>
             </span>
-            Selection Date: {{winner.selection_date}}
+            <span class="has-text-weight-bold mr-1">Selection Date:</span>
+            <span>{{winner.selection_date}}</span>
         </div>
         <div class="panel-block">
-            <span class="panel-block">
+            <span class="panel-icon">
                 <i class="fa-solid fa-flag"></i>
             </span>
-            {{winner.confirmed_status()}}
+            <span>{{winner.confirmed_status()}}</span>
+        </div>
+        <div class="panel-block">
+            <span class="panel-icon">
+                <i class="fa-solid fa-flag"></i>
+            </span>
+            <span>{{winner.fullfilled_status()}}</span>
         </div>
         {% if winner.confirmed %}
+        <div class="panel-block">
+            <div class="control has-icons-left">
+                <input class="input" type="text" placeholder="Tracking Number">
+                <span class="icon is-left">
+                    <i class="fa-solid fa-box"></i>
+                </span>
+            </div>
+        </div>
+        <div class="panel-block">
+            <div class="control">
+                <label class="radio">
+                    <input type="radio" name="carrier" value="USPS">
+                    <i class="fa-brands fa-usps fa-xl"></i>
+                </label>
+                <label class="radio">
+                    <input type="radio" name="carrier" value="UPS">
+                    <i class="fa-brands fa-ups fa-xl"></i>
+                </label>
+                <label class="radio">
+                    <input type="radio" name="carrier" value="FEDEX">
+                    <i class="fa-brands fa-fedex fa-xl"></i>
+                </label>
+            </div>
+        </div>
         <div class="panel-block">
             <button class="button is-link is-outlined is-fullwidth">
                 Mark Fullfilled
@@ -36,7 +67,7 @@ Winners
         </div>
         {% endif %}
     </div>
-    <div id="winner-address-container" class="shown toggle-container">
+    <div id="winner-address-container" class="hidden toggle-container">
         <div class="panel-block is-active">
             <span class="panel-icon">
                 <i class="fa-solid fa-user"></i>

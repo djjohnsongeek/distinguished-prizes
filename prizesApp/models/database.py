@@ -64,19 +64,21 @@ class Winner(BaseModel):
     def confirmed_status(self) -> str:
         status_str = ""
         if self.confirmed is None:
-            status_str = "Unconfirmed"
+            status_str = "Pending"
 
         if self.confirmed == True:
-            status_str = f"Confirmed: {self.confirmation_date}"
+            status_str = f"Confirmed on {self.confirmation_date}"
 
         if self.confirmed == False:
-            status_str = f"Expired"
+            status_str = f"Unconfirmed"
 
         return status_str
     
     def fullfilled_status(self) -> str:
         status_str = ""
         if self.fullfilled:
-            status_str = f"Fullfilled: {self.fullfilled_date}"
+            status_str = f"Fullfilled on {self.fullfilled_date}"
         else:
-            status_str = "No"
+            status_str = "Not Fullfilled"
+        
+        return status_str
