@@ -1,29 +1,31 @@
-4. Signups (add recaptia)
+1. Signups (add recaptia)
+    - add recaptia
     - ipquality score to verify email addresses
         - ENV config to only check this in production env
-5. finish winner selection logic
+    - add form error text (like sweepstakes edit/create form)
+
+2. Winner confirmation form
+    - add recaptia
+    - add form error text (like sweepstakes edit/create form)
+
+3. finish winner selection logic
     - email winner with url to confirmation form
     - email the site owner with address information
-    - use card rows for winner queue
-        - when upading fullfillment, email winner with tracking info
+    - email winner with tracking information
 
-
-6. update file name on frontend when selecting files (for edit and create)
-7. auto form errors on register forms and confirm forms (same as sweepstakes create/edit form)
-secondary address should not be required
-5. implement lockout feature for failed logins
-6. show winners of past prizes
-6. store an email list to notify users of new giveaways?
-7. design and content (faq, ect ...)
+4. Update file input on frontend when selecting files (for edit and create sweepstakes)
+5. Implement lockout feature for failed logins
+6. Show winners of past prizes: Only when confirmed
+7. Store an email list to notify users of new giveaways?
+8. Design and content (faq, ect ...)
 
 
 ## Prize Ideas
 Steam Deck
 ASUS ROG Ally
-GPU
-CPU
-Monitor
 Game Bundles
-PS5
+Sony PS5
 XBOX Series S, X
-Switch
+Nintendo Switch
+PC or Console peripheralsl
+PC Components
