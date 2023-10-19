@@ -6,7 +6,6 @@
 
 2. Winner confirmation form
     - add recaptia
-    - add form error text (like sweepstakes edit/create form)
 
 3. finish winner selection logic
     - email winner with url to confirmation form
