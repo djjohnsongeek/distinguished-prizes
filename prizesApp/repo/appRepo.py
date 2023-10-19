@@ -39,6 +39,9 @@ def retrieve_winners(sweepstake_id: int) -> Winner:
 
 def retrieve_winner(confirm_guid: str) -> Winner:
     return Winner.select().join(Participant).join(Sweepstake).where(Winner.confirmation_guid == confirm_guid).first()
+
+def retrieve_winner_by_id(id: int) -> Winner:
+    return Winner.get_or_none(Winner.id == id)
     
 def retrieve_sweepstakes() -> []:
     return Sweepstake.select().join(Participant, JOIN.LEFT_OUTER).group_by(Sweepstake.id).execute()
@@ -142,4 +145,19 @@ def update_winner(form: ConfirmationForm, winner: Winner):
     except:
         result = False
     
+    return result
+
+def update_winner_fullfillment(winner: Winner, data: {}) -> bool:
+    result = True
+
+    winner.fullfilled = True
+    winner.fullfilled_date = datetime.now()
+    winner.tracking_number = data["tracking_number"]
+    winner.carrier = data["carrier"]
+
+    try:
+        winner.save()
+    except:
+        result = False
+
     return result

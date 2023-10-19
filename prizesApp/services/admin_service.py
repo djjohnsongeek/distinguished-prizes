@@ -1,7 +1,7 @@
 import uuid
 from datetime import datetime
 from flask import Request
-from prizesApp.models.database import Sweepstake, Participant
+from prizesApp.models.database import Sweepstake, Participant, Winner
 from prizesApp.forms import SweepstakesEditForm, SweepstakesForm
 from prizesApp.repo import appRepo
 from prizesApp.services import file_service
@@ -62,27 +62,37 @@ def select_winner(sweepstake_id: int) -> []:
     return errors
 
 def mark_fullfilled(request: Request) -> []:
-    errors = []
+    data = parse_fullfill_request(request)
+    winner = appRepo.retrieve_winner_by_id(data["winner_id"])
+    errors = validate_fullfill_data(data, winner)
 
+    if len(errors) == 0:
+        success = appRepo.update_winner_fullfillment(winner, data)
+        if not success:
+            errors.append("Failed to update winner with fullfillment information.")
 
-def parse_fullfill_request(request) -> {}:
+    return errors
 
-    errors = []
-
+def parse_fullfill_request(request: Request) -> {}:
     tracking_number = request.form.get("tracking_number", None)
     try:
         winner_id = int(request.form.get("winner_id", None))
     except:
-        winner_id = None
+        winner_id = 0
     carrier = request.form.get("carrier", None)
 
-    if tracking_number is None or tracking_number.strip() == "":
-        errors.add("Invalid Tracking Number")
+    return { "carrier": carrier, "tracking_number": tracking_number, "winner_id": winner_id}
 
-    if winner_id is None or winner_id == 0:
-        errors.Add("Invalid Winner")
+def validate_fullfill_data(data: {}, winner: Winner) -> []:
+    errors = []
 
-    if carrier not in ["UPS", "USPS", "FEDEX"]:
-        errors.add("Invalid Carrier")
+    if data["tracking_number"] is None or data["tracking_number"].strip() == "":
+        errors.append("Invalid Tracking Number")
+
+    if data["winner_id"] == 0 or winner is None:
+        errors.append("Invalid Winner")
+
+    if data["carrier"] not in ["UPS", "USPS", "FEDEX"]:
+        errors.append("Invalid Carrier")
 
     return errors

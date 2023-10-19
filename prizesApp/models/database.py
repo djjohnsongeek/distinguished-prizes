@@ -53,6 +53,8 @@ class Winner(BaseModel):
     confirmed = BooleanField(null=True)
     fullfilled = BooleanField(null=False, default=False)
     fullfilled_date = DateTimeField(null=True)
+    tracking_number = CharField(max_length=32, null=True)
+    carrier = CharField(max_length=8, null=True)
     firstname = CharField(max_length=64, null=True)
     lastname = CharField(max_length=64, null=True)
     address1 = CharField(max_length=64, null=True)

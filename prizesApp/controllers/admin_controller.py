@@ -88,7 +88,7 @@ def winners():
     confirmed = parse_boolean_arg(request, "confirmed")
     winners = appRepo.retrieve_all_winners(fullfilled, confirmed)
 
-    return render_template("admin/winners/index.html", winners=winners)
+    return render_template("admin/winners/index.html", winners=winners, fullfilled_filter=fullfilled, confirmed_filter=confirmed)
 
 @admin_blueprint.route("/admin/winners", methods=["POST"])
 @login_required
