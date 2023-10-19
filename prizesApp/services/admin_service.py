@@ -70,6 +70,9 @@ def mark_fullfilled(request: Request) -> []:
         success = appRepo.update_winner_fullfillment(winner, data)
         if not success:
             errors.append("Failed to update winner with fullfillment information.")
+        else:
+            pass
+            # TODO email winner with  tracking information
 
     return errors
 
