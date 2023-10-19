@@ -5,6 +5,10 @@ Winners
 {% endblock %}
 
 {% block content %}
+
+
+
+
 <div class="block">
     <p class="title is-5">
         Filters
@@ -22,8 +26,16 @@ Winners
                 <div class="select">
                     <select name="confirmed">
                         <option value="">Any</option>
-                        <option value="true">Yes</option>
-                        <option value="false">No</option>
+                        {% if confirmed_filter is sameas true %}
+                            <option selected value="true">Yes</option>
+                        {% else %}
+                            <option value="true">Yes</option>
+                        {% endif %}
+                        {% if confirmed_filter is sameas false %}
+                            <option selected value="false">No</option>
+                        {% else %}
+                            <option value="false">No</option>
+                        {% endif %}
                     </select>
                 </div>
             </div>
@@ -36,8 +48,16 @@ Winners
                 <div class="select">
                     <select name="fullfilled">
                         <option value="">Any</option>
-                        <option value="true">Yes</option>
-                        <option value="false">No</option>
+                        {% if fullfilled_filter is sameas true %}
+                            <option selected value="true">Yes</option>
+                        {% else %}
+                            <option value="true">Yes</option>
+                        {% endif %}
+                        {% if fullfilled_filter is sameas false %}
+                            <option selected value="false">No</option>
+                        {% else %}
+                            <option value="false">No</option>
+                        {% endif %}
                     </select>
                 </div>
             </div>
@@ -123,6 +143,20 @@ Winners
                     </button>
                 </div>
             </form>
+            {% endif %}
+            {% if winner.fullfilled %}
+                <div class="panel-block">
+                    <span class="panel-icon">
+                        <i class="fa-solid fa-box"></i>
+                    </span>
+                    <span>{{winner.tracking_number}}</span>
+                </div>
+                <div class="panel-block">
+                    <span class="panel-icon">
+                        <i class="fa-solid fa-truck-fast"></i>
+                    </span>
+                    <span>{{winner.carrier}}</span>
+                </div>
             {% endif %}
         </div>
         <div id="winner-address-container" class="hidden toggle-container">
