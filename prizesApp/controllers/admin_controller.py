@@ -87,4 +87,16 @@ def winners():
     fullfilled = parse_boolean_arg(request, "fullfilled")
     confirmed = parse_boolean_arg(request, "confirmed")
     winners = appRepo.retrieve_all_winners(fullfilled, confirmed)
+
     return render_template("admin/winners/index.html", winners=winners)
+
+@admin_blueprint.route("/admin/winners", methods=["POST"])
+@login_required
+def winners_post():
+    errors = admin_service.mark_fullfilled(request)
+
+    flash_collection(errors, "danger")
+    if len(errors) == 0:
+        flash("Fullfilled!", "success")
+
+    return redirect(url_for("admin.winners"))

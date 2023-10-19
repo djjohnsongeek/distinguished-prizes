@@ -1,5 +1,6 @@
 import uuid
 from datetime import datetime
+from flask import Request
 from prizesApp.models.database import Sweepstake, Participant
 from prizesApp.forms import SweepstakesEditForm, SweepstakesForm
 from prizesApp.repo import appRepo
@@ -58,4 +59,30 @@ def select_winner(sweepstake_id: int) -> []:
     # TODO
     # send email to customer with confirmation link
    
+    return errors
+
+def mark_fullfilled(request: Request) -> []:
+    errors = []
+
+
+def parse_fullfill_request(request) -> {}:
+
+    errors = []
+
+    tracking_number = request.form.get("tracking_number", None)
+    try:
+        winner_id = int(request.form.get("winner_id", None))
+    except:
+        winner_id = None
+    carrier = request.form.get("carrier", None)
+
+    if tracking_number is None or tracking_number.strip() == "":
+        errors.add("Invalid Tracking Number")
+
+    if winner_id is None or winner_id == 0:
+        errors.Add("Invalid Winner")
+
+    if carrier not in ["UPS", "USPS", "FEDEX"]:
+        errors.add("Invalid Carrier")
+
     return errors

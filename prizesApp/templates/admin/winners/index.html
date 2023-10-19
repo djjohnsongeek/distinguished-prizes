@@ -55,7 +55,7 @@ Winners
             Winner for {{winner.sweepstake.name}}: {{winner.participant.name}}
         </p>
         <p class="panel-tabs">
-            <a class="toggle" data-target="winner-status-container">Status</a>
+            <a class="toggle is-active" data-target="winner-status-container">Status</a>
             <a class="toggle" data-target="winner-address-container">Address Info</a>
         </p>
         <div id="winner-status-container" class="shown toggle-container">
@@ -89,36 +89,40 @@ Winners
                 </span>
                 <span>{{winner.fullfilled_status()}}</span>
             </div>
-            {% if winner.confirmed %}
-            <div class="panel-block">
-                <div class="control has-icons-left">
-                    <input class="input" type="text" placeholder="Tracking Number">
-                    <span class="icon is-left">
-                        <i class="fa-solid fa-box"></i>
-                    </span>
+            {% if winner.confirmed and not winner.fullfilled %}
+            <form method="POST">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                <input type="hidden" name="winner_id" value="{{winner.id}}">
+                <div class="panel-block">
+                    <div class="control has-icons-left">
+                        <input class="input" type="text" placeholder="Tracking Number" name="tracking_number">
+                        <span class="icon is-left">
+                            <i class="fa-solid fa-box"></i>
+                        </span>
+                    </div>
                 </div>
-            </div>
-            <div class="panel-block">
-                <div class="control">
-                    <label class="radio">
-                        <input type="radio" name="carrier" value="USPS">
-                        <i class="fa-brands fa-usps fa-xl"></i>
-                    </label>
-                    <label class="radio">
-                        <input type="radio" name="carrier" value="UPS">
-                        <i class="fa-brands fa-ups fa-xl"></i>
-                    </label>
-                    <label class="radio">
-                        <input type="radio" name="carrier" value="FEDEX">
-                        <i class="fa-brands fa-fedex fa-xl"></i>
-                    </label>
+                <div class="panel-block">
+                    <div class="control">
+                        <label class="radio">
+                            <input type="radio" name="carrier" value="USPS">
+                            <i class="fa-brands fa-usps fa-xl"></i>
+                        </label>
+                        <label class="radio">
+                            <input type="radio" name="carrier" value="UPS">
+                            <i class="fa-brands fa-ups fa-xl"></i>
+                        </label>
+                        <label class="radio">
+                            <input type="radio" name="carrier" value="FEDEX">
+                            <i class="fa-brands fa-fedex fa-xl"></i>
+                        </label>
+                    </div>
                 </div>
-            </div>
-            <div class="panel-block">
-                <button class="button is-link is-outlined is-fullwidth">
-                    Mark Fullfilled
-                </button>
-            </div>
+                <div class="panel-block">
+                    <button class="button is-link is-outlined is-fullwidth" type="submit">
+                        Mark Fullfilled
+                    </button>
+                </div>
+            </form>
             {% endif %}
         </div>
         <div id="winner-address-container" class="hidden toggle-container">
