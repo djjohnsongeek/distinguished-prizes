@@ -81,6 +81,7 @@ def validate_confirmation(participant_id: int, sweepstakes_id: int, confirm_guid
     return errors
 
 def complete_confirmation(form: ConfirmationForm) -> []:
+    errors = []
     if form.validate():
         errors = validate_confirmation(form.sweepstakes_id.data, form.participant_id.data, form.confirmation_guid.data)
     else:

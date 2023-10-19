@@ -65,5 +65,6 @@ def confirm_post():
     flash_collection(errors, "danger")
     if len(errors) == 0:
         flash("Your claim has been confirmed!", "success")
-
-    return redirect(url_for("index.home"))
+        return redirect(url_for("index.home"))
+    else:
+        return render_template("sweepstakes/confirm.html", form=form)
