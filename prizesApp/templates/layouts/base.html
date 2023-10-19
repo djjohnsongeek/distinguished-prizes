@@ -11,46 +11,51 @@
   <script src="https://kit.fontawesome.com/702ae185c3.js" crossorigin="anonymous"></script>
 </head>
 <body>
-  <header>
-    <nav class="navbar" role="navigation" aria-label="main navigation">
-      <div class="navbar-brand">
-        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-        </a>
-      </div>
-      <div class="navbar-menu is-centered">
-        <div class="navbar-start">
-          <a class="navbar-item" href="{{ url_for('index.home') }}">
-            Home
-          </a>
-          <a class="navbar-item" href="{{ url_for('index.about') }}">
-            About
-          </a>
-          <a class="navbar-item" href="{{ url_for('index.news') }}">
-            News
-          </a>
-        </div>
-      </div>
-    </nav>
-  </header>
-  <main>
-    <section class="section">
-      <div class="container">
-        <h1 class="title">{% block header %}{% endblock %}</h1>
-        <h2 class="subtitle">{% block subheader %}{% endblock %}</h2>
-      </div>
-    </section>
-    {% include 'includes/_messages.html' %}
-    <section class="section">
-      <div class="container">
-        {% block content %}{% endblock %}
-      </div>
-    </section>
-  </main>
-  <!-- FIX THIS! TODO -->
-  <script src="/static/js/base.js" type="text/js"></script>
-  <script src="/static/js/toggles.js" type="text/js"></script>
+  <section class="container">
+    <div class="container">
+      <header>
+        <nav class="navbar" id="basic-navbar" role="navigation" aria-label="main navigation">
+          <div class="navbar-brand">
+            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="basic-navbar">
+              <span aria-hidden="true"></span>
+              <span aria-hidden="true"></span>
+              <span aria-hidden="true"></span>
+            </a>
+          </div>
+          <div class="navbar-menu is-centered">
+            <div class="navbar-start">
+              <a class="navbar-item" href="{{ url_for('index.home') }}">
+                Home
+              </a>
+              <a class="navbar-item" href="{{ url_for('index.about') }}">
+                About
+              </a>
+              <a class="navbar-item" href="{{ url_for('index.news') }}">
+                News
+              </a>
+            </div>
+          </div>
+        </nav>
+      </header>
+      <main>
+        <section class="section">
+          <div class="container">
+            <div class="block">
+              <h1 class="title">{% block header %}{% endblock %}</h1>
+              <h2 class="subtitle">{% block subheader %}{% endblock %}</h2>
+            </div>
+            <div class="block">
+              {% include 'includes/_messages.html' %}
+            </div>
+            <div class="block">
+              {% block content %}{% endblock %}
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </section>
+  <script src="/static/js/base.js" type="application/javascript"></script>
+  <script src="/static/js/toggles.js" type="application/javascript"></script>
 </body>
 </html>
