@@ -12,6 +12,13 @@
 <div class="block">
     <div class="content">
         <div class="block">
+            {% if winner %}
+            <div class="notification is-info">
+                Congratulations<span class="tag is-medium ml-1">{{winner.participant.name}}</span> you have won! You will be contacted shortly!
+            </div>
+            {% endif %}
+        </div>
+        <div class="block">
             {{ sweepstakes.description }}
         </div>
         <div class="block">
@@ -24,6 +31,9 @@
         <div class="block">
             {% if sweepstakes.has_ended() %}
                 <p class="has-text-weight-bold">This giveaway has ended.</p>
+                {% if not winner %}
+                    <p>A winner will be selected soon!</p>
+                {% endif %}
             {% endif %}
 
             {% if not sweepstakes.has_started() %}

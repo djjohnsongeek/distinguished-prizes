@@ -13,7 +13,6 @@
     - email the site owner with address information
     - email winner with tracking information
 
-4. Update file input on frontend when selecting files (for edit and create sweepstakes)
 5. Show winners of past prizes: Only when confirmed
 6. Store an email list to notify users of new giveaways?
 7. Design and content (faq, ect ...)

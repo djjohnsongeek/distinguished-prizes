@@ -52,7 +52,7 @@ class Participant(BaseModel):
 
 class Winner(BaseModel):
     participant = ForeignKeyField(Participant)
-    sweepstake = ForeignKeyField(Sweepstake, backref="winner_confirmations")
+    sweepstake = ForeignKeyField(Sweepstake, backref="winners")
     selection_date = DateTimeField(null=False)
     confirmation_guid = CharField(max_length=64)
     confirmation_date = DateTimeField(null=True)

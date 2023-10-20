@@ -40,6 +40,12 @@ def retrieve_all_winners(fullfilled: bool=None, confirmed: bool=None) -> []:
 def retrieve_winners(sweepstake_id: int) -> Winner:
     return Winner.select().join(Sweepstake).where(Sweepstake.id == sweepstake_id)
 
+def retrieve_confirmed_winner(sweepstake: Sweepstake) -> Winner:
+    if sweepstake is None:
+        return None
+    
+    return Winner.select().join(Sweepstake).join(Participant).where((Sweepstake.id == sweepstake.id) & (Winner.confirmed == True)).first()
+
 def retrieve_winner(confirm_guid: str) -> Winner:
     return Winner.select().join(Participant).join(Sweepstake).where(Winner.confirmation_guid == confirm_guid).first()
 

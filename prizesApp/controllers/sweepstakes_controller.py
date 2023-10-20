@@ -7,13 +7,15 @@ from prizesApp.util import flash_collection
 
 @sweepstakes_blueprint.route("/sweepstakes/<int:sweepstakes_id>", methods=["GET"])
 def info(sweepstakes_id: int):
-    sweepstakes = appRepo.retrieve_sweepstake(sweepstakes_id)
-    participant_count = appRepo.retrieve_participant_count(sweepstakes)
-    if sweepstakes is None:
+    sweepstake = appRepo.retrieve_sweepstake(sweepstakes_id)
+    participant_count = appRepo.retrieve_participant_count(sweepstake)
+    winner = appRepo.retrieve_confirmed_winner(sweepstake)
+
+    if sweepstake is None:
         flash("Sweepstakes not found :(", "danger")
         return redirect(url_for("index.home"))
 
-    return render_template("sweepstakes/info.html", sweepstakes=sweepstakes, participant_count=participant_count)
+    return render_template("sweepstakes/info.html", sweepstakes=sweepstake, participant_count=participant_count, winner=winner)
 
 @sweepstakes_blueprint.route("/sweepstakes/register/<int:sweepstakes_id>", methods=["GET"])
 def register_get(sweepstakes_id: int):
