@@ -13,7 +13,6 @@
     - email the site owner with address information
     - email winner with tracking information
 
-5. Show winners of past prizes: Only when confirmed
 6. Store an email list to notify users of new giveaways?
 7. Design and content (faq, ect ...)
 8. make flashed messages dismissable
