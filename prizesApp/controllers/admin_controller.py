@@ -50,7 +50,7 @@ def edit_sweepstakes(id: int):
                 start_date = sweepstake.start_date,
                 end_date = sweepstake.end_date,
                 max_participants = sweepstake.max_participants,
-                image = "Select to replace"
+                image = sweepstake.image
             )
         else:
             flash("Sweepstakes not found", "danger")

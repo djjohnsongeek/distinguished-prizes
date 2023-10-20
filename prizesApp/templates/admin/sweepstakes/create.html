@@ -12,13 +12,8 @@ Create Sweekstakes
     </form>
   </div>
 </div>
-<script>
-  for (let el of document.getElementsByClassName("file-input"))
-  {
-    el.addEventListener("change", (event) => {
-      console.log(event);
-      console.log(event.currentTarget.value)
-    });
-  }
-</script>
+{% endblock %}
+
+{% block scripts %}
+    <script src="/static/js/fileInput.js"></script>
 {% endblock %}
