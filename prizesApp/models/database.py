@@ -13,12 +13,18 @@ class User(BaseModel):
     last_name = CharField(max_length=32)
     email = CharField(max_length=64, unique=True)
     password_hash = CharField(max_length=320)
+    lockout_time = DateTimeField(null=True)
     
     def to_dict(self) -> dict:
         return {
             "first_name": self.first_name,
             "last_name": self.last_name,
         }
+
+class LoginLog(BaseModel):
+    user = ForeignKeyField(User, backref="login_logs")
+    time = DateTimeField()
+    success = BooleanField()
 
 class Sweepstake(BaseModel):
     name = CharField(max_length=512)

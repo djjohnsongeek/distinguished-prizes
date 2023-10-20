@@ -2,10 +2,11 @@
     - add recaptia
     - ipquality score to verify email addresses
         - ENV config to only check this in production env
-    - add form error text (like sweepstakes edit/create form)
+    - email user when signedup
 
 2. Winner confirmation form
     - add recaptia
+    - email user when they are confirmed
 
 3. finish winner selection logic
     - email winner with url to confirmation form
@@ -17,7 +18,7 @@
 6. Show winners of past prizes: Only when confirmed
 7. Store an email list to notify users of new giveaways?
 8. Design and content (faq, ect ...)
-
+9. make flashed messages dismissable
 
 ## Prize Ideas
 Steam Deck

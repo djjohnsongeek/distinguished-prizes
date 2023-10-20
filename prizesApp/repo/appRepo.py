@@ -1,14 +1,17 @@
-from prizesApp.models.database import User, Sweepstake, Participant, Winner
+from prizesApp.models.database import User, Sweepstake, Participant, Winner, LoginLog
 from prizesApp.forms import SweepstakesForm, SweepstakesEditForm, RegisterForm, ConfirmationForm
 from peewee import DoesNotExist, fn, JOIN
 from datetime import datetime, timedelta
+from flask import current_app
 
 ## SELECT QUERIES
 def retrieve_user(email: str) -> User:
-    try:
-        return User.get(User.email == email)
-    except DoesNotExist:
-        return None
+    return User.get_or_none(User.email == email)
+
+def retrieve_failed_login_count(user: User):
+    duration = timedelta(minutes=current_app.config["LOCKOUT_RANGE_MINUTES"])
+    lockout_window = datetime.now() - duration
+    return LoginLog.select().join(User).where((User.id == user.id) & (LoginLog.time >= lockout_window) & (LoginLog.success == False)).count()
 
 def retrieve_sweepstake(id: int) -> Sweepstake:
     return Sweepstake.get_or_none(Sweepstake.id == id)
@@ -106,6 +109,13 @@ def add_participant(register_form: RegisterForm, sweepstake: Sweepstake) -> bool
         entry_time = datetime.now()
     ).execute()
 
+def log_login_attempt(user: User, success: bool) -> bool:
+    return LoginLog.insert(
+        user = user,
+        time = datetime.now(),
+        success = success
+    ).execute()
+
 ## UPDATE QUERIES
 def update_sweepstake(form: SweepstakesEditForm, model: Sweepstake):
     result = True
@@ -157,6 +167,20 @@ def update_winner_fullfillment(winner: Winner, data: {}) -> bool:
 
     try:
         winner.save()
+    except:
+        result = False
+
+    return result
+
+def lock_account(user: User):
+    duration = timedelta(minutes=current_app.config["LOCKOUT_DUR_MINUTES"])
+    lock_until = datetime.now() + duration
+
+    user.lockout_time = lock_until
+
+    result = True
+    try:
+        user.save()
     except:
         result = False
 
