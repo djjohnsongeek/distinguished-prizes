@@ -19,6 +19,8 @@ MAILJET_API_KEY = ""
 MAILJET_SECRET_KEY = ""
 MAILJET_SENDER_EMAIL = ""
 
+CONFIRMATION_FORM_LIMIT = 48
+
 PHOTOS_DIR = os.path.join(cwd, "")
 TEST_PHOTOS_DIR = os.path.join(cwd, "")
 

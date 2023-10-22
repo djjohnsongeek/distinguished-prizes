@@ -13,7 +13,9 @@
     - email the site owner with address information
     - email winner with tracking information
 
-4. Design and content (faq, ect ...)
+4. MAKE CONFIRMATION LINKS EXPIRE AFTER 48 HOURS
+4. Expire confirmation links
+5. Design and content (faq, ect ...)
 
 ## Prize Ideas
 Steam Deck
