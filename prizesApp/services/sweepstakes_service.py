@@ -1,4 +1,5 @@
 from flask import session
+from prizesApp.services import email_service
 from prizesApp.repo import appRepo
 from prizesApp.forms import RegisterForm, ConfirmationForm
 from prizesApp.models.database import Sweepstake
@@ -32,6 +33,7 @@ def add_participant(form: RegisterForm, sweepstake: Sweepstake) -> []:
             errors.append("Failed to register for sweepstakes.")
         else:
             remember_client_registration(sweepstake)
+            sent = email_service.send_registration_email(form.email.data, sweepstake.name, sweepstake.end_date)
 
     return errors
 
@@ -62,6 +64,7 @@ def get_sweepstakes() -> {}:
     return sorted_sweepstakes
 
 def validate_confirmation(participant_id: int, sweepstakes_id: int, confirm_guid: str) -> []:
+    # TODO we need a way to invalidate confirmation links that are active for more then "48" hours
     errors = []
     participant = appRepo.retrieve_participant(participant_id)
     sweepstake = appRepo.retrieve_sweepstake(sweepstakes_id)
