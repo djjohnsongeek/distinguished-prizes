@@ -2,20 +2,12 @@
     - add recaptia
     - ipquality score to verify email addresses
         - ENV config to only check this in production env
-    - email user when signedup
 
 2. Winner confirmation form
     - add recaptia
-    - email user when they are confirmed
 
-3. finish winner selection logic
-    - email winner with url to confirmation form
-    - email the site owner with address information
-    - email winner with tracking information
-
-4. MAKE CONFIRMATION LINKS EXPIRE AFTER 48 HOURS
-4. Expire confirmation links
-5. Design and content (faq, ect ...)
+3. MAKE CONFIRMATION LINKS EXPIRE AFTER 48 HOURS
+4. Design and content (faq, ect ...)
 
 ## Prize Ideas
 Steam Deck

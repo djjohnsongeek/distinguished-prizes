@@ -48,13 +48,38 @@ def send_registration_email(email: str, sweepstake_name: str, end_date: datetime
     body = build_registration_body(sweepstake_name, end_date)
     return send_email(email, "Registration successful!", body)
 
+def send_selection_email(username: str, email: str, sweepstake_name: str, confirm_url: str) -> bool:
+    body = build_selection_body(sweepstake_name, username, confirm_url)
+    return send_email(email, "You have been selected!", body)
+
+def send_confirmation_email(email: str, sweepstake_name: str) -> bool:
+    body = build_confirmation_body(email, sweepstake_name)
+    return send_email(email, "Confirmation Complete!", body)
+
+def send_confirmation_notification(username: str, sweepstake_name: str) -> bool:
+    return send_email(current_app.config["CONTACT_EMAIL"], "Winner Confirmed", f"{username} has filled out the confirmation form for {sweepstake_name}")
+
 def build_registration_body(sweepstake_name: str, end_date: datetime):
     body = f"<h3>Your registration for the {sweepstake_name} giveaway is complete!</h3>"
     body += f"<span>Selection of the winner will occur promptly after the giveaway ends at {end_date} EST.</span><br/>"
     body += f"<span>If you are selected you will a receive an email notification. This notification email will contain a link to a confirmation form that must be filled out within <strong>{current_app.config['CONFIRMATION_FORM_LIMIT']} hours</strong>.</span><br/>"
-    body += f"<span>Once filled out the prize will mailed to you using the address information provided in the confirmation form. Package tracking information will then be provided.<span/><br/>"
-    body += f"<span>If you are unable to fillout the confirmation form within 48 hours, another winner will be chosen :(.</span><br/>"
+    body += f"<span>Once filled out the prize will be mailed to you using the address information provided by the confirmation form. Package tracking information will then be emailed to you.<span/><br/>"
+    body += f"<span>If you are unable to fillout the confirmation form within {current_app.config['CONFIRMATION_FORM_LIMIT']} hours, another winner will be chosen :(.</span><br/>"
+    body += f"<span>If you have any questions, send an email to {current_app.config['CONTACT_EMAIL']}.</span><br/>"
     body += f"<strong>May the odds be ever in your favor.</strong><br/>"
-    body += f"<span>If you have any questions, send an email to {current_app.config['CONTACT_EMAIL']}."
+    return body
 
+def build_selection_body(sweepstake_name: str, username: str, confirm_url: str):
+    body = f"<h3>Congratulations {username}! You have been selected as the winner of the {sweepstake_name} giveaway!</h3>"
+    body += f"There is one more step to complete. Please fillout this <a href='{confirm_url}' target='_blank'>confirmation form</a> online."
+    body += f"<span>Once filled out the prize will be mailed to you using the address information provided by the confirmation form. Package tracking information will then be emailed to you.<span/><br/>"
+    body += f"<span>If you are unable to fillout the confirmation form within {current_app.config['CONFIRMATION_FORM_LIMIT']} hours, another winner will be chosen :(.</span><br/>"
+    body += f"<span>If you have any questions, send an email to {current_app.config['CONTACT_EMAIL']}.</span><br/>"
+    body += f"<span>Looks like the odds <strong>WERE</strong> in your favor!</span><br/>"
+    return body
+
+def build_confirmation_body(email: str, sweepstake_name: str) -> bool:
+    body = f"<h3>Congratulations! You are now the confirmed winner of the {sweepstake_name} giveaway!</h3>"
+    body += f"<span>The next email you should get from us will have package tracking information.</span><br/>"
+    body += f"<span>If you have any questions, send an email to {current_app.config['CONTACT_EMAIL']}.</span><br/>"
     return body

@@ -4,7 +4,7 @@ from flask import Request
 from prizesApp.models.database import Sweepstake, Participant, Winner
 from prizesApp.forms import SweepstakesEditForm, SweepstakesForm
 from prizesApp.repo import appRepo
-from prizesApp.services import file_service
+from prizesApp.services import file_service, email_service
 
 def create_sweepstakes(form: SweepstakesForm) -> bool:
     f = form.image.data
@@ -22,7 +22,7 @@ def update_sweepstakes(form: SweepstakesEditForm, sweepstake: Sweepstake) -> boo
     return appRepo.update_sweepstake(form, sweepstake)
 
 
-def select_winner(sweepstake_id: int) -> []:
+def select_winner(sweepstake_id: int, request: Request) -> []:
     errors = []
     sweepstake = appRepo.retrieve_sweepstake(sweepstake_id)
 
@@ -53,11 +53,15 @@ def select_winner(sweepstake_id: int) -> []:
 
         if not success:
             errors.append("Failed to select winner.")
-
-        print(f"localhost:5000/sweepstakes/confirmation/{sweepstake.id}/{winner.id}/{confirm_guid}")
-
-    # TODO
-    # send email to customer with confirmation link
+        else:
+            confirm_url = "{request.url_root}/sweepstakes/confirmation/{sweepstake.id}/{winner.id}/{confirm_guid}"
+            print(confirm_url)
+            email_service.send_selection_email(
+                winner.participant.name,
+                winner.participant.email, 
+                sweepstake.name,
+                confirm_url
+            )
    
     return errors
 

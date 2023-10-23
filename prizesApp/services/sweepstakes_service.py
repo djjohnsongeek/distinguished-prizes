@@ -94,5 +94,7 @@ def complete_confirmation(form: ConfirmationForm) -> []:
         winner = appRepo.retrieve_winner(form.confirmation_guid.data)
         if not appRepo.update_winner(form, winner):
             errors.append("An unexpected error occured. Please try again.")
-
+        else:
+            email_service.send_confirmation_email(winner.email, winner.sweepstake.name)
+            email_service.send_confirmation_notification(winner.participant.name, winner.sweepstake.name)
     return errors
