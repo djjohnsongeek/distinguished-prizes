@@ -1,3 +1,4 @@
+0. Test emails are working
 1. Signups (add recaptia)
     - add recaptia
     - ipquality score to verify email addresses
