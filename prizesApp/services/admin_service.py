@@ -46,22 +46,24 @@ def select_winner(sweepstake_id: int, request: Request) -> []:
             break
 
     if len(errors) == 0:
-        winner = appRepo.retrieve_random_participant(sweepstake)
+        selected_participant = appRepo.retrieve_random_participant(sweepstake)
         confirm_guid = str(uuid.uuid4())
 
-        success = appRepo.create_winner(sweepstake, winner, confirm_guid)
+        success = appRepo.create_winner(sweepstake, selected_participant, confirm_guid)
 
         if not success:
             errors.append("Failed to select winner.")
         else:
-            confirm_url = "{request.url_root}/sweepstakes/confirmation/{sweepstake.id}/{winner.id}/{confirm_guid}"
+            confirm_url = f"{request.url_root}/sweepstakes/confirmation/{sweepstake.id}/{selected_participant.id}/{confirm_guid}"
             print(confirm_url)
-            email_service.send_selection_email(
-                winner.participant.name,
-                winner.participant.email, 
+            sent = email_service.send_selection_email(
+                selected_participant.name,
+                selected_participant.email, 
                 sweepstake.name,
                 confirm_url
             )
+
+            print(sent)
    
     return errors
 

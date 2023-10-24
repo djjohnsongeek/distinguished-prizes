@@ -72,7 +72,7 @@ def edit_sweepstakes(id: int):
 @admin_blueprint.route("/admin/sweepstakes/select-winner/<int:id>", methods=["GET"])
 @login_required
 def select_winner(id: int):
-    errors = admin_service.select_winner(id)
+    errors = admin_service.select_winner(id, request)
 
     flash_collection(errors, "danger")
     if len(errors) == 0:

@@ -1,4 +1,11 @@
 0. Test emails are working
+- signup/register email (DONE)
+- selection email (DONE)
+- confirmation submitted email (FAILED)
+- confirmtaion notification to site owner ()
+- fullfilled email ()
+
+
 1. Signups (add recaptia)
     - add recaptia
     - ipquality score to verify email addresses
