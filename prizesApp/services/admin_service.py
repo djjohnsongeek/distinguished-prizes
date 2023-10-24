@@ -77,8 +77,7 @@ def mark_fullfilled(request: Request) -> []:
         if not success:
             errors.append("Failed to update winner with fullfillment information.")
         else:
-            pass
-            # TODO email winner with  tracking information
+            sent = email_service.send_fullfillment_email(winner)
 
     return errors
 

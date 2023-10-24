@@ -50,7 +50,7 @@ def retrieve_winner(confirm_guid: str) -> Winner:
     return Winner.select().join(Participant).join(Sweepstake).where(Winner.confirmation_guid == confirm_guid).first()
 
 def retrieve_winner_by_id(id: int) -> Winner:
-    return Winner.get_or_none(Winner.id == id)
+    return Winner.select().join(Participant).join(Sweepstake).where(Winner.id == id).first()
     
 def retrieve_sweepstakes() -> []:
     return Sweepstake.select().join(Participant, JOIN.LEFT_OUTER).group_by(Sweepstake.id).execute()
