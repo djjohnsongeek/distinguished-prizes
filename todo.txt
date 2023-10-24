@@ -15,7 +15,8 @@
     - add recaptia
 
 3. MAKE CONFIRMATION LINKS EXPIRE AFTER 48 HOURS
-4. Design and content (faq, ect ...)
+4. Error log file
+5. Design and content (faq, ect ...)
 
 ## Prize Ideas
 Steam Deck
