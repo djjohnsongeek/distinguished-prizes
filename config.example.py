@@ -20,6 +20,9 @@ MAILJET_SECRET_KEY = ""
 MAILJET_SENDER_EMAIL = ""
 
 CONFIRMATION_FORM_LIMIT = 48
+USPS_TRACKING = "https://tools.usps.com/go/TrackConfirmAction_input"
+UPS_TRACKING = "https://www.ups.com/track"
+FEDEX_TRACKING = "https://www.fedex.com/en-us/tracking.html"
 
 PHOTOS_DIR = os.path.join(cwd, "")
 TEST_PHOTOS_DIR = os.path.join(cwd, "")

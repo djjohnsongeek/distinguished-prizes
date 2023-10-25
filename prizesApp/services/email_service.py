@@ -90,8 +90,8 @@ def build_confirmation_body(sweepstake_name: str) -> str:
 
 def build_fullfillment_email(winner: Winner) -> str:
     body = f"<h3>Your {winner.sweepstake.name} is one the way!</h3>"
-    body += f"<span>The package is in the mail and on the way to you!</span><b/r>"
-    body += f"<span>You can track your package on the {winner.carrier} website with the following tracking code: <strong>{winner.tracking_number}</strong><br/>"
+    body += f"<span>The package is in the mail and on the way to you!</span><br/>"
+    body += f"<span>You can track your package on the <a href='{current_app.config[winner.carrier + '_TRACKING']}'>{winner.carrier} website</a> with the following tracking code: <strong>{winner.tracking_number}</strong><br/>"
     body += f"<span>We sincerely hope you enjoy the gift!</span><br/>"
     body += f"<span>If you have any questions, send an email to {current_app.config['CONTACT_EMAIL']}.</span><br/>"
     return body
