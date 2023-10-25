@@ -6,8 +6,7 @@
 2. Winner confirmation form
     - add recaptia
 
-3. MAKE CONFIRMATION LINKS EXPIRE AFTER 48 HOURS
-4. Error log file
+3. Error log file
 - log db fails
 - log email fails
 5. Design and content (faq, ect ...)
