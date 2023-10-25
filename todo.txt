@@ -1,6 +1,3 @@
-0. Test emails are working
-- confirmtaion notification to site owner (?)
-
 1. Signups (add recaptia)
     - add recaptia
     - ipquality score to verify email addresses

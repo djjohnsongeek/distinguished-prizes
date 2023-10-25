@@ -58,7 +58,7 @@ def send_confirmation_email(email: str, sweepstake_name: str) -> bool:
     return send_email(email, "Confirmation Complete!", body)
 
 def send_confirmation_notification(username: str, sweepstake_name: str) -> bool:
-    return send_email(current_app.config["CONTACT_EMAIL"], "Winner Confirmed", f"{username} has filled out the confirmation form for {sweepstake_name}")
+    return send_email(current_app.config["CONTACT_EMAIL"], "Winner Confirmed", f"{username} has filled out the confirmation form for the {sweepstake_name} giveaway")
 
 def send_fullfillment_email(winner: Winner) -> bool:
     return send_email(winner.participant.email, "Your package has shipped!", build_fullfillment_email(winner))
@@ -90,7 +90,6 @@ def build_confirmation_body(sweepstake_name: str) -> str:
 
 def build_fullfillment_email(winner: Winner) -> str:
     body = f"<h3>Your {winner.sweepstake.name} is one the way!</h3>"\
-    f"<span>The package is in the mail and on the way to you!</span><br/>"\
     f"<span>You can track your package on the <a href='{current_app.config[winner.carrier + '_TRACKING']}'>{winner.carrier} website</a> with the following tracking code: <strong>{winner.tracking_number}</strong><br/>"\
     f"<span>We sincerely hope you enjoy the gift!</span><br/>"\
     f"<span>If you have any questions, send an email to {current_app.config['CONTACT_EMAIL']}.</span><br/>"

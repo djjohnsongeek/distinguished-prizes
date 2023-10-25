@@ -1,9 +1,9 @@
-from flask import session
+from flask import session, current_app
 from prizesApp.services import email_service
 from prizesApp.repo import appRepo
 from prizesApp.forms import RegisterForm, ConfirmationForm
 from prizesApp.models.database import Sweepstake
-from datetime import datetime
+from datetime import datetime, timedelta
 
 def add_participant(form: RegisterForm, sweepstake: Sweepstake) -> []:
     errors = []
@@ -64,22 +64,25 @@ def get_sweepstakes() -> {}:
     return sorted_sweepstakes
 
 def validate_confirmation(participant_id: int, sweepstakes_id: int, confirm_guid: str) -> []:
-    # TODO we need a way to invalidate confirmation links that are active for more then "48" hours
     errors = []
     participant = appRepo.retrieve_participant(participant_id)
     sweepstake = appRepo.retrieve_sweepstake(sweepstakes_id)
     winner = appRepo.retrieve_winner(confirm_guid)
-    found = True
 
     if participant is None or sweepstake is None or winner is None:
-        found = False
         errors.append("Not Found.")
+        return errors
+    
+    expiration_date = winner.selection_date + timedelta(hours=int(current_app.config['CONFIRMATION_FORM_LIMIT']))
 
-    if found == True and (winner.participant.id != participant.id or winner.sweepstake.id != sweepstake.id):
+    if (winner.participant.id != participant.id or winner.sweepstake.id != sweepstake.id):
         errors.append("Invalid data.")
 
     if winner.confirmed:
         errors.append("This prize has already been claimed.")
+    
+    if datetime.now() > expiration_date:
+        errors.append("The confirmation form has expired.")
             
     return errors
 

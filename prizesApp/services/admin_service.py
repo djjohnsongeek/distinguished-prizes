@@ -54,8 +54,7 @@ def select_winner(sweepstake_id: int, request: Request) -> []:
         if not success:
             errors.append("Failed to select winner.")
         else:
-            confirm_url = f"{request.url_root}/sweepstakes/confirmation/{sweepstake.id}/{selected_participant.id}/{confirm_guid}"
-            print(confirm_url)
+            confirm_url = f"{request.url_root}sweepstakes/confirmation/{sweepstake.id}/{selected_participant.id}/{confirm_guid}"
             sent = email_service.send_selection_email(
                 selected_participant.name,
                 selected_participant.email, 
