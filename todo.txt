@@ -1,9 +1,5 @@
 0. Test emails are working
-- signup/register email (DONE)
-- selection email (DONE)
-- confirmation submitted email (DONE)
 - confirmtaion notification to site owner (?)
-- fullfilled email (DONE)
 
 1. Signups (add recaptia)
     - add recaptia
