@@ -19,6 +19,9 @@ MAILJET_API_KEY = ""
 MAILJET_SECRET_KEY = ""
 MAILJET_SENDER_EMAIL = ""
 
+RECAPTIA_SITE_KEY = ""
+RECAPTIA_SECRET_KEY = ""
+
 CONFIRMATION_FORM_LIMIT = 48
 USPS_TRACKING = "https://tools.usps.com/go/TrackConfirmAction_input"
 UPS_TRACKING = "https://www.ups.com/track"

@@ -1,5 +1,9 @@
 {% extends "layouts/base.html" %}
 
+{% block early_scripts %}
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+{% endblock %}
+
 {% block header %}
 Register for {{sweepstakes_name}} Giveaway
 {% endblock %}
@@ -62,6 +66,7 @@ All fields are required
       <p class="help is-danger">{{ error }}</li>
     {% endfor %}
   </div>
+  <div class="g-recaptcha" data-sitekey="{{config['RECAPTIA_SITE_KEY']}}"></div>
   <button type="submit" class="button is-primary">Register</button>
 </form>
 {% endblock %}
