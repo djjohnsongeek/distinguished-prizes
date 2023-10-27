@@ -7,6 +7,7 @@
 
 4. Design and content (faq, ect ...)
 
+2. log erros if confirmation form fails
 3> issues when: register from returns with errors (CSRF toekn? recaptcha not showing up)
 5. clean up email copy (limit timestamps to date, hr, min)
 
