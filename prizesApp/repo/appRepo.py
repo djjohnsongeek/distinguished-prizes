@@ -1,5 +1,6 @@
 from prizesApp.models.database import User, Sweepstake, Participant, Winner, LoginLog
 from prizesApp.forms import SweepstakesForm, SweepstakesEditForm, RegisterForm, ConfirmationForm
+from prizesApp.services import log_service
 from peewee import DoesNotExist, fn, JOIN
 from datetime import datetime, timedelta
 from flask import current_app
@@ -106,12 +107,22 @@ def create_winner(sweepstake: Sweepstake, participant: Participant, guid: str) -
     ).execute()
 
 def add_participant(register_form: RegisterForm, sweepstake: Sweepstake) -> bool:
-    return Participant.insert(
-        name = register_form.user_name.data,
-        email = register_form.email.data,
-        sweepstake = sweepstake,
-        entry_time = datetime.now()
-    ).execute()
+    success = None
+    try:
+        success = Participant.insert(
+            name = register_form.user_name.data,
+            email = register_form.email.data,
+            sweepstake = sweepstake,
+            entry_time = datetime.now()
+        ).execute()
+    
+    except Exception as e:
+        log_service.log_error("Failed to register participant", "AppRepo.add_participant()", {"exception": str(e) })
+
+    if success is False:
+        log_service.log_error("Failed to register participant", "AppRepo.add_participant()", {})
+
+    return success
 
 def log_login_attempt(user: User, success: bool) -> bool:
     return LoginLog.insert(
