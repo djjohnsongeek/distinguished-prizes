@@ -1,9 +1,7 @@
 from flask import current_app
-import os
+from datetime import datetime
 
-error_logs_file = os.path.join(current_app.config["LOGS_DIR"], "error_logs.txt")
-
-
-def log_error(message: str):
-    f = open(error_logs_file, "a")
-    
+def log_error(message: str, area: str, context: dict):
+    with open(current_app.config["LOG_FILE_PATH"], "a") as f:
+        line = f"{datetime.now()}, {area}, {message}, {context}\n"
+        f.write(line)
