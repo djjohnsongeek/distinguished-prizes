@@ -1,15 +1,15 @@
-1. Signups (add recaptia)
-    - add recaptia
+1. Error log file
+- log db fails
+- log email fails
+
+2. TEST natural 48 hours link expiration
+    - DO NOT "init-db" for 48 hours!!! (10/27/23 6:21 AM)
+
+3. Registration for sweepstakes
     - ipquality score to verify email addresses
         - ENV config to only check this in production env
 
-2. Winner confirmation form
-    - add recaptia
-
-3. Error log file
-- log db fails
-- log email fails
-5. Design and content (faq, ect ...)
+4. Design and content (faq, ect ...)
 
 ## Prize Ideas
 Steam Deck
