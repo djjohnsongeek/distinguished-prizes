@@ -18,7 +18,12 @@ def create_app(test_config=None):
         app.config.from_mapping(test_config)
 
     try:
-        os.makedirs(app.instance_path)
+        os.makedirs(app.instance_path, exist_ok=True)
+        logs_location = os.path.dirname(app.config["LOG_FILE_PATH"])
+        os.makedirs(logs_location, exist_ok=True)
+        f = open(app.config["LOG_FILE_PATH"], "x")
+        f.close()
+
     except OSError:
         pass
 
