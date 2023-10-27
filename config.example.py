@@ -29,5 +29,6 @@ FEDEX_TRACKING = "https://www.fedex.com/en-us/tracking.html"
 
 PHOTOS_DIR = os.path.join(cwd, "")
 TEST_PHOTOS_DIR = os.path.join(cwd, "")
+LOGS_DIR = os.path.join(current_dir, "instance")
 
 # NOTE: Put config in an instance folder
