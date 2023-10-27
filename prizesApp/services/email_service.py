@@ -1,6 +1,7 @@
 from mailjet_rest import Client
 from flask import current_app
 from prizesApp.models.database import Winner
+from prizesApp.services import log_service
 from datetime import datetime
 
 def get_mail_client():
@@ -14,6 +15,10 @@ def get_customer_contact() -> str:
 def send_email(to: str, subject: str, body: str) -> bool:
     mail_client = get_mail_client()
     result = mail_client.send.create(data=build_request_data(to, subject, "", body))
+
+    if result.status_code != 200:
+        log_service.log_error("Failed to send email", "Email Service", { "to": to, "subject": subject, "result": result.json() })
+
     return result.status_code == 200
 
 def build_email_body(form_data: dict) -> str:
