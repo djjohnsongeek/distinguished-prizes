@@ -76,10 +76,10 @@ All fields are required
         <p class="help is-danger">{{ error }}</li>
     {% endfor %}
   </div>
-  {% for error in form.recaptchia.errors %}
+  {% for error in form.recaptcha.errors %}
     <p class="help is-danger">{{ error }}</li>
   {% endfor %}
-  {{ form.recaptchia }}
+  {{ form.recaptcha }}
   <button type="submit" class="button is-primary">
     <i class="fa-solid fa-gift"></i>
     <span class="ml-1">Claim Prize</span>
