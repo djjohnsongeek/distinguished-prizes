@@ -19,8 +19,8 @@ MAILJET_API_KEY = ""
 MAILJET_SECRET_KEY = ""
 MAILJET_SENDER_EMAIL = ""
 
-RECAPTCHIA_PUBLIC_KEY = ""
-RECAPTCHIA_PRIVATE_KEY = ""
+RECAPTCHA_PUBLIC_KEY = ""
+RECAPTCHA_PRIVATE_KEY = ""
 
 CONFIRMATION_FORM_LIMIT = 48
 USPS_TRACKING = "https://tools.usps.com/go/TrackConfirmAction_input"
@@ -29,6 +29,6 @@ FEDEX_TRACKING = "https://www.fedex.com/en-us/tracking.html"
 
 PHOTOS_DIR = os.path.join(cwd, "")
 TEST_PHOTOS_DIR = os.path.join(cwd, "")
-LOGS_DIR = os.path.join(current_dir, "instance")
+LOG_FILE_PATH = os.path.join(cwd, "instance", "error_logs.txt")
 
 # NOTE: Put config in an instance folder
