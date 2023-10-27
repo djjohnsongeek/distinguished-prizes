@@ -24,8 +24,6 @@ def retrieve_sweepstake_with_winners(id: int) -> Sweepstake:
 
 def retrieve_all_winners(fullfilled: bool=None, confirmed: bool=None) -> []:
     query = Winner.select().join(Sweepstake).join(Participant)
-    print(f"fullfilled: {fullfilled}")
-    print(f"confirmed: {confirmed}")
     if fullfilled is not None and confirmed is not None:
         query = query.where((Winner.fullfilled == fullfilled) & (Winner.confirmed == confirmed))
 

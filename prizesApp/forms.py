@@ -1,4 +1,4 @@
-from flask_wtf import FlaskForm
+from flask_wtf import FlaskForm, RecaptchaField
 from wtforms import StringField, IntegerField, HiddenField, TextAreaField, DateTimeLocalField, BooleanField, RadioField
 from wtforms.validators import DataRequired
 from flask_wtf.file import FileField, FileRequired, FileAllowed
@@ -10,7 +10,7 @@ class RegisterForm(FlaskForm):
     age_confirm = BooleanField("I am 18 or older", default=False, validators=[DataRequired()])
     location_confirm = BooleanField("I live in the USA", default=False, validators=[DataRequired()])
     terms_confirm = BooleanField(default=False, validators=[DataRequired()])
-    # TODO need to add recaptia
+    recaptchia = RecaptchaField()
 
 class LoginCredentials(FlaskForm):
     email = StringField("Email", validators=[DataRequired()])
@@ -39,3 +39,4 @@ class ConfirmationForm(FlaskForm):
     city = StringField("City", validators=[DataRequired()])
     state = StringField("State", validators=[DataRequired()])
     zipcode = StringField("Zipcode", validators=[DataRequired()])
+    recaptchia = RecaptchaField()

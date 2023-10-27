@@ -61,8 +61,6 @@ def select_winner(sweepstake_id: int, request: Request) -> []:
                 sweepstake.name,
                 confirm_url
             )
-
-            print(sent)
    
     return errors
 
