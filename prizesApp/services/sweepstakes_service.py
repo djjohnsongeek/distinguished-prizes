@@ -1,5 +1,5 @@
 from flask import session, current_app
-from prizesApp.services import email_service
+from prizesApp.services import email_service, log_service
 from prizesApp.repo import appRepo
 from prizesApp.forms import RegisterForm, ConfirmationForm
 from prizesApp.models.database import Sweepstake
@@ -97,6 +97,15 @@ def complete_confirmation(form: ConfirmationForm) -> []:
         winner = appRepo.retrieve_winner(form.confirmation_guid.data)
         if not appRepo.update_winner(form, winner):
             errors.append("An unexpected error occured. Please try again.")
+            error_context = {
+                "errors": errors,
+                "winner_name": winner.participant.name,
+                "winner_email": winner.participant.email,
+                "winner_id": winner.id,
+                "participant_id": winner.participant.id,
+                "sweepstake_id": winner.sweepstake.id
+            }
+            log_service.log_error("Winner confirmation failed", "services.sweepstakes_service.complete_confirmation", error_context)
         else:
             email_service.send_confirmation_email(winner.participant.email, winner.sweepstake.name)
             email_service.send_confirmation_notification(winner.participant.name, winner.sweepstake.name)
