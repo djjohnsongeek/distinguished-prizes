@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, flash, redirect, url_for
+from flask import Blueprint, render_template, flash, redirect, url_for
 sweepstakes_blueprint = Blueprint("sweepstakes", __name__)
 from prizesApp.forms import RegisterForm, ConfirmationForm
 from prizesApp.repo import appRepo

@@ -1,19 +1,20 @@
 from flask_wtf import FlaskForm, RecaptchaField
-from wtforms import StringField, IntegerField, HiddenField, TextAreaField, DateTimeLocalField, BooleanField, RadioField
-from wtforms.validators import DataRequired
-from flask_wtf.file import FileField, FileRequired, FileAllowed
+from wtforms import StringField, IntegerField, TextAreaField, DateTimeLocalField, BooleanField, RadioField
+from wtforms.validators import DataRequired, Email
+from flask_wtf.recaptcha.validators import Recaptcha
+from flask_wtf.file import FileField, FileAllowed
 
 class RegisterForm(FlaskForm):
     user_name = StringField("User Name", validators=[DataRequired()])
-    email = StringField("Email Address", validators=[DataRequired()])
+    email = StringField("Email Address", validators=[DataRequired(), Email()])
     sweepstakes_id = IntegerField(validators=[DataRequired()])
     age_confirm = BooleanField("I am 18 or older", default=False, validators=[DataRequired()])
     location_confirm = BooleanField("I live in the USA", default=False, validators=[DataRequired()])
     terms_confirm = BooleanField(default=False, validators=[DataRequired()])
-    recaptcha = RecaptchaField()
+    recaptcha = RecaptchaField(validators=[Recaptcha()])
 
 class LoginCredentials(FlaskForm):
-    email = StringField("Email", validators=[DataRequired()])
+    email = StringField("Email", validators=[DataRequired(), Email()])
     password = StringField("Password", validators=[DataRequired()])
 
 class SweepstakesForm(FlaskForm):
@@ -39,4 +40,4 @@ class ConfirmationForm(FlaskForm):
     city = StringField("City", validators=[DataRequired()])
     state = StringField("State", validators=[DataRequired()])
     zipcode = StringField("Zipcode", validators=[DataRequired()])
-    recaptcha = RecaptchaField()
+    recaptcha = RecaptchaField(validators=[Recaptcha()])
