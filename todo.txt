@@ -8,6 +8,9 @@
 3. Design and content (faq, ect ...)
 4. issues when: register from returns with errors (CSRF toekn? recaptcha not showing up)
 
+## Google Recaptchia Admin Portal
+https://www.google.com/recaptcha/admin/site/684680603
+
 ## Prize Ideas
 Steam Deck
 ASUS ROG Ally
