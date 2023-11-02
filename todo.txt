@@ -1,14 +1,12 @@
-2. TEST natural 48 hours link expiration
+1. TEST natural 48 hours link expiration
     - LAPTOP DO NOT "init-db" for 48 hours!!! (10/27/23 6:21 AM)
 
-3. Registration for sweepstakes
+2. Registration for sweepstakes
     - ipquality score to verify email addresses
         - ENV config to only check this in production env
 
-4. Design and content (faq, ect ...)
-
-3> issues when: register from returns with errors (CSRF toekn? recaptcha not showing up)
-5. clean up email copy (limit timestamps to date, hr, min)
+3. Design and content (faq, ect ...)
+4. issues when: register from returns with errors (CSRF toekn? recaptcha not showing up)
 
 ## Prize Ideas
 Steam Deck
