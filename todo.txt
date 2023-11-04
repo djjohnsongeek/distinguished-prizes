@@ -1,12 +1,10 @@
-1. TEST natural 48 hours link expiration
-    - LAPTOP DO NOT "init-db" for 48 hours!!! (10/27/23 6:21 AM)
-
 2. Registration for sweepstakes
     - ipquality score to verify email addresses
         - ENV config to only check this in production env
 
 3. Design and content (faq, ect ...)
 4. issues when: register from returns with errors (CSRF toekn? recaptcha not showing up)
+- if a winner has been selected (but unconfirmed) and 48 hours is up, a new winner is unable to be chosen.
 
 ## Google Recaptchia Admin Portal
 https://www.google.com/recaptcha/admin/site/684680603
