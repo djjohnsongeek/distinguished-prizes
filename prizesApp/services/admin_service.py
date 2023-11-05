@@ -41,7 +41,7 @@ def select_winner(sweepstake_id: int, request: Request) -> []:
             errors.append("A winner has already been chosen. (Confirmed)")
             break
 
-        if winner.confirmed == None:
+        if winner.confirmed == None and not winner.expired:
             errors.append("A winner has already been chosen. (Unconfirmed)")
             break
 

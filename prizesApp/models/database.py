@@ -1,6 +1,7 @@
 import os
 from peewee import *
-from datetime import datetime
+from datetime import datetime, timedelta
+from flask import current_app
 
 class BaseModel(Model):
     id = AutoField()
@@ -56,7 +57,7 @@ class Winner(BaseModel):
     selection_date = DateTimeField(null=False)
     confirmation_guid = CharField(max_length=64)
     confirmation_date = DateTimeField(null=True)
-    confirmed = BooleanField(null=True)
+    confirmed = BooleanField(default=False)
     fullfilled = BooleanField(null=False, default=False)
     fullfilled_date = DateTimeField(null=True)
     tracking_number = CharField(max_length=32, null=True)
@@ -69,19 +70,24 @@ class Winner(BaseModel):
     state = CharField(max_length=16, null=True)
     zipcode = CharField(max_length=5, null=True)
 
+    def expire_date(self) -> datetime:
+        return self.selection_date + timedelta(hours=current_app.config["CONFIRMATION_FORM_LIMIT"])
+
+    def expired(self) -> bool:
+        return datetime.now() >= self.expire_date()
+
     def selection_status(self) -> str:
         return f"Selected on {self.selection_date}"
 
     def confirmed_status(self) -> str:
         status_str = ""
-        if self.confirmed is None:
+
+        if self.confirmed == False and self.expired():
+            status_str = "Unconfirmed. Confirmation window expired."
+        elif self.confirmed == False:
             status_str = "Confirmation Pending"
-
-        if self.confirmed == True:
+        elif self.confirmed == True:
             status_str = f"Confirmed on {self.confirmation_date}"
-
-        if self.confirmed == False:
-            status_str = f"Unconfirmed"
 
         return status_str
     
