@@ -3,8 +3,6 @@
         - ENV config to only check this in production env
 
 3. Design and content (faq, ect ...)
-4. issues when: register from returns with errors (CSRF toekn? recaptcha not showing up)
-- winners page, when two winners are present, their info tabs get crosses and won't reveal addres info
 
 ## Google Recaptchia Admin Portal
 https://www.google.com/recaptcha/admin/site/684680603
