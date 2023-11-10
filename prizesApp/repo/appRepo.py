@@ -73,6 +73,9 @@ def retrieve_participant_count(sweepstake: Sweepstake) -> int:
 def retrieve_participant_by_email(email: str, sweepstake: Sweepstake):
     return Participant.select().join(Sweepstake).where((Participant.email == email) & (Sweepstake.id == sweepstake.id)).get_or_none()
 
+def retreive_participant_by_username(username: str, sweepstake: Sweepstake):
+    return Participant.select().join(Sweepstake).where((Participant.name == username) & (Sweepstake.id == sweepstake.id)).get_or_none()
+
 def retrieve_random_participant(sweepstake: Sweepstake) -> Participant:
     return Participant.select().join(Sweepstake).where(Sweepstake.id == sweepstake.id).order_by(fn.Rand()).limit(1).get()
 
