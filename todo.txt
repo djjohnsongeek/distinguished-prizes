@@ -3,6 +3,8 @@
         - ENV config to only check this in production env
 
 3. Design and content (faq, ect ...)
+    - add a hero for the front page
+    - make sweepstakes pop from the background more (web3isgoingjustgreat)
 
 ## Google Recaptchia Admin Portal
 https://www.google.com/recaptcha/admin/site/684680603
