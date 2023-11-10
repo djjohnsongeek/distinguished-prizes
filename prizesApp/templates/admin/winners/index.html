@@ -75,10 +75,10 @@ Winners
             Winner for {{winner.sweepstake.name}}: {{winner.participant.name}}
         </p>
         <p class="panel-tabs">
-            <a class="toggle is-active" data-target="winner-status-container">Status</a>
-            <a class="toggle" data-target="winner-address-container">Address Info</a>
+            <a class="toggle is-active" data-target="winner-status-container{{winner.id}}">Status</a>
+            <a class="toggle" data-target="winner-address-container{{winner.id}}">Address Info</a>
         </p>
-        <div id="winner-status-container" class="shown toggle-container">
+        <div id="winner-status-container{{winner.id}}" class="shown toggle-container">
             <div class="panel-block">
                 <span class="panel-icon">
                     <i class="fa-solid fa-calendar-days"></i>
@@ -159,7 +159,7 @@ Winners
                 </div>
             {% endif %}
         </div>
-        <div id="winner-address-container" class="hidden toggle-container">
+        <div id="winner-address-container{{winner.id}}" class="hidden toggle-container">
             <div class="panel-block">
                 <span class="panel-icon">
                     <i class="fa-solid fa-address-card"></i>
