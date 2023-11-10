@@ -22,7 +22,12 @@ def add_participant(form: RegisterForm, sweepstake: Sweepstake) -> []:
     
     participant = appRepo.retrieve_participant_by_email(form.email.data, sweepstake)
     if participant is not None:
-        errors.append("You have already signed up for this sweepstakes.")
+        errors.append("You have already signed up for this sweepstake.")
+
+    participant = appRepo.retreive_participant_by_username(form.user_name.data, sweepstake)
+    if participant is not None:
+        form.user_name.errors.append("This username is already in use for this sweepstake.")
+        errors.append("This username is already in use. Please pick a different one.")
 
     if is_client_registered(sweepstake):
         errors.append("You have already signed up for this sweepstakes.")
