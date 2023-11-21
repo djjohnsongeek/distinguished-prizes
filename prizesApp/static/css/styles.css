@@ -5,3 +5,12 @@
 .shown {
     display: block;
 }
+
+body {
+    font-family: 'Pixelify Sans', sans-serif;
+}
+
+
+.title, .card-header-title {
+    font-family: 'Silkscreen', sans-serif;
+}

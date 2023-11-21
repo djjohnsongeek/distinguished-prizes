@@ -5,9 +5,12 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css" type="text/css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans&family=Silkscreen:wght@700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/static/css/styles.css" type="text/css">
   <title>{% block title %}{% endblock %} Distinguished Prizes</title>
-  <!-- <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='./imgs/favicon.ico') }}"> -->
+  <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='./ui/favicon.ico') }}">
   {% block early_scripts %}
   {% endblock %}
   <script src="https://kit.fontawesome.com/702ae185c3.js" crossorigin="anonymous"></script>
@@ -15,8 +18,11 @@
 <body>
   <section class="container is-max-desktop">
     <header>
-      <nav class="navbar is-info has-shadow" id="basic-navbar" role="navigation" aria-label="main navigation">
+      <nav class="navbar is-dark has-shadow" id="basic-navbar" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
+          <a class="navbar-item" href="{{ url_for('index.home') }}">
+            <img src="/static/ui/bronze_chest.png" height="48px">
+          </a>
           <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="basic-navbar">
             <span aria-hidden="true"></span>
             <span aria-hidden="true"></span>
@@ -25,14 +31,11 @@
         </div>
         <div class="navbar-menu is-centered">
           <div class="navbar-start">
-            <a class="navbar-item" href="{{ url_for('index.home') }}">
-              Home
-            </a>
             <a class="navbar-item" href="{{ url_for('index.about') }}">
               About
             </a>
             <a class="navbar-item" href="{{ url_for('index.news') }}">
-              News
+              Updates
             </a>
           </div>
         </div>
