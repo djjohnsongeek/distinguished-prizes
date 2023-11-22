@@ -45,9 +45,8 @@
 
 {% if sweepstakes.has_started() and not sweepstakes.has_ended() %}
     <div clas="block">
-        <a class="button is-primary" href="{{url_for('sweepstakes.register_get', sweepstakes_id=sweepstakes.id)}}">
-            <span class="mr-1"><i class="fa-solid fa-arrow-right-to-bracket"></i></span>
-            <span>Register</span>
+        <a class="button" href="{{url_for('sweepstakes.register_get', sweepstakes_id=sweepstakes.id)}}">
+            <span>Registration Form</span>
         </a>
     </div>
 {% endif %}
