@@ -41,3 +41,7 @@ class ConfirmationForm(FlaskForm):
     state = StringField("State", validators=[DataRequired()])
     zipcode = StringField("Zipcode", validators=[DataRequired()])
     recaptcha = RecaptchaField(validators=[Recaptcha()])
+
+class PostForm(FlaskForm):
+    title = StringField(validators=[DataRequired()])
+    content = TextAreaField(validators=[DataRequired()])

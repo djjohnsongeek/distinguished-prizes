@@ -1,0 +1,39 @@
+{% extends "layouts/admin_base.html" %}
+
+{% block header %}
+    Posts
+{% endblock %}
+
+{% block content %}
+    <a href="{{url_for('admin.create_post')}}" class="button is-primary">
+        Create
+    </a>
+    <table class="table is-fullwidth">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Content</th>
+                <th>Edit Date</th>
+                <th>Likes</th>
+                <th>Dislikes</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for post in posts %}
+            <tr>
+                <td>{{post.title}}</td>
+                <td>{{post.content}}</td>
+                <td>{{post.edit_date}}</td>
+                <td>{{post.likes}}</td>
+                <td>{{post.dislikes}}</td>
+                <td>
+                    <a class="button is-primary" href="{{url_for('admin.edit_post', id=post.id)}}">
+                        Edit
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

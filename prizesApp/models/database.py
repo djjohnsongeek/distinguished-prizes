@@ -99,3 +99,10 @@ class Winner(BaseModel):
             status_str = "Not Fullfilled"
         
         return status_str
+
+class Post(BaseModel):
+    edit_date = DateTimeField(null=False)
+    likes = IntegerField(null=False, default=0)
+    dislikes = IntegerField(null=False, default=0)
+    title = CharField(max_length=512, null=False)
+    content = TextField(null=False)

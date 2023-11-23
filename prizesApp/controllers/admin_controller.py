@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from prizesApp.auth import login_required
-from prizesApp.forms import SweepstakesForm, SweepstakesEditForm
-from prizesApp.services import admin_service
+from prizesApp.forms import SweepstakesForm, SweepstakesEditForm, PostForm
+from prizesApp.services import admin_service, blog_service
 from prizesApp.repo import appRepo
 from prizesApp.util import flash_collection, parse_boolean_arg
 
@@ -100,3 +100,30 @@ def winners_post():
         flash("Fullfilled!", "success")
 
     return redirect(url_for("admin.winners"))
+
+@admin_blueprint.route("/admin/posts/create", methods=["GET", "POST"])
+@login_required
+def create_post():
+    post_form = PostForm()
+
+    if request.method == "GET":
+        return render_template("admin/posts/create.html", form=post_form)
+    elif request.method == "POST":
+        errors = blog_service.create_post(post_form)
+        if len(errors) > 0:
+            flash_collection(errors, "danger")
+            return render_template("admin/posts/create.html", form=post_form)
+        else:
+            flash("Post created!", "success")
+            return redirect(url_for("admin.posts"))
+
+@admin_blueprint.route("/admin/posts/edit", methods=["GET", "POST"])
+@login_required
+def edit_post():
+    pass
+
+@admin_blueprint.route("/admin/posts/index", methods=["GET"])
+@login_required
+def posts():
+    posts = blog_service.get_posts()
+    return render_template("admin/posts/index.html", posts=posts)

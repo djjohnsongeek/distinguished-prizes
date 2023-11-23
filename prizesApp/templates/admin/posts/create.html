@@ -1,0 +1,46 @@
+{% extends "layouts/admin_base.html" %}
+
+{% block header %}
+Create Post
+{% endblock %}
+
+{% block content %}
+<div class="columns">
+  <div class="column is-half is-offset-one-quarter">
+    <form method="POST" action="{{ url_for('admin.create_post')}}">
+        {{ form.csrf_token }}
+        <div class="field">
+          <label class="label">{{ form.title.label }}</label>
+          <div class="control">
+            {{ form.title(class="input") }}
+          </div>
+          {% for error in form.title.errors %}
+            <p class="help is-danger">{{ error }}</li>
+          {% endfor %}
+        </div>
+        
+        <div class="field">
+          <label class="label">{{ form.content.label }}</label>
+          <div class="control">
+            {{ form.content(class="textarea") }}
+          </div>
+          {% for error in form.content.errors %}
+            <p class="help is-danger">{{ error }}</li>
+          {% endfor %}
+        </div>
+
+        <div class="field is-grouped">
+            <div class="control">
+              <button class="button is-link">Submit</button>
+            </div>
+            <div class="control">
+              <a class="button is-link is-light" href="{{url_for('admin.posts')}}">Cancel</a>
+            </div>
+          </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}

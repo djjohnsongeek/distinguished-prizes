@@ -1,5 +1,5 @@
-from prizesApp.models.database import User, Sweepstake, Participant, Winner, LoginLog
-from prizesApp.forms import SweepstakesForm, SweepstakesEditForm, RegisterForm, ConfirmationForm
+from prizesApp.models.database import User, Sweepstake, Participant, Winner, LoginLog, Post
+from prizesApp.forms import SweepstakesForm, SweepstakesEditForm, RegisterForm, ConfirmationForm, PostForm
 from prizesApp.services import log_service
 from peewee import DoesNotExist, fn, JOIN
 from datetime import datetime, timedelta
@@ -79,6 +79,9 @@ def retreive_participant_by_username(username: str, sweepstake: Sweepstake):
 def retrieve_random_participant(sweepstake: Sweepstake) -> Participant:
     return Participant.select().join(Sweepstake).where(Sweepstake.id == sweepstake.id).order_by(fn.Rand()).limit(1).get()
 
+def retrieve_posts() -> []:
+    return Post.select()
+
 ## CREATE QUERIES
 def create_sweepstake(sweepstake_form: SweepstakesForm, safe_image_name: str) -> bool:
     return Sweepstake.insert(
@@ -89,6 +92,13 @@ def create_sweepstake(sweepstake_form: SweepstakesForm, safe_image_name: str) ->
         max_participants = sweepstake_form.max_participants.data,
         image = safe_image_name,
         details = sweepstake_form.details.data,
+    ).execute()
+
+def create_post(post_form: PostForm) -> bool:
+    return Post.insert(
+        title = post_form.title.data,
+        content = post_form.content.data,
+        edit_date = datetime.now()
     ).execute()
 
 def create_winner(sweepstake: Sweepstake, participant: Participant, guid: str) -> bool:
