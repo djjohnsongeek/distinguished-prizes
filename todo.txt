@@ -2,9 +2,16 @@
     - ipquality score to verify email addresses
         - ENV config to only check this in production env
 
-3. Design and content (faq, ect ...)
-    - add a hero for the front page
-    - make sweepstakes pop from the background more (web3isgoingjustgreat)
+3. Posts
+- view posts on public end
+- parse out block tags
+- like and dislike counters
+- mitigate repeated likes/dislkes with a cookie
+- allow admin to edit posts after it is created
+
+4. Design and content (faq, ect ...)
+- terms and conditions
+
 
 ## Google Recaptchia Admin Portal
 https://www.google.com/recaptcha/admin/site/684680603
@@ -18,3 +25,7 @@ XBOX Series S, X
 Nintendo Switch
 PC or Console peripheralsl
 PC Components
+
+Advertisements;
+discord
+reddit
