@@ -2,7 +2,7 @@ from prizesApp.repo import appRepo
 from prizesApp.forms import PostForm, PostEditForm
 from prizesApp.models.database import Post
 from prizesApp.models.dtos import PostModel
-from prizesApp.util import parse_boolean_post, parse_int_post
+from prizesApp.util import parse_bool_from_request, parse_int_from_request
 from datetime import datetime, timedelta
 from flask import Request
 
@@ -38,10 +38,14 @@ def vote_on_post(request: Request) -> dict:
         "errors": [],
         "vote_total": 0,
     }
-
-    post_id = parse_int_post("id", request)
-    vote = parse_boolean_post("vote", request)
+ 
+    post_id = parse_int_from_request(request.json, "id")
+    vote = parse_bool_from_request(request.json, "vote")
     post = appRepo.retrieve_post_by_id(post_id)
+
+    print(post_id)
+    print(vote)
+    print(post)
 
     if post is None or vote is None:
         response["errors"].append("Vote Failed")

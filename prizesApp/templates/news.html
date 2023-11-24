@@ -40,34 +40,38 @@
 
 {% block scripts %}
     <script>
-        for (let element of document.getElementsByClassName("like-btn"))
+        for (let element of document.querySelectorAll(".like-btn, .dislike-btn"))
         {
             element.addEventListener("click", (event) => {
+                const likeBtn = event.currentTarget.classList.contains("like-btn");
                 data = {
-                    id: parseInt(event.target.dataset.id),
-                    vote: "True"
+                    id: event.currentTarget.dataset.id,
+                    vote: likeBtn ? "True" : "False"
                 }
                 send_vote(data);
             });
 
         }
 
-        for (let element of document.getElementsByClassName("dislike-btn"))
+        async function send_vote(data)
         {
-            element.addEventListener("click", (event) => {
-                data = {
-                    id: parseInt(event.target.dataset.id),
-                    vote: "False"
-                }
-                send_vote(data);
-            });
+            const csrf_token = "{{ csrf_token() }}";
+            try {
+                let response = await fetch("/posts/vote", {
+                    method: "POST",
+                    body: JSON.stringify(data),
+                    headers: {
+                        'Content-Type': 'application/json',
+                        "X-CSRFToken": csrf_token,
+                    }
+                });
 
-        }
-
-
-        function send_vote(data)
-        {
-            // send vote request here
+                responseData = response.json();
+                console.log(responseData);
+            }
+            catch (error) {
+                console.log(error.message);
+            }
         }
     </script>
 {% endblock %}

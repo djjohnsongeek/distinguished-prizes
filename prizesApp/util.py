@@ -19,8 +19,8 @@ def parse_boolean_arg(request: Request, key: str) -> bool:
 
     return value
 
-def parse_boolean_post(request: Request, key: str) -> bool:
-    value = request.form.get(key, None)
+def parse_bool_from_request(requestPayload: dict, key: str) -> bool:
+    value = requestPayload.get(key, None)
 
     if value is not None:
         value = value.lower()
@@ -34,8 +34,8 @@ def parse_boolean_post(request: Request, key: str) -> bool:
 
     return value
 
-def parse_int_post(request: Request, key: str) -> int:
-    value = request.form.get(key, None)
+def parse_int_from_request(requestPayload: dict, key: str) -> int:
+    value = requestPayload.get(key, None)
 
     if value is not None:
         try:
