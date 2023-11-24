@@ -37,3 +37,33 @@
         </div>
     {% endfor %}
 {% endblock %}
+
+{% block scripts %}
+    <script>
+        for (let element of document.getElementsByClassName("like-btn"))
+        {
+            data = {
+                id: parseInt(element.dataset.id),
+                vote: "True"
+            }
+
+            send_vote(data);
+        }
+
+        for (let element of document.getElementsByClassName("dislike-btn"))
+        {
+            data = {
+                id: parseInt(element.dataset.id),
+                vote: "False"
+            }
+
+            send_vote(data);
+        }
+
+
+        function send_vote(data)
+        {
+            // send vote request here
+        }
+    </script>
+{% endblock %}
