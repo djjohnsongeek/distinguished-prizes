@@ -91,3 +91,7 @@ a {
 .muted {
     color: hsl(0, 0%, 55%);
 }
+
+.like-btn, .dislike-btn {
+    cursor: pointer;
+}
