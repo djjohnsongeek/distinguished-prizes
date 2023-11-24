@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from prizesApp.auth import login_required
-from prizesApp.forms import SweepstakesForm, SweepstakesEditForm, PostForm
+from prizesApp.forms import SweepstakesForm, SweepstakesEditForm, PostForm, PostEditForm
 from prizesApp.services import admin_service, blog_service
 from prizesApp.repo import appRepo
 from prizesApp.util import flash_collection, parse_boolean_arg
@@ -117,10 +117,36 @@ def create_post():
             flash("Post created!", "success")
             return redirect(url_for("admin.posts"))
 
-@admin_blueprint.route("/admin/posts/edit", methods=["GET", "POST"])
+@admin_blueprint.route("/admin/posts/edit/<int:id>", methods=["GET", "POST"])
 @login_required
-def edit_post():
-    pass
+def edit_post(id: int):
+    edit_form = PostEditForm()
+    post = appRepo.retrieve_post_by_id(id)
+    redirect_url = None
+
+    if request.method == "GET":
+        if post:
+            edit_form = PostEditForm(
+                id = post.id,
+                title = post.title,
+                content = post.content
+            )
+        else:
+            flash("Post not found", "danger")
+            redirect_url = url_for("admin.posts")
+
+    # POST request with valid data
+    elif request.method == "POST" and edit_form.validate():
+        if blog_service.update_post(edit_form, post):
+            flash("Sweepstakes updated!", "success")
+            redirect_url = url_for("admin.posts")
+        else:
+            flash("Failed to update sweepstakes.", "danger")
+
+    if redirect_url:
+        return redirect(redirect_url)
+
+    return render_template("admin/posts/edit.html", form=edit_form)
 
 @admin_blueprint.route("/admin/posts/index", methods=["GET"])
 @login_required

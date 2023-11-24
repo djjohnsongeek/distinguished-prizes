@@ -1,5 +1,5 @@
 from prizesApp.repo import appRepo
-from prizesApp.forms import PostForm
+from prizesApp.forms import PostForm, PostEditForm
 from prizesApp.models.database import Post
 from datetime import datetime, timedelta
 
@@ -14,6 +14,12 @@ def create_post(form: PostForm) -> []:
         errors.append("Invalid form.")
 
     return errors
+
+def update_post(form: PostEditForm, post: Post) -> bool:
+    if not post:
+        return False
+
+    return appRepo.update_post(form, post)
 
 def get_posts() -> []:
     posts = appRepo.retrieve_posts()

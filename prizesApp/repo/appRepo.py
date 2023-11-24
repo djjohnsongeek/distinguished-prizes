@@ -1,5 +1,5 @@
 from prizesApp.models.database import User, Sweepstake, Participant, Winner, LoginLog, Post
-from prizesApp.forms import SweepstakesForm, SweepstakesEditForm, RegisterForm, ConfirmationForm, PostForm
+from prizesApp.forms import SweepstakesForm, SweepstakesEditForm, RegisterForm, ConfirmationForm, PostForm, PostEditForm
 from prizesApp.services import log_service
 from peewee import DoesNotExist, fn, JOIN
 from datetime import datetime, timedelta
@@ -78,6 +78,9 @@ def retreive_participant_by_username(username: str, sweepstake: Sweepstake):
 
 def retrieve_random_participant(sweepstake: Sweepstake) -> Participant:
     return Participant.select().join(Sweepstake).where(Sweepstake.id == sweepstake.id).order_by(fn.Rand()).limit(1).get()
+
+def retrieve_post_by_id(id: int) -> Post:
+    return Post.get_or_none(Post.id == id)
 
 def retrieve_posts() -> []:
     return Post.select()
@@ -209,6 +212,20 @@ def lock_account(user: User):
     result = True
     try:
         user.save()
+    except:
+        result = False
+
+    return result
+
+def update_post(form: PostEditForm, model: Post):
+    result = True
+
+    model.title = form.title.data
+    model.content = form.content.data
+    model.edit_date = datetime.now()
+
+    try:
+        model.save()
     except:
         result = False
 

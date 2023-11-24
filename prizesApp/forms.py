@@ -45,3 +45,6 @@ class ConfirmationForm(FlaskForm):
 class PostForm(FlaskForm):
     title = StringField(validators=[DataRequired()])
     content = TextAreaField(validators=[DataRequired()])
+
+class PostEditForm(PostForm):
+    id = IntegerField(None, validators=[DataRequired()])
