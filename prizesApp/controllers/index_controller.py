@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, flash, send_from_directory, current_app
-from prizesApp.services import sweepstakes_service
+from prizesApp.services import sweepstakes_service, blog_service
 index_blueprint = Blueprint("index", __name__)
 
 @index_blueprint.route("/", methods=["GET"])
@@ -13,7 +13,8 @@ def about():
 
 @index_blueprint.route("/News", methods=["GET"])
 def news():
-    return render_template("news.html")
+    posts = blog_service.get_post_dtos()
+    return render_template("news.html", posts=posts)
 
 @index_blueprint.route("/Image/<filename>", methods=["GET"])
 def download_image(filename):

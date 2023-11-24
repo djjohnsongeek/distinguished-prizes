@@ -83,7 +83,7 @@ def retrieve_post_by_id(id: int) -> Post:
     return Post.get_or_none(Post.id == id)
 
 def retrieve_posts() -> []:
-    return Post.select()
+    return Post.select().order_by(Post.id)
 
 ## CREATE QUERIES
 def create_sweepstake(sweepstake_form: SweepstakesForm, safe_image_name: str) -> bool:

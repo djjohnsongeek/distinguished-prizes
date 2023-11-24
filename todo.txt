@@ -7,7 +7,7 @@
 - parse out block tags
 - like and dislike counters
 - mitigate repeated likes/dislkes with a cookie
-- allow admin to edit posts after it is created
+- allow admin to delete posts
 
 4. Design and content (faq, ect ...)
 - terms and conditions

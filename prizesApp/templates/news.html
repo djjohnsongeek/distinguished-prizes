@@ -9,5 +9,14 @@
 {% endblock %}
 
 {% block content %}
-News Page content goes here
+    {% for post in posts %}
+        <div class="card mb-6 mt-6 p-5">
+            <p class="title">{{post.title}}</p>
+            {% for block in post.parsed_content %}
+                <div class="block">
+                    {{ block }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endfor %}
 {% endblock %}
