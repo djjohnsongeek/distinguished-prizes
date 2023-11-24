@@ -20,12 +20,12 @@
                 {% endfor %}
                 <div class="content">
                     <div class="block">
-                        <span class="m-2" title="Like">
-                            <img src="/static/ui/heart.png">
+                        <span class="m-2 like-btn" title="Like" data-id="{{post.id}}">
+                            <img src="/static/ui/heart.png" width="24px" alt="Pixel Art Heart">
                             {{ post.like_count }}
                         </span>
-                        <span class="m-2" title="Dislike">
-                            <img src="/static/ui/skull.png">
+                        <span class="m-2 dislike-btn" title="Dislike" data-id="{{post.id}}">
+                            <img src="/static/ui/skull.png" width="24px" alt="Pixel Art Skull">
                             {{ post.dislike_count }}
                         </span>
                     </div>
