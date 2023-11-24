@@ -19,3 +19,8 @@ def news():
 @index_blueprint.route("/Image/<filename>", methods=["GET"])
 def download_image(filename):
     return send_from_directory(current_app.config["PHOTOS_DIR"], filename)
+
+@index_blueprint.route("/posts/vote", methods=["POST"])
+def vote():
+    response = blog_service.vote_on_post(request)
+    return response

@@ -80,6 +80,9 @@ def retrieve_random_participant(sweepstake: Sweepstake) -> Participant:
     return Participant.select().join(Sweepstake).where(Sweepstake.id == sweepstake.id).order_by(fn.Rand()).limit(1).get()
 
 def retrieve_post_by_id(id: int) -> Post:
+    if id is None:
+        return None
+    
     return Post.get_or_none(Post.id == id)
 
 def retrieve_posts() -> []:
@@ -230,3 +233,21 @@ def update_post(form: PostEditForm, model: Post):
         result = False
 
     return result
+
+def vote_on_post(vote: bool, model: Post) -> int:
+    count = 0
+
+    if vote == True:
+        count = Post.likes
+        Post.likes += 1
+    else:
+        count = post.dislikes
+        Post.dislikes += 1
+
+    try:
+        Post.save()
+        count += 1
+    except:
+        pass
+
+    return count

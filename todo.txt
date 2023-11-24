@@ -3,9 +3,7 @@
         - ENV config to only check this in production env
 
 3. Posts
-- view posts on public end
-- parse out block tags
-- like and dislike counters
+- like and dislike functionality
 - mitigate repeated likes/dislkes with a cookie
 - allow admin to delete posts
 
