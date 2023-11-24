@@ -87,3 +87,7 @@ body {
 a {
   color: #00A380;
 }
+
+.muted {
+    color: hsl(0, 0%, 55%);
+}

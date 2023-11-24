@@ -10,13 +10,30 @@
 
 {% block content %}
     {% for post in posts %}
-        <div class="card mb-6 mt-6 p-5">
-            <p class="title">{{post.title}}</p>
-            {% for block in post.parsed_content %}
-                <div class="block">
-                    {{ block }}
+        <div class="card mb-6 mt-6">
+            <div class="card-content">
+                <p class="title">{{post.title}}</p>
+                {% for block in post.parsed_content %}
+                    <div class="block">
+                        {{ block }}
+                    </div>
+                {% endfor %}
+                <div class="content">
+                    <div class="block">
+                        <span class="m-2" title="Like">
+                            <img src="/static/ui/heart.png">
+                            {{ post.like_count }}
+                        </span>
+                        <span class="m-2" title="Dislike">
+                            <img src="/static/ui/skull.png">
+                            {{ post.dislike_count }}
+                        </span>
+                    </div>
+                    <div class="block">
+                        <time class="muted">Last Edited {{ post.last_edit }}</time>
+                    </div>
                 </div>
-            {% endfor %}
+            </div>
         </div>
     {% endfor %}
 {% endblock %}
