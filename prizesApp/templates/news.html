@@ -42,22 +42,26 @@
     <script>
         for (let element of document.getElementsByClassName("like-btn"))
         {
-            data = {
-                id: parseInt(element.dataset.id),
-                vote: "True"
-            }
+            element.addEventListener("click", (event) => {
+                data = {
+                    id: parseInt(event.target.dataset.id),
+                    vote: "True"
+                }
+                send_vote(data);
+            });
 
-            send_vote(data);
         }
 
         for (let element of document.getElementsByClassName("dislike-btn"))
         {
-            data = {
-                id: parseInt(element.dataset.id),
-                vote: "False"
-            }
+            element.addEventListener("click", (event) => {
+                data = {
+                    id: parseInt(event.target.dataset.id),
+                    vote: "False"
+                }
+                send_vote(data);
+            });
 
-            send_vote(data);
         }
 
 
