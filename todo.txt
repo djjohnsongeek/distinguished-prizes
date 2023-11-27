@@ -8,11 +8,31 @@
 - allow admin to delete posts
 
 4. Design and content (faq, ect ...)
-- terms and conditions
+- sweep stakes rules
+ - https://www.sweeppeasweeps.com/official-rules-center/your-sweepstakes-rules-checklist/
+- privacy policy (Termly)
+- cookie policy (Termly)
+- Affidavit of Eligibility (only for $600 or more)
+    - Form 1099-MISC required
+     - https://www.rocketlawyer.com/family-and-personal/general-legal-matters/affidavits-and-statements/document/affidavit-of-eligibility#:~:text=If%20you've%20been%20chosen,you%20can%20claim%20your%20prize.
+- odds of winning
+- forfit prize notification
+
+Conduct a REDDIT TEST / low cost marketing test
+
+
+
+
+Add Providers
+InfoLinks
+ADSTERRA
 
 
 ## Google Recaptchia Admin Portal
 https://www.google.com/recaptcha/admin/site/684680603
+
+## Terms and Conditions Generator
+https://www.viralsweep.com/sweepstakes-rules-generator/
 
 ## Prize Ideas
 Steam Deck
@@ -27,3 +47,6 @@ PC Components
 Advertisements;
 discord
 reddit
+https://www.sweepsadvantage.com/
+https://sweepstakesfanatics.com/
+https://www.sweepstakestoday.com/
