@@ -36,20 +36,17 @@ def get_post_dtos() -> []:
 def vote_on_post(request: Request) -> dict:
     response = {
         "errors": [],
-        "vote_total": 0,
     }
  
     post_id = parse_int_from_request(request.json, "id")
     vote = parse_bool_from_request(request.json, "vote")
     post = appRepo.retrieve_post_by_id(post_id)
 
-    print(post_id)
-    print(vote)
-    print(post)
-
     if post is None or vote is None:
         response["errors"].append("Vote Failed")
     else:
-        response["vote_total"] = appRepo.vote_on_post(vote, post)
+        success = appRepo.vote_on_post(vote, post)
+        if not success:
+            response.errors.append("Failed to vote on post")
 
     return response

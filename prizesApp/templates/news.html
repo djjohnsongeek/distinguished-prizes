@@ -22,11 +22,11 @@
                     <div class="block">
                         <span class="m-2 like-btn" title="Like" data-id="{{post.id}}">
                             <img src="/static/ui/heart.png" width="24px" alt="Pixel Art Heart">
-                            {{ post.like_count }}
+                            <span id="like-count-{{post.id}}">{{ post.like_count }}</span>
                         </span>
                         <span class="m-2 dislike-btn" title="Dislike" data-id="{{post.id}}">
                             <img src="/static/ui/skull.png" width="24px" alt="Pixel Art Skull">
-                            {{ post.dislike_count }}
+                            <span id="dislike-count-{{post.id}}">{{ post.dislike_count }}</span>
                         </span>
                     </div>
                     <div class="block">
@@ -46,9 +46,19 @@
                 const likeBtn = event.currentTarget.classList.contains("like-btn");
                 data = {
                     id: event.currentTarget.dataset.id,
-                    vote: likeBtn ? "True" : "False"
+                    vote: likeBtn ? "true" : "false"
                 }
-                send_vote(data);
+                let response = send_vote(data);
+                response.then((reponse) => {
+                    if (reponse.errors.length > 0)
+                    {
+                        alert("Failed to vote. Try again later.");
+                    }
+                    else {
+                        console.log(data);
+                        incrementCount(data);
+                    }
+                });
             });
 
         }
@@ -67,11 +77,24 @@
                 });
 
                 responseData = response.json();
-                console.log(responseData);
+
+                return responseData;
             }
             catch (error) {
-                console.log(error.message);
+                alert("An unknown error occured. Try again later.");
             }
+        }
+
+        function incrementCount(requestData) {
+            const voteType = requestData.vote == "true" ? "like" : "dislike";
+            const elementId = `${voteType}-count-${requestData.id}`;
+            console.log(elementId);
+            const countElement = document.getElementById(elementId);
+            let currentCount = parseInt(countElement.innerText);
+
+            currentCount++;
+
+            countElement.innerText = currentCount;
         }
     </script>
 {% endblock %}

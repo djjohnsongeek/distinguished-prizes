@@ -23,4 +23,5 @@ def download_image(filename):
 @index_blueprint.route("/posts/vote", methods=["POST"])
 def vote():
     response = blog_service.vote_on_post(request)
+    print(response)
     return jsonify(response)

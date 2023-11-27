@@ -79,11 +79,14 @@ def retreive_participant_by_username(username: str, sweepstake: Sweepstake):
 def retrieve_random_participant(sweepstake: Sweepstake) -> Participant:
     return Participant.select().join(Sweepstake).where(Sweepstake.id == sweepstake.id).order_by(fn.Rand()).limit(1).get()
 
-def retrieve_post_by_id(id: int) -> Post:
+def retrieve_post_by_id(id: int, as_dict: bool = False):
     if id is None:
         return None
     
-    return Post.get_or_none(Post.id == id)
+    if as_dict:
+        return Post.select().dicts().where(Post.id == id).first()
+    else:
+        return Post.get_or_none(Post.id == id)
 
 def retrieve_posts() -> []:
     return Post.select().order_by(Post.id)
@@ -234,20 +237,18 @@ def update_post(form: PostEditForm, model: Post):
 
     return result
 
-def vote_on_post(vote: bool, model: Post) -> int:
-    count = 0
+def vote_on_post(vote: bool, model: Post) -> bool:
+    success = False
 
-    if vote == True:
-        count = Post.likes
-        Post.likes += 1
+    if vote:
+        model.likes += 1
     else:
-        count = post.dislikes
-        Post.dislikes += 1
+        model.dislikes += 1
 
     try:
-        Post.save()
-        count += 1
+        model.save()
+        success = True
     except:
         pass
 
-    return count
+    return success
