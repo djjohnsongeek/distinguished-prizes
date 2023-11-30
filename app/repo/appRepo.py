@@ -260,4 +260,5 @@ def vote_on_post(vote: bool, model: Post) -> bool:
     except:
         pass
 
+    print(success)
     return success

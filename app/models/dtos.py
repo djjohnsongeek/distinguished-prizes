@@ -24,7 +24,4 @@ class PostModel:
 
         if block_content != "":
             parsed_content.append(block_content)
-
-        print(parsed_content)
-
         return parsed_content

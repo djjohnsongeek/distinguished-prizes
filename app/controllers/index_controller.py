@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, flash, send_from_directory, current_app, jsonify
+from flask import Blueprint, render_template, request, send_from_directory, current_app, jsonify, session
 from app.services import sweepstakes_service, blog_service
 from app.util import capture_page_view
 index_blueprint = Blueprint("index", __name__)
@@ -24,6 +24,7 @@ def download_image(filename):
 
 @index_blueprint.route("/posts/vote", methods=["POST"])
 def vote():
+    print(session)
     response = blog_service.vote_on_post(request)
-    print(response)
+    print(session)
     return jsonify(response)

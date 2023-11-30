@@ -47,16 +47,22 @@ def parse_int_from_request(requestPayload: dict, key: str) -> int:
 
     return value
 
-def get_user_id():
+def get_user_id() -> str:
     config = current_app.config
 
-    userId = session.get(config["USER_COOKIE_KEY"], None)
+    user_id = session.get(config["USER_COOKIE_KEY"], None)
 
-    if userId is None:
-        session[config["USER_COOKIE_KEY"]] = str(uuid.uuid4())
-        userId = session[config["USER_COOKIE_KEY"]]
+    if user_id is None:
+        user_id = setup_user_session(config)
     
-    return userId
+    return user_id
+
+def setup_user_session(config) -> str:
+    user_id = str(uuid.uuid4())
+    session[config["USER_COOKIE_KEY"]] = user_id
+    session[user_id] = { "id": user_id, "votes": [] }
+
+    return user_id
 
 def capture_page_view(request: Request, page: str):
     source = request.args.get("source", "other")
