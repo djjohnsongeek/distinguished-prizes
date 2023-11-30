@@ -10,6 +10,7 @@ class PostModel:
         self.like_count = dbModel.likes
         self.dislike_count = dbModel.dislikes
         self.last_edit = dbModel.edit_date
+        self.last_edit_str = dbModel.edit_date.strftime("%B %d %Y")
         self.parsed_content = self.parse_content(self.raw_content)
 
     def parse_content(self, raw_content: str) -> []:
