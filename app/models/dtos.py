@@ -1,4 +1,4 @@
-from prizesApp.models.database import Post
+from app.models.database import Post
 
 class PostModel:
     end_block = '}'

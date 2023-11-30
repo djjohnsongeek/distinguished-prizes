@@ -1,8 +1,8 @@
 from flask import session, current_app
-from prizesApp.services import email_service, log_service
-from prizesApp.repo import appRepo
-from prizesApp.forms import RegisterForm, ConfirmationForm
-from prizesApp.models.database import Sweepstake
+from app.services import email_service, log_service
+from app.repo import appRepo
+from app.forms import RegisterForm, ConfirmationForm
+from app.models.database import Sweepstake
 from datetime import datetime, timedelta
 
 def add_participant(form: RegisterForm, sweepstake: Sweepstake) -> []:

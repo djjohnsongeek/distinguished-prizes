@@ -1,10 +1,10 @@
 import uuid
 from datetime import datetime
 from flask import Request
-from prizesApp.models.database import Sweepstake, Participant, Winner
-from prizesApp.forms import SweepstakesEditForm, SweepstakesForm
-from prizesApp.repo import appRepo
-from prizesApp.services import file_service, email_service
+from app.models.database import Sweepstake, Participant, Winner
+from app.forms import SweepstakesEditForm, SweepstakesForm
+from app.repo import appRepo
+from app.services import file_service, email_service
 
 def create_sweepstakes(form: SweepstakesForm) -> bool:
     f = form.image.data

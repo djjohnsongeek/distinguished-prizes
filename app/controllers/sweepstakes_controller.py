@@ -1,9 +1,9 @@
 from flask import Blueprint, render_template, flash, redirect, url_for
 sweepstakes_blueprint = Blueprint("sweepstakes", __name__)
-from prizesApp.forms import RegisterForm, ConfirmationForm
-from prizesApp.repo import appRepo
-from prizesApp.services import sweepstakes_service
-from prizesApp.util import flash_collection
+from app.forms import RegisterForm, ConfirmationForm
+from app.repo import appRepo
+from app.services import sweepstakes_service
+from app.util import flash_collection
 
 @sweepstakes_blueprint.route("/sweepstakes/<int:sweepstakes_id>", methods=["GET"])
 def info(sweepstakes_id: int):

@@ -1,9 +1,9 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
-from prizesApp.auth import login_required
-from prizesApp.forms import SweepstakesForm, SweepstakesEditForm, PostForm, PostEditForm
-from prizesApp.services import admin_service, blog_service
-from prizesApp.repo import appRepo
-from prizesApp.util import flash_collection, parse_boolean_arg
+from app.auth import login_required
+from app.forms import SweepstakesForm, SweepstakesEditForm, PostForm, PostEditForm
+from app.services import admin_service, blog_service
+from app.repo import appRepo
+from app.util import flash_collection, parse_boolean_arg
 
 admin_blueprint = Blueprint("admin", __name__)
 
@@ -50,6 +50,7 @@ def edit_sweepstakes(id: int):
                 start_date = sweepstake.start_date,
                 end_date = sweepstake.end_date,
                 max_participants = sweepstake.max_participants,
+                daily_entries = sweepstake.daily_entries,
                 image = sweepstake.image
             )
         else:

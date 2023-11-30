@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, flash, session, redirect, url_for
-from prizesApp.forms import LoginCredentials
-from prizesApp.services import auth_service
+from app.forms import LoginCredentials
+from app.services import auth_service
 auth_blueprint = Blueprint("auth", __name__)
 
 @auth_blueprint.route("/admin/login", methods=["GET", "POST"])

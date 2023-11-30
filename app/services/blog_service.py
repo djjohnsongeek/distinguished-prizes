@@ -1,8 +1,8 @@
-from prizesApp.repo import appRepo
-from prizesApp.forms import PostForm, PostEditForm
-from prizesApp.models.database import Post
-from prizesApp.models.dtos import PostModel
-from prizesApp.util import parse_bool_from_request, parse_int_from_request
+from app.repo import appRepo
+from app.forms import PostForm, PostEditForm
+from app.models.database import Post
+from app.models.dtos import PostModel
+from app.util import parse_bool_from_request, parse_int_from_request
 from datetime import datetime, timedelta
 from flask import Request
 

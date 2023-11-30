@@ -1,6 +1,6 @@
-from prizesApp.models.database import User, Sweepstake, Participant, Winner, LoginLog, Post
-from prizesApp.forms import SweepstakesForm, SweepstakesEditForm, RegisterForm, ConfirmationForm, PostForm, PostEditForm
-from prizesApp.services import log_service
+from app.models.database import User, Sweepstake, Participant, Winner, LoginLog, Post
+from app.forms import SweepstakesForm, SweepstakesEditForm, RegisterForm, ConfirmationForm, PostForm, PostEditForm
+from app.services import log_service
 from peewee import DoesNotExist, fn, JOIN
 from datetime import datetime, timedelta
 from flask import current_app
@@ -163,6 +163,7 @@ def update_sweepstake(form: SweepstakesEditForm, model: Sweepstake):
     model.start_date = form.start_date.data
     model.end_date = form.end_date.data
     model.max_participants = form.max_participants.data
+    model.daily_entries = form.daily_entries.data
 
     if form.image.data:
         model.image = form.image.data.filename

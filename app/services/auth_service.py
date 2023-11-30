@@ -1,7 +1,7 @@
 
-from prizesApp.forms import LoginCredentials
-from prizesApp.repo.appRepo import retrieve_user, log_login_attempt, retrieve_failed_login_count, lock_account
-from prizesApp.models.database import User, LoginLog
+from app.forms import LoginCredentials
+from app.repo.appRepo import retrieve_user, log_login_attempt, retrieve_failed_login_count, lock_account
+from app.models.database import User, LoginLog
 from werkzeug.security import check_password_hash
 from flask import session, current_app
 from datetime import datetime

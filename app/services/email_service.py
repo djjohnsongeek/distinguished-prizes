@@ -1,7 +1,7 @@
 from mailjet_rest import Client
 from flask import current_app
-from prizesApp.models.database import Winner
-from prizesApp.services import log_service
+from app.models.database import Winner
+from app.services import log_service
 from datetime import datetime
 
 def get_mail_client():
