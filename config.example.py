@@ -31,4 +31,7 @@ PHOTOS_DIR = os.path.join(cwd, "")
 TEST_PHOTOS_DIR = os.path.join(cwd, "")
 LOG_FILE_PATH = os.path.join(cwd, "instance", "error_logs.txt")
 
+USER_COOKIE_KEY = "dp-user-id"
+TRAFFIC_SOURCES = ["reddit", "discord", "other", "facebook", "twitter", "youtube"]
+
 # NOTE: Put config in an instance folder
