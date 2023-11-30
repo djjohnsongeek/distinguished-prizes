@@ -3,9 +3,10 @@
         - ENV config to only check this in production env
 
 3. Posts
-- mitigate repeated likes/dislkes with a cookie
+- mitigate repeated likes/dislkes with a cookie (in progress)
 - allow admin to delete posts
-- nicer edited date for posts
+
+Fix mobile navigation menu
 
 4. Analytics
 - track site views
