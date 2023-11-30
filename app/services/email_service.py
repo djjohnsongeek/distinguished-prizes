@@ -72,7 +72,7 @@ def build_registration_body(sweepstake_name: str, end_date: datetime):
     body = f"<h3>Your registration for the {sweepstake_name} giveaway was successful!</h3>"\
     f"<span>Selection of the winner will occur promptly after the giveaway ends at {end_date.strftime('%a %d %b %Y, %I:%M%p %Z')}.</span><br/>"\
     f"<span>If you are selected you will a receive an email notification with futher instructions. If you have any questions, please send an email to {current_app.config['CONTACT_EMAIL']}.</span><br/>"\
-    f"<strong>May the D20 land in your favor.</strong><br/>"
+    f"<strong>May the RNG be ever in your favor.</strong><br/>"
     return body
 
 def build_selection_body(sweepstake_name: str, username: str, confirm_url: str):
@@ -80,8 +80,7 @@ def build_selection_body(sweepstake_name: str, username: str, confirm_url: str):
     f"<span>There is one more step to complete. Please fill out this <a href='{confirm_url}' target='_blank'>confirmation form</a> online.</span><br/>"\
     f"<span>Once filled out the prize will be mailed to you using the address information provided by the confirmation form. Package tracking information will then be emailed to you.<span/><br/>"\
     f"<span>If you are unable to fillout the confirmation form within {current_app.config['CONFIRMATION_FORM_LIMIT']} hours, another winner will be chosen.</span><br/>"\
-    f"<span>If you have any questions, send an email to {current_app.config['CONTACT_EMAIL']}.</span><br/>"\
-    f"<span>Looks like you rolled a 20!</span><br/>"
+    f"<span>If you have any questions, send an email to {current_app.config['CONTACT_EMAIL']}.</span><br/>"
     return body
 
 def build_confirmation_body(sweepstake_name: str) -> str:
