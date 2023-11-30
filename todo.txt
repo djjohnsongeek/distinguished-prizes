@@ -3,9 +3,12 @@
         - ENV config to only check this in production env
 
 3. Posts
-- like and dislike functionality
 - mitigate repeated likes/dislkes with a cookie
 - allow admin to delete posts
+- nicer edited date for posts
+
+4. Analytics
+- track site views
 
 4. Design and content (faq, ect ...)
 - sweep stakes rules
@@ -17,10 +20,6 @@
      - https://www.rocketlawyer.com/family-and-personal/general-legal-matters/affidavits-and-statements/document/affidavit-of-eligibility#:~:text=If%20you've%20been%20chosen,you%20can%20claim%20your%20prize.
 - odds of winning
 - forfit prize notification
-
-coming soon for future
-nothing here yet for past
-emails: rng instead of D20
 
 Conduct a REDDIT TEST / low cost marketing test
 
