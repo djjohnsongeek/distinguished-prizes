@@ -4,14 +4,13 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
-
   <title>{% block title %}{% endblock %} Distinguished Prizes</title>
-  <!-- <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='./imgs/favicon.ico') }}"> -->
   <script src="https://kit.fontawesome.com/702ae185c3.js" crossorigin="anonymous"></script>
+  {% block header_scripts %}{% endblock %}
 </head>
 <body>
   <header>
-    <nav class="navbar" id="basic-navbar" role="navigation" aria-label="main navigation">
+    <nav class="navbar is-dark" id="basic-navbar" role="navigation" aria-label="main navigation">
       <div class="navbar-brand">
         <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="basic-navbar">
           <span aria-hidden="true"></span>
@@ -24,22 +23,9 @@
           <a class="navbar-item" href="{{ url_for('admin.index') }}">
             Dashboard
           </a>
-          <div class="navbar-item has-dropdown is-hoverable">
-            <a class="navbar-link">
-              Sweepstakes
-            </a>
-            <div class="navbar-dropdown">
-              <a class="navbar-item" href="{{ url_for('admin.sweepstakes') }}">
-                All Sweeptakes
-              </a>
-              <a class="navbar-item" href="{{ url_for('admin.create_sweepstakes')}}">
-                Create
-              </a>
-              <a class="navbar-item" href="{{ url_for('admin.winners')}}">
-                Winners
-              </a>
-            </div>
-          </div>
+        <a class="navbar-item" href="{{ url_for('admin.sweepstakes') }}">
+            Sweepstakes
+        </a>
           <a class="navbar-item" href="{{ url_for('admin.posts') }}">
             Posts
           </a>
@@ -47,7 +33,7 @@
         <div class="navbar-end">
             <div class="navbar-item">
                 <div class="buttons">
-                    <a class="button is-primary" href="{{ url_for('auth.logout') }}">
+                    <a class="button is-secondary" href="{{ url_for('auth.logout') }}">
                         Logout
                     </a>
                 </div>
@@ -59,7 +45,7 @@
   <main>
     <section class="section">
       <div class="container">
-        <h1 class="title">{% block header %}{% endblock %}</h1>
+        <h1 class="title is-1">{% block header %}{% endblock %}</h1>
       </div>
     </section>
     {% include 'includes/_messages.html' %}

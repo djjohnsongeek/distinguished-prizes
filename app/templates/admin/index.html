@@ -1,12 +1,67 @@
 {% extends "layouts/admin_base.html" %}
 
+{% block header_scripts %}
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
+{% endblock %}
+
 {% block header %}
 Admin Dashboard
 {% endblock %}
 
 {% block content %}
-<span>Welcome to the admin dashboard</span><br/>
-<a href="{{url_for('admin.sweepstakes')}}">All sweepstakes</a><br/>
-<a href="{{url_for('admin.create_sweepstakes')}}">Create sweepstakes</a>
+<div class="block">
+    <h2 class="title">Site Views</h3>
+    <div id="daily-views-chart"></div>
+</div>
+<div class="block">
+    <h2 class="title">Site Traffic Sources</h3>
+    <div id="traffic-sources-chart"></div>
+</div>
 
+{% endblock %}
+
+{% block scripts %}
+<script>
+    google.charts.load('current', {packages: ['corechart']});
+    google.charts.setOnLoadCallback(drawCharts);
+
+    function drawCharts() {
+      // Define the chart to be drawn.
+      var data = new google.visualization.DataTable();
+      data.addColumn('string', 'Date');
+      data.addColumn('number', 'Unique Views');
+      data.addColumn('number', 'Total Views');
+      data.addRows([
+        ['10/2/23', 10, 50],
+        ['10/3/23', 86, 200],
+        ['10/4/23', 12, 23],
+        ['10/5/23', 23, 33]
+      ]);
+
+      let options =  {
+          isStacked: true,
+      };
+
+      // Instantiate and draw the chart.
+      var chart = new google.visualization.ColumnChart(document.getElementById('daily-views-chart'));
+      chart.draw(data, options);
+
+      // Define the chart to be drawn
+      var data = new google.visualization.DataTable();
+      data.addColumn('string', 'Source');
+      data.addColumn('number', 'Count');
+      data.addRows([
+        ['Reddit', 200],
+        ['Discord', 45],
+        ['YouTube', 8],
+        ['Facebook', 0],
+        ['Twitter', 0],
+        ["Other", 20]
+      ]);
+
+      // Instantiate and draw the chart.
+      var chart = new google.visualization.PieChart(document.getElementById('traffic-sources-chart'));
+      chart.draw(data, null);
+    }
+  </script>
 {% endblock %}
