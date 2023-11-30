@@ -7,7 +7,7 @@ from werkzeug.security import generate_password_hash
 from peewee import MySQLDatabase
 from app.models.database import *
 
-db_models = [User, Sweepstake, Participant, Winner, LoginLog, Post]
+db_models = [User, Sweepstake, Participant, Winner, LoginLog, Post, PageView]
 
 def get_db() -> MySQLDatabase:
     if 'db' not in g:

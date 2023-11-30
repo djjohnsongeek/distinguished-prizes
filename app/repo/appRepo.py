@@ -1,4 +1,4 @@
-from app.models.database import User, Sweepstake, Participant, Winner, LoginLog, Post
+from app.models.database import User, Sweepstake, Participant, Winner, LoginLog, Post, PageView
 from app.forms import SweepstakesForm, SweepstakesEditForm, RegisterForm, ConfirmationForm, PostForm, PostEditForm
 from app.services import log_service
 from peewee import DoesNotExist, fn, JOIN
@@ -151,6 +151,14 @@ def log_login_attempt(user: User, success: bool) -> bool:
         user = user,
         time = datetime.now(),
         success = success
+    ).execute()
+
+def record_view(user_uuid: str, source: str, page: str):
+    PageView.insert(
+        timestamp = datetime.now(),
+        page = page,
+        user_uuid = user_uuid,
+        source = source
     ).execute()
 
 ## UPDATE QUERIES

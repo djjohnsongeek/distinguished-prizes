@@ -1,9 +1,11 @@
 from flask import Blueprint, render_template, request, flash, send_from_directory, current_app, jsonify
 from app.services import sweepstakes_service, blog_service
+from app.util import capture_page_view
 index_blueprint = Blueprint("index", __name__)
 
 @index_blueprint.route("/", methods=["GET"])
 def home():
+    capture_page_view(request, "home")
     sweepstakes = sweepstakes_service.get_sweepstakes()
     return render_template("home.html", sweepstakes=sweepstakes)
 

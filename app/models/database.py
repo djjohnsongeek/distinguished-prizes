@@ -107,3 +107,9 @@ class Post(BaseModel):
     dislikes = IntegerField(null=False, default=0)
     title = CharField(max_length=512, null=False)
     content = TextField(null=False)
+
+class PageView(BaseModel):
+    timestamp = DateTimeField(null=True)
+    page = CharField(max_length=32)
+    user_uuid = UUIDField()
+    source = CharField(max_length=32)

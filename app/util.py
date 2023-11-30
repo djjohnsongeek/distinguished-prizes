@@ -1,4 +1,6 @@
-from flask import flash, Request
+from flask import flash, Request, current_app, session
+from app.repo import appRepo
+import uuid
 
 def flash_collection(messages: [], category: str):
     for message in messages:
@@ -44,3 +46,23 @@ def parse_int_from_request(requestPayload: dict, key: str) -> int:
             value = None
 
     return value
+
+def get_user_id():
+    config = current_app.config
+
+    userId = session.get(config["USER_COOKIE_KEY"], None)
+
+    if userId is None:
+        session[config["USER_COOKIE_KEY"]] = str(uuid.uuid4())
+        userId = session[config["USER_COOKIE_KEY"]]
+    
+    return userId
+
+def capture_page_view(request: Request, page: str):
+    source = request.args.get("source", "other")
+    if source not in current_app.config["TRAFFIC_SOURCES"]:
+        source = "other"
+
+    user_id = get_user_id()
+
+    appRepo.record_view(user_id, source, page)
