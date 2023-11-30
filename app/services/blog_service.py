@@ -5,7 +5,6 @@ from app.models.dtos import PostModel
 from app.util import parse_bool_from_request, parse_int_from_request, get_user_id
 from flask import Request, session
 
-
 def create_post(form: PostForm) -> []:
     errors = []
     if form.validate():
