@@ -22,6 +22,16 @@ def update_post(form: PostEditForm, post: Post) -> bool:
 
     return appRepo.update_post(form, post)
 
+def delete_post(id: int) -> bool:
+    post = appRepo.retrieve_post_by_id(id)
+
+    if post is None:
+        return False
+
+    appRepo.delete_post(post)
+
+    return True
+
 def get_posts() -> []:
     posts = appRepo.retrieve_posts()
     return posts

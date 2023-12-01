@@ -3,7 +3,7 @@ from app.auth import login_required
 from app.forms import SweepstakesForm, SweepstakesEditForm, PostForm, PostEditForm
 from app.services import admin_service, blog_service
 from app.repo import appRepo
-from app.util import flash_collection, parse_boolean_arg
+from app.util import flash_collection, parse_boolean_arg, parse_int_from_request
 
 admin_blueprint = Blueprint("admin", __name__)
 
@@ -148,6 +148,20 @@ def edit_post(id: int):
         return redirect(redirect_url)
 
     return render_template("admin/posts/edit.html", form=edit_form)
+
+@admin_blueprint.route("/admin/posts/delete", methods=["POST"])
+@login_required
+def delete_post():
+    post_id = parse_int_from_request(request.form, "post_id")
+    success = blog_service.delete_post(post_id)
+
+    if success:
+        flash("Post deleted!", "success")
+    else:
+        flash("Failed to delete post.", "danger")
+
+    return redirect(url_for("admin.posts"))
+    
 
 @admin_blueprint.route("/admin/posts/index", methods=["GET"])
 @login_required

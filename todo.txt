@@ -4,7 +4,6 @@
 
 3. Posts
 - mitigate repeated likes/dislkes with a cookie (in progress)
-- allow admin to delete posts
 
 Fix mobile navigation menu
 

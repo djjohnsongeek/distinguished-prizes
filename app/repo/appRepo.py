@@ -262,3 +262,7 @@ def vote_on_post(vote: bool, model: Post) -> bool:
 
     print(success)
     return success
+
+## DELETE
+def delete_post(post: Post):
+    post.delete_instance()
