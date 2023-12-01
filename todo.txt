@@ -5,8 +5,6 @@
 3. Posts
 - mitigate repeated likes/dislkes with a cookie (in progress)
 
-Fix mobile navigation menu
-
 4. Analytics
 - track site views
 

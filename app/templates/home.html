@@ -24,14 +24,13 @@
                     <a class="navbar-item" href="{{ url_for('index.home') }}">
                         <img src="/static/ui/bronze_chest.png" height="48px">
                     </a>
-                    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false"
-                        data-target="basic-navbar">
+                    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbar-menu-dp">
                         <span aria-hidden="true"></span>
                         <span aria-hidden="true"></span>
                         <span aria-hidden="true"></span>
                     </a>
                 </div>
-                <div class="navbar-menu is-centered">
+                <div class="navbar-menu" id="navbar-menu-dp">
                     <div class="navbar-start">
                         <a class="navbar-item" href="{{ url_for('index.home') }}">
                             Prizes

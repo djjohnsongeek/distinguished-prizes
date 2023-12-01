@@ -12,14 +12,17 @@
   <header>
     <nav class="navbar is-dark" id="basic-navbar" role="navigation" aria-label="main navigation">
       <div class="navbar-brand">
-        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="basic-navbar">
+        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbar-menu-dp">
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>
         </a>
       </div>
-      <div id="" class="navbar-menu">
+      <div id="navbar-menu-dp" class="navbar-menu">
         <div class="navbar-start">
+          <a class="navbar-item" href="{{ url_for('index.home') }}">
+            Public Site
+          </a>
           <a class="navbar-item" href="{{ url_for('admin.index') }}">
             Dashboard
           </a>
