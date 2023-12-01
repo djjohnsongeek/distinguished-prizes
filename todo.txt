@@ -8,23 +8,19 @@
 4. Analytics
 - track site views
 
+properly support 1 entry per day
+
 4. Design and content (faq, ect ...)
 - sweep stakes rules
  - https://www.sweeppeasweeps.com/official-rules-center/your-sweepstakes-rules-checklist/
 - privacy policy (Termly)
 - cookie policy (Termly)
 - Affidavit of Eligibility (only for $600 or more)
-    - Form 1099-MISC required
-     - https://www.rocketlawyer.com/family-and-personal/general-legal-matters/affidavits-and-statements/document/affidavit-of-eligibility#:~:text=If%20you've%20been%20chosen,you%20can%20claim%20your%20prize.
 - odds of winning
 - forfit prize notification
 
-Conduct a REDDIT TEST / low cost marketing test
 
-
-
-
-Add Providers
+Advertisement Providers
 InfoLinks
 ADSTERRA
 
