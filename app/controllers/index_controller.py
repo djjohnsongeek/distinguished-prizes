@@ -11,10 +11,12 @@ def home():
 
 @index_blueprint.route("/About", methods=["GET"])
 def about():
+    capture_page_view(request, "about")
     return render_template("about.html")
 
 @index_blueprint.route("/News", methods=["GET"])
 def news():
+    capture_page_view(request, "news")
     posts = blog_service.get_post_dtos()
     return render_template("news.html", posts=posts)
 

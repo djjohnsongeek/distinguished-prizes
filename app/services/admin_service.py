@@ -101,3 +101,51 @@ def validate_fullfill_data(data: {}, winner: Winner) -> []:
         errors.append("Invalid Carrier")
 
     return errors
+
+
+def get_site_traffic_data():
+    data = {
+        "siteTraffic": [],
+        "siteTrafficSrcs": [],
+        "siteTrafficPages": []
+    }
+
+    page_views = appRepo.retrieve_site_traffic()
+
+    # split into days
+    data_by_day = {}
+    traffic_srcs = {}
+    traffic_pages = {}
+    for page_view in page_views:
+        if page_view.timestamp.day not in data_by_day:
+            data_by_day[page_view.timestamp.day] = []
+
+        if page_view.source not in traffic_srcs:
+            traffic_srcs[page_view.source] = 0
+
+        if page_view.page not in traffic_pages:
+            traffic_pages[page_view.page] = 0
+
+        data_by_day[page_view.timestamp.day].append(page_view)
+        traffic_srcs[page_view.source] = traffic_srcs[page_view.source] + 1
+        traffic_pages[page_view.page] = traffic_pages[page_view.page] + 1
+
+    # load site traffic data
+    for key, value in data_by_day.items():
+        data["siteTraffic"].append([
+            value[0].timestamp.strftime("%m/%d/%Y"), 0, len(value)
+        ])
+
+    # load traffic source data
+    for key, value in traffic_srcs.items():
+        data["siteTrafficSrcs"].append([
+            key, value
+        ])
+
+    # load page traffic data
+    for key, value in traffic_pages.items():
+        data["siteTrafficPages"].append([
+            key, value
+        ])
+
+    return data

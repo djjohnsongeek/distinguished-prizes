@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, flash, redirect, url_for
+from flask import Blueprint, render_template, request, flash, redirect, url_for, jsonify
 from app.auth import login_required
 from app.forms import SweepstakesForm, SweepstakesEditForm, PostForm, PostEditForm
 from app.services import admin_service, blog_service
@@ -10,6 +10,7 @@ admin_blueprint = Blueprint("admin", __name__)
 @admin_blueprint.route("/admin", methods=["GET"])
 @login_required
 def index():
+
     return render_template("admin/index.html")
 
 @admin_blueprint.route("/admin/sweepstakes", methods=["GET"])
@@ -168,3 +169,10 @@ def delete_post():
 def posts():
     posts = blog_service.get_posts()
     return render_template("admin/posts/index.html", posts=posts)
+
+@admin_blueprint.route("/api/admin/traffic", methods=["GET"])
+@login_required
+def site_traffic():
+    data = admin_service.get_site_traffic_data()
+
+    return jsonify(data)

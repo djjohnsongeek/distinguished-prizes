@@ -1,9 +1,9 @@
-from flask import Blueprint, render_template, flash, redirect, url_for
+from flask import Blueprint, render_template, flash, redirect, url_for, request
 sweepstakes_blueprint = Blueprint("sweepstakes", __name__)
 from app.forms import RegisterForm, ConfirmationForm
 from app.repo import appRepo
 from app.services import sweepstakes_service
-from app.util import flash_collection
+from app.util import flash_collection, capture_page_view
 
 @sweepstakes_blueprint.route("/sweepstakes/<int:sweepstakes_id>", methods=["GET"])
 def info(sweepstakes_id: int):
@@ -15,6 +15,7 @@ def info(sweepstakes_id: int):
         flash("Sweepstakes not found :(", "danger")
         return redirect(url_for("index.home"))
 
+    capture_page_view(request, "sweepstake-info")
     return render_template("sweepstakes/info.html", sweepstakes=sweepstake, participant_count=participant_count, winner=winner)
 
 @sweepstakes_blueprint.route("/sweepstakes/register/<int:sweepstakes_id>", methods=["GET"])
@@ -25,6 +26,7 @@ def register_get(sweepstakes_id: int):
         flash("Sweepstakes not found :(", "danger")
         return redirect(url_for("index.home"))
 
+    capture_page_view(request, "sweepstake-register")
     register_form = RegisterForm(sweepstakes_id=sweepstakes_id)
     return render_template(
         "sweepstakes/register.html",

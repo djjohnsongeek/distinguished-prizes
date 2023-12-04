@@ -17,27 +17,25 @@ Admin Dashboard
     <h2 class="title">Site Traffic Sources</h3>
     <div id="traffic-sources-chart"></div>
 </div>
+<div class="block">
+    <h2 class="title">Page Distribution</h3>
+    <div id="traffic-pages-chart"></div>
+</div>
 
 {% endblock %}
 
 {% block scripts %}
 <script>
     google.charts.load('current', {packages: ['corechart']});
-    google.charts.setOnLoadCallback(drawCharts);
+    google.charts.setOnLoadCallback(fetchTraffic);
 
-    function drawCharts() {
+    function drawCharts(requestData) {
       // Define the chart to be drawn.
       var data = new google.visualization.DataTable();
       data.addColumn('string', 'Date');
       data.addColumn('number', 'Unique Views');
       data.addColumn('number', 'Total Views');
-      data.addRows([
-        ['10/2/23', 10, 50],
-        ['10/3/23', 86, 200],
-        ['10/4/23', 12, 23],
-        ['10/5/23', 23, 33]
-      ]);
-
+      data.addRows(requestData.siteTraffic);
       let options =  {
           isStacked: true,
       };
@@ -50,18 +48,28 @@ Admin Dashboard
       var data = new google.visualization.DataTable();
       data.addColumn('string', 'Source');
       data.addColumn('number', 'Count');
-      data.addRows([
-        ['Reddit', 200],
-        ['Discord', 45],
-        ['YouTube', 8],
-        ['Facebook', 0],
-        ['Twitter', 0],
-        ["Other", 20]
-      ]);
+      data.addRows(requestData.siteTrafficSrcs);
 
       // Instantiate and draw the chart.
       var chart = new google.visualization.PieChart(document.getElementById('traffic-sources-chart'));
       chart.draw(data, null);
+
+        // Define the chart to be drawn
+        var data = new google.visualization.DataTable();
+      data.addColumn('string', 'Page');
+      data.addColumn('number', 'Count');
+      data.addRows(requestData.siteTrafficPages);
+
+      // Instantiate and draw the chart.
+      var chart = new google.visualization.PieChart(document.getElementById('traffic-pages-chart'));
+      chart.draw(data, null);
     }
+
+    async function fetchTraffic() {
+        const response = await fetch("/api/admin/traffic");
+        const data = await response.json();
+        drawCharts(data);
+    }
+
   </script>
 {% endblock %}

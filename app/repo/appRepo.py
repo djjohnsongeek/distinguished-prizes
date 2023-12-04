@@ -91,6 +91,18 @@ def retrieve_post_by_id(id: int, as_dict: bool = False):
 def retrieve_posts() -> []:
     return Post.select().order_by(Post.id)
 
+def retrieve_site_traffic() -> []:
+    today = datetime.today()
+    start = today.replace(day=1)
+
+    next_month = today.month + 1
+    if next_month > 12:
+        next_month = 1
+
+    end = start.replace(month=next_month)
+
+    return PageView.select().where(PageView.timestamp >= start & PageView.timestamp <= end)
+
 ## CREATE QUERIES
 def create_sweepstake(sweepstake_form: SweepstakesForm, safe_image_name: str) -> bool:
     return Sweepstake.insert(
