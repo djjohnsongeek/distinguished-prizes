@@ -127,13 +127,26 @@ def get_site_traffic_data():
             traffic_pages[page_view.page] = 0
 
         data_by_day[page_view.timestamp.day].append(page_view)
-        traffic_srcs[page_view.source] = traffic_srcs[page_view.source] + 1
-        traffic_pages[page_view.page] = traffic_pages[page_view.page] + 1
+        traffic_srcs[page_view.source] += 1
+        traffic_pages[page_view.page] += 1
 
     #load site traffic data
     for key, value in data_by_day.items():
+
+
+        # Determine number of unique views
+        user_uuid = ""
+        unique_views = 0
+        for page_view in value:
+
+            # Increment unique view count
+            if page_view.user_uuid != user_uuid:
+                unique_views += 1
+                user_uuid = page_view.user_uuid
+
+
         data["siteTraffic"].append([
-            value[0].timestamp.strftime("%m/%d/%Y"), 0, len(value)
+            value[0].timestamp.strftime("%m/%d/%Y"), unique_views, len(value)
         ])
 
     # load traffic source data
