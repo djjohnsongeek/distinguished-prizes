@@ -130,7 +130,7 @@ def get_site_traffic_data():
         traffic_srcs[page_view.source] = traffic_srcs[page_view.source] + 1
         traffic_pages[page_view.page] = traffic_pages[page_view.page] + 1
 
-    # load site traffic data
+    #load site traffic data
     for key, value in data_by_day.items():
         data["siteTraffic"].append([
             value[0].timestamp.strftime("%m/%d/%Y"), 0, len(value)

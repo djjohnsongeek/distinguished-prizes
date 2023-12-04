@@ -10,18 +10,20 @@ Admin Dashboard
 
 {% block content %}
 <div class="block">
-    <h2 class="title">Site Views</h3>
+    <h2 class="title">Site Traffic</h3>
     <div id="daily-views-chart"></div>
 </div>
 <div class="block">
-    <h2 class="title">Site Traffic Sources</h3>
-    <div id="traffic-sources-chart"></div>
+    <h2 class="title">Traffic Demographics</h3>
+    <div class="tile is-ancestor">
+        <div class="tile">
+            <div id="traffic-sources-chart"></div>
+        </div>
+        <div class="tile">
+            <div id="traffic-pages-chart"></div>
+        </div>
+    </div>
 </div>
-<div class="block">
-    <h2 class="title">Page Distribution</h3>
-    <div id="traffic-pages-chart"></div>
-</div>
-
 {% endblock %}
 
 {% block scripts %}
@@ -49,20 +51,27 @@ Admin Dashboard
       data.addColumn('string', 'Source');
       data.addColumn('number', 'Count');
       data.addRows(requestData.siteTrafficSrcs);
+      options = {
+        title: "Site Traffic By Source"
+      }
 
       // Instantiate and draw the chart.
       var chart = new google.visualization.PieChart(document.getElementById('traffic-sources-chart'));
-      chart.draw(data, null);
+      chart.draw(data, options);
 
         // Define the chart to be drawn
-        var data = new google.visualization.DataTable();
+      var data = new google.visualization.DataTable();
       data.addColumn('string', 'Page');
       data.addColumn('number', 'Count');
       data.addRows(requestData.siteTrafficPages);
 
+      options = {
+        title: "Site Traffic by Page"
+      }
+
       // Instantiate and draw the chart.
       var chart = new google.visualization.PieChart(document.getElementById('traffic-pages-chart'));
-      chart.draw(data, null);
+      chart.draw(data, options);
     }
 
     async function fetchTraffic() {
