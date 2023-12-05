@@ -6,9 +6,6 @@
 - mitigate repeated likes/dislkes with a cookie (in progress)
 - "flatten" session (no need to use guid as a key, session is already unique)
 
-4. Analytics
-- track site views
-
 5. properly support 1 entry per day
 
 4. Design and content (faq, ect ...)
