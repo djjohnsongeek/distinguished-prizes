@@ -64,19 +64,15 @@ def vote_on_post(request: Request) -> dict:
 
 def record_vote(post_id: int) -> bool:
     result = False
-    user_id = get_user_id()
-    user_session = session.get(user_id, None)
 
-    if post_id not in user_session["votes"]:
-        l = user_session["votes"]
-        l.append(post_id)
-        user_session["votes"] = l
+    if session.get("votes", None) is None:
+        session["votes"] = []
+
+    if post_id not in session["votes"]:
+        session["votes"].append(post_id)
         result = True
 
     return result
 
 def remove_user_vote(post_id: int):
-    print("remvong")
-    user_id = get_user_id()
-    user_session = session.get(user_id, None)
-    user_session["votes"].remove(user_id)
+    session["votes"].remove(post_id)

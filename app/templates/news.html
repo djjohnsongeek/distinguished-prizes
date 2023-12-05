@@ -88,7 +88,6 @@
         function incrementCount(requestData) {
             const voteType = requestData.vote == "true" ? "like" : "dislike";
             const elementId = `${voteType}-count-${requestData.id}`;
-            console.log(elementId);
             const countElement = document.getElementById(elementId);
             let currentCount = parseInt(countElement.innerText);
 

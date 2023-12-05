@@ -271,8 +271,7 @@ def vote_on_post(vote: bool, model: Post) -> bool:
         success = True
     except:
         pass
-
-    print(success)
+    
     return success
 
 ## DELETE
