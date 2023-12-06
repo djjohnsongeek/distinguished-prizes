@@ -7,6 +7,7 @@
 - "flatten" session (no need to use guid as a key, session is already unique)
 
 5. properly support 1 entry per day
+- standardize all datetime timezones
 
 4. Design and content (faq, ect ...)
 - sweep stakes rules

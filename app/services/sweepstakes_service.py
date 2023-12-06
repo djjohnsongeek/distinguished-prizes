@@ -3,7 +3,7 @@ from app.services import email_service, log_service
 from app.repo import appRepo
 from app.forms import RegisterForm, ConfirmationForm
 from app.models.database import Sweepstake
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, time
 
 def add_participant(form: RegisterForm, sweepstake: Sweepstake) -> []:
     errors = []
@@ -21,32 +21,30 @@ def add_participant(form: RegisterForm, sweepstake: Sweepstake) -> []:
         errors.append("Sweepstakes has not started.")
     
     participant = appRepo.retrieve_participant_by_email(form.email.data, sweepstake)
-    if participant is not None:
-        errors.append("You have already signed up for this sweepstake.")
 
-    participant = appRepo.retreive_participant_by_username(form.user_name.data, sweepstake)
     if participant is not None:
-        form.user_name.errors.append("This username is already in use for this sweepstake.")
-        errors.append("This username is already in use. Please pick a different one.")
+        cut_off_time = determine_entry_cutoff_time(participant.entry_time)
+        if datetime.now() <= cut_off_time:
+            errors.append(f"You cannot sign up for this sweepstakes yet. You will be able to enter again after {cut_off_time}")
 
-    if is_client_registered(sweepstake):
-        errors.append("You have already signed up for this sweepstakes.")
+    # TODO make sure username is unique to email
+    # if form.user_name.data != participant.name:
+    #     form.user_name.errors.append("Username does not match email.")
+    #     errors.append("This username is already in use. Please pick a different one.")
     
     if len(errors) == 0:
         result = appRepo.add_participant(form, sweepstake)
         if not result:
             errors.append("Failed to register for sweepstakes.")
         else:
-            remember_client_registration(sweepstake)
             sent = email_service.send_registration_email(form.email.data, sweepstake.name, sweepstake.end_date)
+            # TODO log if email fails
 
     return errors
 
-def remember_client_registration(sweepstake: Sweepstake):
-    session[f"sweepstake_{sweepstake.id}"] = True
-
-def is_client_registered(sweepstake: Sweepstake):
-    return session.get(f"sweepstake_{sweepstake.id}", default=False)
+def determine_entry_cutoff_time(last_entry_time: datetime):
+    cutt_off = datetime.combine(last_entry_time, time.max)
+    return cutt_off
 
 def get_sweepstakes() -> {}:
     now = datetime.now()
