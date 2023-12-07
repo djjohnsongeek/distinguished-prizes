@@ -8,6 +8,7 @@
 
 5. properly support 1 entry per day
 - standardize all datetime timezones
+- move to storing participant information seperate from entry information
 
 4. Design and content (faq, ect ...)
 - sweep stakes rules

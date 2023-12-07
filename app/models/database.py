@@ -46,11 +46,14 @@ class Sweepstake(BaseModel):
 class Participant(BaseModel):
     name = CharField(max_length=512)
     email = CharField(max_length=512)
-    sweepstake = ForeignKeyField(Sweepstake, backref="participants")
-    entry_time = DateTimeField()
 
     def __str__(self):
         return f"name: {self.name}, email: {self.email}"
+
+class Entry(BaseModel):
+    participant = ForeignKeyField(Participant, backref="entries")
+    sweepstake = ForeignKeyField(Sweepstake, backref="participants")
+    entry_time = DateTimeField()
 
 class Winner(BaseModel):
     participant = ForeignKeyField(Participant)
