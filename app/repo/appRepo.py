@@ -43,7 +43,7 @@ def retrieve_confirmed_winner(sweepstake: Sweepstake) -> Winner:
     if sweepstake is None:
         return None
     
-    return Winner.select().join(Sweepstake).join(Participant).where((Sweepstake.id == sweepstake.id) & (Winner.confirmed == True)).first()
+    return Winner.select().join(Sweepstake).switch(Winner).join(Participant).where((Sweepstake.id == sweepstake.id) & (Winner.confirmed == True)).first()
 
 def retrieve_winner(confirm_guid: str) -> Winner:
     return Winner.select().join(Participant).join(Sweepstake).where(Winner.confirmation_guid == confirm_guid).first()
@@ -67,8 +67,11 @@ def retrieve_participants(sweepstake: Sweepstake):
 def retrieve_participant(participant_id: int) -> Participant:
     return Participant.select().where(Participant.id == participant_id).get_or_none()
 
-def retrieve_participant_count(sweepstake: Sweepstake) -> int:
-    raise NotImplemented()
+def retrieve_participant_by_email(email: str) -> Participant:
+    return Participant.select().where(Participant.email == email).get_or_none()
+
+def retireve_entry_count(sweepstake: Sweepstake) -> int:
+    return Entry.select().join(Sweepstake).where(Entry.sweepstake.id == sweepstake.id).count()
 
 def retrieve_latest_participant_by_email(email: str):
     raise NotImplemented()
@@ -76,8 +79,12 @@ def retrieve_latest_participant_by_email(email: str):
 def retrieve_random_participant(sweepstake: Sweepstake) -> Participant:
     raise NotImplemented()
 
-def retrieve_entries(sweepstake: Sweepstake, participant: Participant) -> Entry:
-    return Entry.select().join(Participant, Sweepstake).where((Entry.participant.id == participant.id) & (Entry.sweepstake.id == sweepstake.id)).order_by(-Entry.id)
+def retrieve_entries(sweepstake: Sweepstake, participant: Participant) -> []:
+    return Entry.select().join(Sweepstake).switch(Entry).join(Participant).where((Entry.participant.id == participant.id) & (Entry.sweepstake.id == sweepstake.id)).order_by(-Entry.id)
+
+def retrieve_latest_entry(sweepstake: Sweepstake, participant: Participant) -> Entry:
+    entries = retrieve_entries(sweepstake, participant)
+    return entries.first()
 
 def retrieve_post_by_id(id: int, as_dict: bool = False):
     if id is None:
@@ -140,19 +147,34 @@ def create_winner(sweepstake: Sweepstake, participant: Participant, guid: str) -
         zipcode = None,
     ).execute()
 
-def add_participant(register_form: RegisterForm) -> bool:
+def create_entry(sweepstake: Sweepstake, participant: Participant):
+    success = None
+    try:
+        success = Entry.insert(
+            participant = participant,
+            sweepstake = sweepstake,
+            entry_time = datetime.now()
+        ).execute()
+    except Exception as e:
+        log_service.log_error("Failed to add new entry", "AppRepo.add_entry()", {"exception": str(e) })
+
+    if success is False:
+        log_service.log_error("Failed to addd new entry", "AppRepo.add_entry()", {})
+
+    return success
+
+def create_participant(form: RegisterForm):
     success = None
     try:
         success = Participant.insert(
-            name = register_form.user_name.data,
-            email = register_form.email.data
+            name = form.user_name.data,
+            email = form.email.data
         ).execute()
-    
     except Exception as e:
-        log_service.log_error("Failed to register participant", "AppRepo.add_participant()", {"exception": str(e) })
+        log_service.log_error("Failed to create participant", "AppRepo.create_participant()", {"exception": str(e) })
 
     if success is False:
-        log_service.log_error("Failed to register participant", "AppRepo.add_participant()", {})
+        log_service.log_error("Failed to create participant", "AppRepo.create_participant()", {})
 
     return success
 

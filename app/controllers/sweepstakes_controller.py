@@ -8,7 +8,7 @@ from app.util import flash_collection, capture_page_view
 @sweepstakes_blueprint.route("/sweepstakes/<int:sweepstakes_id>", methods=["GET"])
 def info(sweepstakes_id: int):
     sweepstake = appRepo.retrieve_sweepstake(sweepstakes_id)
-    participant_count = appRepo.retrieve_participant_count(sweepstake)
+    entry_count = appRepo.retireve_entry_count(sweepstake)
     winner = appRepo.retrieve_confirmed_winner(sweepstake)
 
     if sweepstake is None:
@@ -16,7 +16,7 @@ def info(sweepstakes_id: int):
         return redirect(url_for("index.home"))
 
     capture_page_view(request, "sweepstake-info")
-    return render_template("sweepstakes/info.html", sweepstakes=sweepstake, participant_count=participant_count, winner=winner)
+    return render_template("sweepstakes/info.html", sweepstakes=sweepstake, entry_count=entry_count, winner=winner)
 
 @sweepstakes_blueprint.route("/sweepstakes/register/<int:sweepstakes_id>", methods=["GET"])
 def register_get(sweepstakes_id: int):

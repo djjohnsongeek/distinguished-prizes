@@ -2,7 +2,7 @@ from flask import session, current_app
 from app.services import email_service, log_service
 from app.repo import appRepo
 from app.forms import RegisterForm, ConfirmationForm
-from app.models.database import Sweepstake
+from app.models.database import Sweepstake, Participant, Entry
 from datetime import datetime, timedelta, time
 
 def add_participant(form: RegisterForm, sweepstake: Sweepstake) -> []:
@@ -26,14 +26,11 @@ def add_participant(form: RegisterForm, sweepstake: Sweepstake) -> []:
         errors.append("Failed to fetch or create participant.")
         return errors
 
-    entries = appRepo.retrieve_entries(sweepstake, participant)
-
-    if not participant_can_enter(entries):
-        errors.append(f"You can only enter every {current_app.config['REGISTRATION_FREQUENCY_HRS']} hours")
+    if not participant_can_enter(appRepo.retrieve_latest_entry(sweepstake, participant)):
+        errors.append(f"You can only enter for this sweepstakes every {current_app.config['REGISTRATION_FREQUENCY_HRS']} hours")
 
     if len(errors) == 0:
-        #result = appRepo.add_participant(form, sweepstake)
-        # add new entry
+        result = appRepo.create_entry(sweepstake, participant)
         if not result:
             errors.append("Failed to register for sweepstakes.")
         else:
@@ -47,17 +44,19 @@ def retrieve_or_create_participant(form: RegisterForm) -> Participant:
     participant = appRepo.retrieve_participant_by_email(form.email.data)
 
     if participant is None:
-        created = appRepo.add_participant(form)
+        created = appRepo.create_participant(form)
         if created:
             participant = appRepo.retrieve_participant_by_email(form.email.data)
         else:
             participant = None
 
-    return None
+    return participant
 
-def participant_can_enter(entries) -> bool:
-    last_entry = entries.peek(1).entry_time
-    cut_off = last_entry + timedelta(hours=current_app.config["REGISTRATION_FREQUENCY_HRS"])
+def participant_can_enter(latest_entry: Entry) -> bool:
+    if latest_entry is None:
+        return True
+
+    cut_off = latest_entry.entry_time + timedelta(hours=current_app.config["REGISTRATION_FREQUENCY_HRS"])
     return datetime.now() > cut_off
 
 def get_sweepstakes() -> {}:

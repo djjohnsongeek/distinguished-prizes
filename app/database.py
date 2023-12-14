@@ -111,41 +111,6 @@ def init_db():
             "image": "ed5d99ea-3e81-4b6d-b581-63867632dea6.jpg",
         }
     ]).execute()
-
-    # Add participans
-    Participant.insert_many([
-        {
-            "name": "thedjgeek",
-            "email": "daniel@gmail.com",
-            "sweepstake": Sweepstake.get_by_id(2),
-            "entry_time": datetime.now()
-        },
-        {
-            "name": "jacktheripper",
-            "email": "jack@gmail.com",
-            "sweepstake": Sweepstake.get_by_id(2),
-            "entry_time": datetime.now()
-        },
-        {
-            "name": "jillnotonthehill",
-            "email": "jill@gmail.com",
-            "sweepstake": Sweepstake.get_by_id(2),
-            "entry_time": datetime.now()
-        },
-        {
-            "name": "janeisnotadoe",
-            "email": "jane@gmail.com",
-            "sweepstake": Sweepstake.get_by_id(2),
-            "entry_time": datetime.now()
-        },
-        {
-            "name": "johnsmithevername",
-            "email": "john@gmail.com",
-            "sweepstake": Sweepstake.get_by_id(2),
-            "entry_time": datetime.now()
-        }
-    ]).execute()
-    
     db.close()
 
 def init_app(app):
