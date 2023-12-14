@@ -20,20 +20,20 @@ def add_participant(form: RegisterForm, sweepstake: Sweepstake) -> []:
     if datetime.now() < sweepstake.start_date:
         errors.append("Sweepstakes has not started.")
     
-    participant = appRepo.retrieve_participant_by_email(form.email.data, sweepstake)
+    participant = retrieve_or_create_participant(form)
 
-    if participant is not None:
-        cut_off_time = determine_entry_cutoff_time(participant.entry_time)
-        if datetime.now() <= cut_off_time:
-            errors.append(f"You cannot sign up for this sweepstakes yet. You will be able to enter again after {cut_off_time}")
+    if participant is None:
+        errors.append("Failed to fetch or create participant.")
+        return errors
 
-    # TODO make sure username is unique to email
-    # if form.user_name.data != participant.name:
-    #     form.user_name.errors.append("Username does not match email.")
-    #     errors.append("This username is already in use. Please pick a different one.")
-    
+    entries = appRepo.retrieve_entries(sweepstake, participant)
+
+    if not participant_can_enter(entries):
+        errors.append(f"You can only enter every {current_app.config['REGISTRATION_FREQUENCY_HRS']} hours")
+
     if len(errors) == 0:
-        result = appRepo.add_participant(form, sweepstake)
+        #result = appRepo.add_participant(form, sweepstake)
+        # add new entry
         if not result:
             errors.append("Failed to register for sweepstakes.")
         else:
@@ -42,9 +42,23 @@ def add_participant(form: RegisterForm, sweepstake: Sweepstake) -> []:
 
     return errors
 
-def determine_entry_cutoff_time(last_entry_time: datetime):
-    cutt_off = datetime.combine(last_entry_time, time.max)
-    return cutt_off
+def retrieve_or_create_participant(form: RegisterForm) -> Participant:
+    # TODO make sure username is unique to email
+    participant = appRepo.retrieve_participant_by_email(form.email.data)
+
+    if participant is None:
+        created = appRepo.add_participant(form)
+        if created:
+            participant = appRepo.retrieve_participant_by_email(form.email.data)
+        else:
+            participant = None
+
+    return None
+
+def participant_can_enter(entries) -> bool:
+    last_entry = entries.peek(1).entry_time
+    cut_off = last_entry + timedelta(hours=current_app.config["REGISTRATION_FREQUENCY_HRS"])
+    return datetime.now() > cut_off
 
 def get_sweepstakes() -> {}:
     now = datetime.now()

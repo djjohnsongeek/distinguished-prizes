@@ -1,4 +1,4 @@
-from app.models.database import User, Sweepstake, Participant, Winner, LoginLog, Post, PageView
+from app.models.database import User, Sweepstake, Participant, Winner, LoginLog, Post, PageView, Entry
 from app.forms import SweepstakesForm, SweepstakesEditForm, RegisterForm, ConfirmationForm, PostForm, PostEditForm
 from app.services import log_service
 from peewee import DoesNotExist, fn, JOIN
@@ -65,19 +65,19 @@ def retrieve_participants(sweepstake: Sweepstake):
     return Participant.select().where(Participant.sweepstake == sweepstake)
 
 def retrieve_participant(participant_id: int) -> Participant:
-    return Participant.select().join(Sweepstake).where(Participant.id == participant_id).first()
+    return Participant.select().where(Participant.id == participant_id).get_or_none()
 
 def retrieve_participant_count(sweepstake: Sweepstake) -> int:
-    return Participant.select().join(Sweepstake).where(Sweepstake.id == sweepstake.id).count()
+    raise NotImplemented()
 
-def retrieve_latest_participant_by_email(email: str, sweepstake: Sweepstake):
-    return Participant.select().join(Sweepstake).where((Participant.email == email) & (Sweepstake.id == sweepstake.id)).order_by(Participant.entry_time.desc()).limit(1).get_or_none()
-
-def retreive_latest_participant_by_username(username: str, sweepstake: Sweepstake):
-    return Participant.select().join(Sweepstake).where((Participant.name == username) & (Sweepstake.id == sweepstake.id)).order_by(Participant.entry_time.desc()).limit(1).get_or_none()
+def retrieve_latest_participant_by_email(email: str):
+    raise NotImplemented()
 
 def retrieve_random_participant(sweepstake: Sweepstake) -> Participant:
-    return Participant.select().join(Sweepstake).where(Sweepstake.id == sweepstake.id).order_by(fn.Rand()).limit(1).get()
+    raise NotImplemented()
+
+def retrieve_entries(sweepstake: Sweepstake, participant: Participant) -> Entry:
+    return Entry.select().join(Participant, Sweepstake).where((Entry.participant.id == participant.id) & (Entry.sweepstake.id == sweepstake.id)).order_by(-Entry.id)
 
 def retrieve_post_by_id(id: int, as_dict: bool = False):
     if id is None:
@@ -140,14 +140,12 @@ def create_winner(sweepstake: Sweepstake, participant: Participant, guid: str) -
         zipcode = None,
     ).execute()
 
-def add_participant(register_form: RegisterForm, sweepstake: Sweepstake) -> bool:
+def add_participant(register_form: RegisterForm) -> bool:
     success = None
     try:
         success = Participant.insert(
             name = register_form.user_name.data,
-            email = register_form.email.data,
-            sweepstake = sweepstake,
-            entry_time = datetime.now()
+            email = register_form.email.data
         ).execute()
     
     except Exception as e:
