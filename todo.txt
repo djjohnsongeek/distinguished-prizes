@@ -7,11 +7,16 @@
 - "flatten" session (no need to use guid as a key, session is already unique)
 
 5. properly support 1 entry per day
+- validate max_participants is not hit when registering a new entrant
 - standardize all datetime timezones
 - move to storing participant information seperate from entry information
+    - winner selection script
+    - winnerss link on sweepstakes.index page
+    - validate confirmation process is working
 
 4. Design and content (faq, ect ...)
 - sweep stakes rules
+ - multiple entires now allowed
  - https://www.sweeppeasweeps.com/official-rules-center/your-sweepstakes-rules-checklist/
 - privacy policy (Termly)
 - cookie policy (Termly)
