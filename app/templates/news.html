@@ -9,6 +9,16 @@
 {% endblock %}
 
 {% block content %}
+    {% if not posts %}
+    <div class="card">
+        <header class="card-header">
+            <p class="card-header-title is-centered">
+                No recent updates. Check back later.
+                <i class="fa-solid fa-face-sad-cry ml-1"></i>
+            </p>
+        </header>
+    </div>
+    {% endif %}
     {% for post in posts %}
         <div class="card mb-6 mt-6">
             <div class="card-content">
