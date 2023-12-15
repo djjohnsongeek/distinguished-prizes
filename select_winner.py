@@ -13,8 +13,6 @@ def select_winners():
     db = get_db()
     db.connect()
 
-    print("Testing winner selection!")
-
     # Handle any 'expired' winners
     expired_winners = Winner.select().join(Sweepstake).switch(Winner).join(Participant).where((datetime.now() > Winner.expire_date) & (Winner.confirmed is False))
     for winner in expired_winners:
@@ -65,10 +63,11 @@ def select_winner(sweepstake: Sweepstake, last_winner_id: int = None):
     result = create_winner(sweepstake, winning_participant, confirmation_guid)
     confirmation_url = generate_confirmation_url("localhost", sweepstake.id, winning_participant.id, confirmation_guid)
 
+    print(confirmation_url)
+
     # Send selection email to winner (this is not going to work as email_service is VERY dependant on the flask project)
     # move to a queue based email system?
-    email_service.send_selection_email(winning_participant.name, winning_participant.email, sweepstake.name, confirmation_url)
-
+    # email_service.send_selection_email(winning_participant.name, winning_participant.email, sweepstake.name, confirmation_url)
     # send web master notification email
 
 def expire_winner(winner: Winner):
