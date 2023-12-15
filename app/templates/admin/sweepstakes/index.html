@@ -16,7 +16,7 @@
                 <th>Start Date</th>
                 <th>End Date</th>
                 <th>Max Participants</th>
-                <th>Count</th>
+                <th>Entries</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -28,16 +28,11 @@
                 <td>{{sweepstake.start_date}}</td>
                 <td>{{sweepstake.end_date}}</td>
                 <td>{{sweepstake.max_participants}}</td>
-                <td>{{sweepstake.participants|length}}</td>
+                <td>{{sweepstake.entries|length}}</td>
                 <td>
                     <a class="button is-primary" href="{{url_for('admin.edit_sweepstakes', id=sweepstake.id)}}">
                         Edit
                     </a>
-                    {% if sweepstake.has_ended() %}
-                    <a class="button is-success is-outlined" href="{{url_for('admin.select_winner', id=sweepstake.id)}}">
-                        Select Winner
-                    </a>
-                {% endif %}
                 </td>
             </tr>
             {% endfor %}
