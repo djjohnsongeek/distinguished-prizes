@@ -20,37 +20,38 @@ def add_participant(form: RegisterForm, sweepstake: Sweepstake) -> []:
     if datetime.now() < sweepstake.start_date:
         errors.append("Sweepstakes has not started.")
     
-    participant = retrieve_or_create_participant(form)
+    errors, participant = retrieve_or_create_participant(form)
 
-    if participant is None:
-        errors.append("Failed to fetch or create participant.")
+    if len(errors) > 0:
         return errors
 
-    if not participant_can_enter(appRepo.retrieve_latest_entry(sweepstake, participant)):
+    latest_entry = appRepo.retrieve_latest_entry(sweepstake, participant)
+    if not participant_can_enter(latest_entry):
         errors.append(f"You can only enter for this sweepstakes every {current_app.config['REGISTRATION_FREQUENCY_HRS']} hours")
 
     if len(errors) == 0:
-        result = appRepo.create_entry(sweepstake, participant)
-        if not result:
+        if not appRepo.create_entry(sweepstake, participant):
             errors.append("Failed to register for sweepstakes.")
         else:
             sent = email_service.send_registration_email(form.email.data, sweepstake.name, sweepstake.end_date)
-            # TODO log if email fails
+            log_service.log_error(f"Failed ot sent registration email to {form.email.data}", "sweepstate_service.add_participant()", None)
 
     return errors
 
-def retrieve_or_create_participant(form: RegisterForm) -> Participant:
-    # TODO make sure username is unique to email
+def retrieve_or_create_participant(form: RegisterForm) -> ([], Participant):
+    errors = []
     participant = appRepo.retrieve_participant_by_email(form.email.data)
 
     if participant is None:
-        created = appRepo.create_participant(form)
-        if created:
-            participant = appRepo.retrieve_participant_by_email(form.email.data)
+        if appRepo.username_exists(form.user_name.data):
+            errors.append("The provided username already exists")
         else:
-            participant = None
+            participant = appRepo.create_participant(form)
 
-    return participant
+    if participant is None:
+        errors.append("Failed to retrieve or create participant.")
+
+    return (errors, participant)
 
 def participant_can_enter(latest_entry: Entry) -> bool:
     if latest_entry is None:
