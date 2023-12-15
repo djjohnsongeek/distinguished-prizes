@@ -69,3 +69,6 @@ def capture_page_view(request: Request, page: str):
     user_id = get_user_id()
 
     appRepo.record_view(user_id, source, page)
+
+def generate_confirmation_url(site_domain: str, sweepstake_id: int, participant_id: int, confirmation_guid: str):
+    return f"{site_domain}/sweepstakes/confirmation/{sweepstake_id}/{participant_id}/{confirmation_guid}"
