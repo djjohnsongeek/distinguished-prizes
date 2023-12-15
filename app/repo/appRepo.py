@@ -52,7 +52,7 @@ def retrieve_winner_by_id(id: int) -> Winner:
     return Winner.select().join(Participant).join(Sweepstake).where(Winner.id == id).first()
     
 def retrieve_sweepstakes() -> []:
-    return Sweepstake.select().join(Participant, JOIN.LEFT_OUTER).group_by(Sweepstake.id).execute()
+    return Sweepstake.select()
 
 def retrieve_recent_sweepstakes() -> []:
     now = datetime.now()
