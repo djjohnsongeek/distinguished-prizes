@@ -70,6 +70,10 @@ def retrieve_participant(participant_id: int) -> Participant:
 def retrieve_participant_by_email(email: str) -> Participant:
     return Participant.select().where(Participant.email == email).get_or_none()
 
+def username_exists(username: str) -> Participant:
+    p = Participant.select().where(Participant.name == username).get_or_none()
+    return p is not None
+
 def retireve_entry_count(sweepstake: Sweepstake) -> int:
     return Entry.select().join(Sweepstake).where(Entry.sweepstake.id == sweepstake.id).count()
 
@@ -147,10 +151,10 @@ def create_winner(sweepstake: Sweepstake, participant: Participant, guid: str) -
         zipcode = None,
     ).execute()
 
-def create_entry(sweepstake: Sweepstake, participant: Participant):
-    success = None
+def create_entry(sweepstake: Sweepstake, participant: Participant) -> bool:
+    new_id = 0
     try:
-        success = Entry.insert(
+        new_id = Entry.insert(
             participant = participant,
             sweepstake = sweepstake,
             entry_time = datetime.now()
@@ -158,25 +162,16 @@ def create_entry(sweepstake: Sweepstake, participant: Participant):
     except Exception as e:
         log_service.log_error("Failed to add new entry", "AppRepo.add_entry()", {"exception": str(e) })
 
-    if success is False:
-        log_service.log_error("Failed to addd new entry", "AppRepo.add_entry()", {})
+    return new_id > 0
 
-    return success
-
-def create_participant(form: RegisterForm):
-    success = None
+def create_participant(form: RegisterForm) -> Participant:
+    new_participant = None
     try:
-        success = Participant.insert(
-            name = form.user_name.data,
-            email = form.email.data
-        ).execute()
+        new_participant = Participant.create(name = form.user_name.data, email = form.email.data)
     except Exception as e:
         log_service.log_error("Failed to create participant", "AppRepo.create_participant()", {"exception": str(e) })
 
-    if success is False:
-        log_service.log_error("Failed to create participant", "AppRepo.create_participant()", {})
-
-    return success
+    return new_participant
 
 def log_login_attempt(user: User, success: bool) -> bool:
     return LoginLog.insert(
