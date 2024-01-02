@@ -122,5 +122,5 @@ class EmailTask(BaseModel):
     body = TextField(null=False)
     to = CharField(max_length=512, null=False)
     date_created = DateTimeField(null=False)
-    date_sent = DateTimeField(null=True)
+    date_sent = DateTimeField(null=True, default=None)
     send_attempts = IntegerField(null=False, default=0)
