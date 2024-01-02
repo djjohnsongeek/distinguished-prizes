@@ -21,14 +21,6 @@ def send_email(to: str, subject: str, body: str) -> bool:
 
     return result.status_code == 200
 
-def build_email_body(form_data: dict) -> str:
-    body = "<h3>A Customer filled out your contact form<h3/>"
-    for key, value in form_data.items():
-        if len(value) > 0:
-            body += f"<strong>{key}</strong><br/>"
-            body += f"{value}<br/>"
-    return body
-
 def build_request_data(to: str, subject: str, plain_text: str, html_text):
     return {
         'Messages': [
