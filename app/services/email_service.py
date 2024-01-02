@@ -1,64 +1,33 @@
-from mailjet_rest import Client
 from flask import current_app
-from app.models.database import Winner
+from app.models.database import Winner, EmailTask
 from app.services import log_service
 from datetime import datetime
 
-def get_mail_client():
-    api_key = current_app.config["MAILJET_API_KEY"]
-    secret_key = current_app.config["MAILJET_SECRET_KEY"]
-    return Client(auth=(api_key, secret_key), version='v3.1')
-
-def get_customer_contact() -> str:
-    return current_app.config["CONTACT_EMAIL"]
-
-def send_email(to: str, subject: str, body: str) -> bool:
-    mail_client = get_mail_client()
-    result = mail_client.send.create(data=build_request_data(to, subject, "", body))
-
-    if result.status_code != 200:
-        log_service.log_error("Failed to send email", "Email Service", { "to": to, "subject": subject, "result": result.json() })
-
-    return result.status_code == 200
-
-def build_request_data(to: str, subject: str, plain_text: str, html_text):
-    return {
-        'Messages': [
-		    {
-			    "From": {
-                    "Email": current_app.config["MAILJET_SENDER_EMAIL"],
-                    "Name": "Distinguished Prizes"
-				},
-                "To": [
-                    {
-                        "Email": to,
-                        "Name": to,
-                    }
-                ],
-                "Subject": subject,
-                "TextPart": plain_text,
-                "HTMLPart": html_text,
-			}
-		]
-    }
+def queue_email(to: str, subject: str, body: str) -> bool:
+    EmailTask.insert(
+        to=to,
+        subject=subject,
+        body=body,
+        date_created=datetime.now(),
+    ).execute()
 
 def send_registration_email(email: str, sweepstake_name: str, end_date: datetime) -> bool:
     body = build_registration_body(sweepstake_name, end_date)
-    return send_email(email, "Registration successful!", body)
+    return queue_email(email, "Registration successful!", body)
 
 def send_selection_email(username: str, email: str, sweepstake_name: str, confirm_url: str) -> bool:
     body = build_selection_body(sweepstake_name, username, confirm_url)
-    return send_email(email, "You have been selected!", body)
+    return queue_email(email, "You have been selected!", body)
 
 def send_confirmation_email(email: str, sweepstake_name: str) -> bool:
     body = build_confirmation_body(sweepstake_name)
-    return send_email(email, "Confirmation Complete!", body)
+    return queue_email(email, "Confirmation Complete!", body)
 
 def send_confirmation_notification(username: str, sweepstake_name: str) -> bool:
-    return send_email(current_app.config["CONTACT_EMAIL"], "Winner Confirmed", f"{username} has filled out the confirmation form for the {sweepstake_name} giveaway")
+    return queue_email(current_app.config["CONTACT_EMAIL"], "Winner Confirmed", f"{username} has filled out the confirmation form for the {sweepstake_name} giveaway")
 
 def send_fullfillment_email(winner: Winner) -> bool:
-    return send_email(winner.participant.email, "Your package has shipped!", build_fullfillment_email(winner))
+    return queue_email(winner.participant.email, "Your package has shipped!", build_fullfillment_email(winner))
 
 def build_registration_body(sweepstake_name: str, end_date: datetime):
     body = f"<h3>Your registration for the {sweepstake_name} giveaway was successful!</h3>"\
