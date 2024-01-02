@@ -2,7 +2,6 @@ from datetime import datetime
 from mailjet_rest import Client
 from select_winner import get_db
 from app.models.database import EmailTask
-import app.services.log_service
 from instance.config import DB_HOST, DB_NAME, DB_PASSWORD, DB_PORT, DB_USER, MAILJET_API_KEY, MAILJET_SECRET_KEY, MAILJET_SENDER_EMAIL
 
 def send_emails():
