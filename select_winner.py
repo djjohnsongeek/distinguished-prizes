@@ -26,7 +26,7 @@ def select_winners():
 
     db.close()
 
-def get_db():
+def get_db() -> MySQLDatabase:
     db = MySQLDatabase(
         DB_NAME,
         user=DB_USER,
