@@ -1,6 +1,5 @@
 from flask import current_app
 from app.models.database import Winner, EmailTask
-from app.services import log_service
 from datetime import datetime
 
 def queue_email(to: str, subject: str, body: str) -> bool:
