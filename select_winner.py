@@ -1,6 +1,6 @@
 
 from app.models.database import *
-from instance.config import DB_HOST, DB_NAME, DB_PASSWORD, DB_PORT, DB_USER
+from instance.config import DB_HOST, DB_NAME, DB_PASSWORD, DB_PORT, DB_USER, SITE_DOMAIN
 from app.services import email_service, log_service
 from app.util import generate_confirmation_url
 from datetime import datetime
@@ -61,14 +61,9 @@ def select_winner(sweepstake: Sweepstake, last_winner_id: int = None):
 
     confirmation_guid = generate_confirmation_uuid()
     result = create_winner(sweepstake, winning_participant, confirmation_guid)
-    confirmation_url = generate_confirmation_url("localhost", sweepstake.id, winning_participant.id, confirmation_guid)
-
-    print(confirmation_url)
-
-    # Send selection email to winner (this is not going to work as email_service is VERY dependant on the flask project)
-    # move to a queue based email system?
-    # email_service.send_selection_email(winning_participant.name, winning_participant.email, sweepstake.name, confirmation_url)
-    # send web master notification email
+    confirmation_url = generate_confirmation_url(SITE_DOMAIN, sweepstake.id, winning_participant.id, confirmation_guid)
+    email_service.send_selection_email(winning_participant.name, winning_participant.email, sweepstake.name, confirmation_url)
+    email_service.send_confirmation_notification(winning_participant.name, sweepstake.name)
 
 def expire_winner(winner: Winner):
     winner.confirmed = False
