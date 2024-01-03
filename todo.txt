@@ -8,11 +8,14 @@
 
 5. properly support 1 entry per day
 - validate max_participants is not hit when registering a new entrant
+- only send registration email if it is their first time registering
 - standardize all datetime timezones
 - move to storing participant information seperate from entry information
-    - winner selection script
-    - winnerss link on sweepstakes.index page
+    - TEST winner selection script
+    - TEST email task script
+    - winners link on admim.sweepstakes.index page
     - validate confirmation process is working
+    - validate multiple entires works
 
 4. Design and content (faq, ect ...)
 - sweep stakes rules
