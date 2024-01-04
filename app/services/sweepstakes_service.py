@@ -20,7 +20,7 @@ def add_participant(form: RegisterForm, sweepstake: Sweepstake) -> []:
     if datetime.now() < sweepstake.start_date:
         errors.append("Sweepstakes has not started.")
     
-    errors, participant = retrieve_or_create_participant(form)
+    participant, participant_created = retrieve_or_create_participant(form, errors)
 
     if len(errors) > 0:
         return errors
@@ -33,13 +33,15 @@ def add_participant(form: RegisterForm, sweepstake: Sweepstake) -> []:
         if not appRepo.create_entry(sweepstake, participant):
             errors.append("Failed to register for sweepstakes.")
         else:
-            sent = email_service.send_registration_email(form.email.data, sweepstake.name, sweepstake.end_date)
-            log_service.log_error(f"Failed ot sent registration email to {form.email.data}", "sweepstate_service.add_participant()", None)
+            if participant_created:
+                sent = email_service.send_registration_email(form.email.data, sweepstake.name, sweepstake.end_date)
+                if not sent:
+                    log_service.log_error(f"Failed to sent registration email to {form.email.data}", "sweepstate_service.add_participant()", None)
 
     return errors
 
-def retrieve_or_create_participant(form: RegisterForm) -> ([], Participant):
-    errors = []
+def retrieve_or_create_participant(form: RegisterForm, errors) -> (Participant, bool):
+    participant_created = False
     participant = appRepo.retrieve_participant_by_email(form.email.data)
 
     if participant is None:
@@ -47,11 +49,13 @@ def retrieve_or_create_participant(form: RegisterForm) -> ([], Participant):
             errors.append("The provided username already exists")
         else:
             participant = appRepo.create_participant(form)
+            participant_created = True
 
     if participant is None:
         errors.append("Failed to retrieve or create participant.")
+        participant_created = False
 
-    return (errors, participant)
+    return (participant, participant_created)
 
 def participant_can_enter(latest_entry: Entry) -> bool:
     if latest_entry is None:
