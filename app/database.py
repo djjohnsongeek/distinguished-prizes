@@ -31,6 +31,7 @@ def close_db():
     if db is not None:
         db.close()
 
+#region Initialize Database
 def init_db():
     db = get_db()
     db.connect()
@@ -112,11 +113,99 @@ def init_db():
         }
     ]).execute()
     db.close()
+#endregion
+
+#region Select Winners
+def select_winners():
+    db = get_db()
+    db.connect()
+
+    # Handle any 'expired' winners
+    expired_winners = Winner.select().join(Sweepstake).switch(Winner).join(Participant).where((datetime.now() > Winner.expire_date) & (Winner.confirmed is False))
+    for winner in expired_winners:
+        expire_winner(winner)
+
+    # Get all Sweepstakes ready for selection
+    sweepstakes = Sweepstake.select().where(Sweepstake.end_date <= datetime.now()) 
+    for sweepstake in sweepstakes:
+        if not winner_selected(sweepstake):
+            select_winner(sweepstake)
+
+    db.close()
+
+def winner_selected(sweepstake: Sweepstake) -> bool:
+    result = False
+    for winner in sweepstake.winners:
+        if winner.confirmed:
+            result = True
+            break
+
+        if not winner.confirmed and not winner.expired:
+            result = True
+            break
+
+    return result
+
+def select_winner(sweepstake: Sweepstake, last_winner_id: int = None):
+    while True:
+        winning_participant = get_random_winner(sweepstake)
+        if winning_participant.id != last_winner_id:
+            break
+
+    confirmation_guid = generate_confirmation_uuid()
+    result = create_winner(sweepstake, winning_participant, confirmation_guid)
+    confirmation_url = generate_confirmation_url(current_app.config["SITE_DOMAIN"], sweepstake.id, winning_participant.id, confirmation_guid)
+    email_service.send_selection_email(winning_participant.name, winning_participant.email, sweepstake.name, confirmation_url)
+    email_service.send_confirmation_notification(winning_participant.name, sweepstake.name)
+
+def expire_winner(winner: Winner):
+    winner.confirmed = False
+    winner.save()
+
+def create_winner(sweepstake: Sweepstake, participant: Participant, guid: str) -> bool:
+    new_id = 0
+    try:
+        new_id = Winner.insert(
+            participant = participant,
+            sweepstake = sweepstake,
+            selection_date = datetime.now(),
+            confirmation_guid = guid,
+            confirmation_date = None,
+            fullfilled = False,
+            fullfilled_date = None,
+            firstname = None,
+            lastname = None,
+            address1 = None,
+            address2 = None,
+            city = None,
+            state = None,
+            zipcode = None,
+        ).execute()
+    except Exception as e:
+        log_service.log_error("Failed to selecte a winner for sweepstake", "select_winner.py", { "winner_id": participant.id, "sweepstake_id": sweepstake.id, "e_msg": str(e)})
+        pass
+
+    return new_id > 0
+
+def generate_confirmation_uuid() -> str:
+    return str(uuid.uuid4())
+
+def get_random_winner(sweepstake_id: int) -> Participant:
+    selected_entry = Entry.select().join(Participant).where(Entry.sweepstake.id == sweepstake_id).order_by(fn.Random()).limit(1)
+    return selected_entry.participant
+#endregion
+
 
 def init_app(app):
     app.cli.add_command(init_db_command)
+    app.cli.add_command(select_winners_command)
  
 @click.command("init-db")
 def init_db_command():
     init_db()
     click.echo("Database Initialized ...")
+
+@click.command("select-winners")
+def select_winners_command():
+    select_winners()
+    click.echo("Winner selection complete ...")
