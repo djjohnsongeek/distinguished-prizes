@@ -1,7 +1,9 @@
 import os
-from flask import Flask, g
+from flask import Flask
 from flask_wtf.csrf import CSRFProtect
-from .database import get_db, close_db, init_app
+from .database import get_db, close_db
+from .commands import init_app_commands
+
 csrf = CSRFProtect()
 
 def create_app(test_config=None):
@@ -27,7 +29,7 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    init_app(app)
+    init_app_commands(app)
 
     from .controllers.index_controller import index_blueprint
     from .controllers.sweepstakes_controller import sweepstakes_blueprint
