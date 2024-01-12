@@ -13,7 +13,6 @@ from mailjet_rest import Client
 from app.models.database import EmailTask
 from app.database import get_db, db_models
 
-
 #region Initialize Database
 
 def init_db():
@@ -134,6 +133,10 @@ def winner_selected(sweepstake: Sweepstake) -> bool:
 def select_winner(sweepstake: Sweepstake, last_winner_id: int = None):
     while True:
         winning_participant = get_random_winner(sweepstake)
+
+        if winning_participant is None:
+            return
+
         if winning_participant.id != last_winner_id:
             break
 
@@ -154,6 +157,7 @@ def create_winner(sweepstake: Sweepstake, participant: Participant, guid: str) -
             participant = participant,
             sweepstake = sweepstake,
             selection_date = datetime.now(),
+            expire_date = datetime.now() + timedelta(hours=int(current_app.config["CONFIRMATION_TIMELIMIT_HRS"])),
             confirmation_guid = guid,
             confirmation_date = None,
             fullfilled = False,
@@ -176,8 +180,11 @@ def generate_confirmation_uuid() -> str:
     return str(uuid.uuid4())
 
 def get_random_winner(sweepstake_id: int) -> Participant:
-    selected_entry = Entry.select().join(Participant).where(Entry.sweepstake.id == sweepstake_id).order_by(fn.Random()).limit(1)
-    return selected_entry.participant
+    query_result = Entry.select().join(Participant).switch(Entry).join(Sweepstake).where(Entry.sweepstake.id == sweepstake_id).order_by(fn.Rand()).limit(1)
+    if query_result.count() == 0:
+        return None
+
+    return query[0].participant
 #endregion
 
 #region Send Emails
@@ -188,7 +195,7 @@ def send_emails():
 
     mail_client = get_mail_client()
     email_tasks = get_pending_tasks()
-    send_emails(email_tasks, mail_client, db)
+    process_tasks(email_tasks, mail_client, db)
 
     db.close()
 
@@ -201,14 +208,14 @@ def get_mail_client():
 def get_pending_tasks():
     return EmailTask.select().where(EmailTask.date_sent is None)
 
-def send_emails(email_tasks, mail_client, db):
+def process_tasks(email_tasks, mail_client, db):
     for task in email_tasks:
         if send_email(task, mail_client):
             task.date_sent = datetime.now()
 
         task.send_attempts += 1
 
-    with db.automatic():
+    with db.atomic():
         EmailTask.bulk_update(email_tasks, fields=[EmailTask.date_sent, EmailTask.send_attempts], batch_size=50)
 
 def send_email(email_task, mail_client) -> bool:

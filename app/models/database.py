@@ -59,6 +59,7 @@ class Winner(BaseModel):
     participant = ForeignKeyField(Participant)
     sweepstake = ForeignKeyField(Sweepstake, backref="winners")
     selection_date = DateTimeField(null=False)
+    expire_date = DateTimeField(null=False)
     confirmation_guid = CharField(max_length=64)
     confirmation_date = DateTimeField(null=True)
     confirmed = BooleanField(default=False)
@@ -74,11 +75,8 @@ class Winner(BaseModel):
     state = CharField(max_length=16, null=True)
     zipcode = CharField(max_length=5, null=True)
 
-    def expire_date(self) -> datetime:
-        return self.selection_date + timedelta(hours=current_app.config["CONFIRMATION_FORM_LIMIT"])
-
     def expired(self) -> bool:
-        return datetime.now() >= self.expire_date()
+        return datetime.now() >= self.expire_date
 
     def selection_status(self) -> str:
         return f"Selected on {self.selection_date}"
