@@ -1,3 +1,3 @@
 ## Distinguished Prizes
-A sweepstakes website I was working, with the goal of launching it publically at somepoint.
+A sweepstakes web application I was working on, with the goal of launching it publicly at somepoint.
 On hold while I focus on other things.
